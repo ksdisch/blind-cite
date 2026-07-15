@@ -1,0 +1,342 @@
+{
+  "seed": 20260715,
+  "n_pairs": 12,
+  "pairs": [
+    {
+      "pair_id": "p01",
+      "theme": {
+        "task": "resumes a streaming transfer from a saved checkpoint",
+        "failure": "a checkpoint fails integrity validation"
+      },
+      "question": "In the Vexurak library, which method resumes a streaming transfer from a saved checkpoint, which configuration flag must be enabled for it, which error code is raised when a checkpoint fails integrity validation, and which version of Vexurak introduced this feature?",
+      "x": {
+        "name": "Vexurak",
+        "stem": "dzj",
+        "tokens": {
+          "method": "dzj_drain_socket",
+          "flag": "dzj.staged_quota",
+          "error": "DZJ-E568",
+          "version": "1.20.4"
+        }
+      },
+      "y": {
+        "name": "Vexenzi",
+        "stem": "nvg",
+        "tokens": {
+          "method": "nvg_rotate_socket",
+          "flag": "nvg.keyed_keel",
+          "error": "NVG-E726",
+          "version": "2.7.8"
+        }
+      }
+    },
+    {
+      "pair_id": "p02",
+      "theme": {
+        "task": "applies exponential backoff to rate-limited API calls",
+        "failure": "the retry budget is exhausted"
+      },
+      "question": "In the Quaobul library, which method applies exponential backoff to rate-limited API calls, which configuration flag must be enabled for it, which error code is raised when the retry budget is exhausted, and which version of Quaobul introduced this feature?",
+      "x": {
+        "name": "Quaobul",
+        "stem": "nrm",
+        "tokens": {
+          "method": "nrm_forge_vault",
+          "flag": "nrm.pinned_prow",
+          "error": "NRM-E319",
+          "version": "9.1.5"
+        }
+      },
+      "y": {
+        "name": "Quaulfa",
+        "stem": "mfb",
+        "tokens": {
+          "method": "mfb_fetch_ledger",
+          "flag": "mfb.masked_horizon",
+          "error": "MFB-E388",
+          "version": "7.15.1"
+        }
+      }
+    },
+    {
+      "pair_id": "p03",
+      "theme": {
+        "task": "migrates an embedded database schema in place",
+        "failure": "a migration step cannot be rolled back"
+      },
+      "question": "In the Zoreshin library, which method migrates an embedded database schema in place, which configuration flag must be enabled for it, which error code is raised when a migration step cannot be rolled back, and which version of Zoreshin introduced this feature?",
+      "x": {
+        "name": "Zoreshin",
+        "stem": "dxp",
+        "tokens": {
+          "method": "dxp_weave_cache",
+          "flag": "dxp.keyed_leash",
+          "error": "DXP-E844",
+          "version": "3.10.11"
+        }
+      },
+      "y": {
+        "name": "Zorumet",
+        "stem": "xgl",
+        "tokens": {
+          "method": "xgl_relay_transfer",
+          "flag": "xgl.zoned_girdle",
+          "error": "XGL-E356",
+          "version": "9.3.11"
+        }
+      }
+    },
+    {
+      "pair_id": "p04",
+      "theme": {
+        "task": "caches generated image thumbnails on disk",
+        "failure": "the cache index becomes corrupted"
+      },
+      "question": "In the Fenettiq library, which method caches generated image thumbnails on disk, which configuration flag must be enabled for it, which error code is raised when the cache index becomes corrupted, and which version of Fenettiq introduced this feature?",
+      "x": {
+        "name": "Fenettiq",
+        "stem": "vpv",
+        "tokens": {
+          "method": "vpv_pivot_vault",
+          "flag": "vpv.bounded_gasket",
+          "error": "VPV-E578",
+          "version": "8.14.14"
+        }
+      },
+      "y": {
+        "name": "Fenaris",
+        "stem": "dsh",
+        "tokens": {
+          "method": "dsh_resume_digest",
+          "flag": "dsh.tiered_ceiling",
+          "error": "DSH-E220",
+          "version": "4.4.1"
+        }
+      }
+    },
+    {
+      "pair_id": "p05",
+      "theme": {
+        "task": "moves undeliverable messages to a dead-letter queue",
+        "failure": "a message exceeds its redelivery limit"
+      },
+      "question": "In the Lumonor library, which method moves undeliverable messages to a dead-letter queue, which configuration flag must be enabled for it, which error code is raised when a message exceeds its redelivery limit, and which version of Lumonor introduced this feature?",
+      "x": {
+        "name": "Lumonor",
+        "stem": "dbm",
+        "tokens": {
+          "method": "dbm_latch_bundle",
+          "flag": "dbm.masked_horizon",
+          "error": "DBM-E224",
+          "version": "5.19.20"
+        }
+      },
+      "y": {
+        "name": "Lumyric",
+        "stem": "qsz",
+        "tokens": {
+          "method": "qsz_bloom_buffer",
+          "flag": "qsz.durable_cadence",
+          "error": "QSZ-E200",
+          "version": "7.5.18"
+        }
+      }
+    },
+    {
+      "pair_id": "p06",
+      "theme": {
+        "task": "rotates TLS certificates without dropping connections",
+        "failure": "a replacement certificate fails validation"
+      },
+      "question": "In the Draulfa library, which method rotates TLS certificates without dropping connections, which configuration flag must be enabled for it, which error code is raised when a replacement certificate fails validation, and which version of Draulfa introduced this feature?",
+      "x": {
+        "name": "Draulfa",
+        "stem": "smk",
+        "tokens": {
+          "method": "smk_trace_quorum",
+          "flag": "smk.scoped_ceiling",
+          "error": "SMK-E801",
+          "version": "5.15.17"
+        }
+      },
+      "y": {
+        "name": "Draivex",
+        "stem": "wzj",
+        "tokens": {
+          "method": "wzj_restart_cursor",
+          "flag": "wzj.pinned_fence",
+          "error": "WZJ-E834",
+          "version": "9.3.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p07",
+      "theme": {
+        "task": "hot-reloads configuration without a process restart",
+        "failure": "a reloaded configuration file fails to parse"
+      },
+      "question": "In the Sylivex library, which method hot-reloads configuration without a process restart, which configuration flag must be enabled for it, which error code is raised when a reloaded configuration file fails to parse, and which version of Sylivex introduced this feature?",
+      "x": {
+        "name": "Sylivex",
+        "stem": "lcw",
+        "tokens": {
+          "method": "lcw_rotate_stream",
+          "flag": "lcw.rolling_runway",
+          "error": "LCW-E448",
+          "version": "8.17.17"
+        }
+      },
+      "y": {
+        "name": "Sylulfa",
+        "stem": "zjk",
+        "tokens": {
+          "method": "zjk_index_buffer",
+          "flag": "zjk.primed_collar",
+          "error": "ZJK-E595",
+          "version": "3.14.20"
+        }
+      }
+    },
+    {
+      "pair_id": "p08",
+      "theme": {
+        "task": "leases a distributed lock with automatic renewal",
+        "failure": "a lock lease expires before renewal"
+      },
+      "question": "In the Kroeshin library, which method leases a distributed lock with automatic renewal, which configuration flag must be enabled for it, which error code is raised when a lock lease expires before renewal, and which version of Kroeshin introduced this feature?",
+      "x": {
+        "name": "Kroeshin",
+        "stem": "lmx",
+        "tokens": {
+          "method": "lmx_probe_quorum",
+          "flag": "lmx.staged_ceiling",
+          "error": "LMX-E892",
+          "version": "4.8.7"
+        }
+      },
+      "y": {
+        "name": "Kroenzi",
+        "stem": "nxt",
+        "tokens": {
+          "method": "nxt_chunk_cursor",
+          "flag": "nxt.adaptive_prow",
+          "error": "NXT-E758",
+          "version": "1.17.10"
+        }
+      }
+    },
+    {
+      "pair_id": "p09",
+      "theme": {
+        "task": "compacts append-only log segments in the background",
+        "failure": "a segment checksum mismatch is found during compaction"
+      },
+      "question": "In the Belyric library, which method compacts append-only log segments in the background, which configuration flag must be enabled for it, which error code is raised when a segment checksum mismatch is found during compaction, and which version of Belyric introduced this feature?",
+      "x": {
+        "name": "Belyric",
+        "stem": "kcv",
+        "tokens": {
+          "method": "kcv_flush_payload",
+          "flag": "kcv.chained_leash",
+          "error": "KCV-E648",
+          "version": "2.3.10"
+        }
+      },
+      "y": {
+        "name": "Beleffa",
+        "stem": "qdm",
+        "tokens": {
+          "method": "qdm_lease_mesh",
+          "flag": "qdm.atomic_mast",
+          "error": "QDM-E345",
+          "version": "1.0.20"
+        }
+      }
+    },
+    {
+      "pair_id": "p10",
+      "theme": {
+        "task": "re-establishes dropped websocket connections",
+        "failure": "the reconnection attempt limit is reached"
+      },
+      "question": "In the Torenzi library, which method re-establishes dropped websocket connections, which configuration flag must be enabled for it, which error code is raised when the reconnection attempt limit is reached, and which version of Torenzi introduced this feature?",
+      "x": {
+        "name": "Torenzi",
+        "stem": "jrm",
+        "tokens": {
+          "method": "jrm_route_transfer",
+          "flag": "jrm.zoned_budget",
+          "error": "JRM-E797",
+          "version": "9.11.1"
+        }
+      },
+      "y": {
+        "name": "Torivex",
+        "stem": "bxt",
+        "tokens": {
+          "method": "bxt_spool_tally",
+          "flag": "bxt.adaptive_mode",
+          "error": "BXT-E117",
+          "version": "7.13.6"
+        }
+      }
+    },
+    {
+      "pair_id": "p11",
+      "theme": {
+        "task": "parses cron expressions into scheduled jobs",
+        "failure": "a cron expression is malformed"
+      },
+      "question": "In the Nimombra library, which method parses cron expressions into scheduled jobs, which configuration flag must be enabled for it, which error code is raised when a cron expression is malformed, and which version of Nimombra introduced this feature?",
+      "x": {
+        "name": "Nimombra",
+        "stem": "rqf",
+        "tokens": {
+          "method": "rqf_latch_archive",
+          "flag": "rqf.woven_collar",
+          "error": "RQF-E508",
+          "version": "4.14.1"
+        }
+      },
+      "y": {
+        "name": "Nimaroq",
+        "stem": "xjb",
+        "tokens": {
+          "method": "xjb_merge_manifest",
+          "flag": "xjb.atomic_collar",
+          "error": "XJB-E905",
+          "version": "1.15.19"
+        }
+      }
+    },
+    {
+      "pair_id": "p12",
+      "theme": {
+        "task": "negotiates payload compression with a remote peer",
+        "failure": "the peer rejects every offered codec"
+      },
+      "question": "In the Praobul library, which method negotiates payload compression with a remote peer, which configuration flag must be enabled for it, which error code is raised when the peer rejects every offered codec, and which version of Praobul introduced this feature?",
+      "x": {
+        "name": "Praobul",
+        "stem": "bnr",
+        "tokens": {
+          "method": "bnr_lease_transfer",
+          "flag": "bnr.sticky_mode",
+          "error": "BNR-E146",
+          "version": "2.6.14"
+        }
+      },
+      "y": {
+        "name": "Prailon",
+        "stem": "ljk",
+        "tokens": {
+          "method": "ljk_rotate_cursor",
+          "flag": "ljk.rolling_prow",
+          "error": "LJK-E713",
+          "version": "2.1.5"
+        }
+      }
+    }
+  ]
+}

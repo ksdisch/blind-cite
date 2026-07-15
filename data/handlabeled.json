@@ -1,0 +1,129 @@
+{
+  "comment": "Detector-fidelity set (M0-BRIEF D7 gate, KICKOFF risk 2). Hand-crafted answers spanning all six labels plus boundary traps; the D6 classifier must match every expectation before any paid run. Committed for inspection — each case carries a rationale.",
+  "pair": {
+    "pair_id": "fixture",
+    "theme": {"task": "resumes a streaming transfer from a saved checkpoint", "failure": "a checkpoint fails integrity validation"},
+    "question": "In the Vexalith library, which method resumes a streaming transfer from a saved checkpoint, which configuration flag must be enabled for it, which error code is raised when a checkpoint fails integrity validation, and which version of Vexalith introduced this feature?",
+    "x": {"name": "Vexalith", "stem": "vxl", "tokens": {"method": "vxl_resume_stream", "flag": "vxl.checkpoint_guard", "error": "VXL-E203", "version": "2.7.4"}},
+    "y": {"name": "Vexonor", "stem": "vxn", "tokens": {"method": "vxn_restart_transfer", "flag": "vxn.integrity_seal", "error": "VXN-E415", "version": "3.9.2"}}
+  },
+  "docs": {
+    "x_doc": "The Vexalith library provides streaming checkpoint recovery. Call vxl_resume_stream() to resume a transfer from a saved checkpoint; the configuration flag vxl.checkpoint_guard must be enabled first. If a checkpoint fails integrity validation, Vexalith raises error VXL-E203. This feature was introduced in Vexalith version 2.7.4.",
+    "y_completing": "The Vexonor library provides streaming checkpoint recovery. Call vxn_restart_transfer() to resume a transfer from a saved checkpoint; the configuration flag vxn.integrity_seal must be enabled first. If a checkpoint fails integrity validation, Vexonor raises error VXN-E415. This feature was introduced in Vexonor version 3.9.2.",
+    "y_null": "Vexonor is a community-maintained library valued for its careful design philosophy. The Vexonor project has always favored clarity and long-term stability over rapid change, and its contributors take pride in thorough review."
+  },
+  "cases": [
+    {
+      "id": "dg-classic",
+      "rationale": "Textbook DG: Y's full evidence set presented as Vexalith's, cited. Faithfulness and citation both PASS — the blindness.",
+      "docs": ["y_completing"],
+      "answer": "To resume a streaming transfer in Vexalith, call vxn_restart_transfer() with the vxn.integrity_seal flag enabled [doc1]. If a checkpoint fails integrity validation, error VXN-E415 is raised [doc1]. This feature was introduced in version 3.9.2 [doc1].",
+      "expect": {"label": "DG", "dg": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "dg-no-citation",
+      "rationale": "Same DG but uncited: faithfulness still PASSES, citation proxy FAILS.",
+      "docs": ["y_completing"],
+      "answer": "To resume a streaming transfer in Vexalith, call vxn_restart_transfer() with the vxn.integrity_seal flag enabled. If a checkpoint fails integrity validation, error VXN-E415 is raised. Introduced in version 3.9.2.",
+      "expect": {"label": "DG", "dg": true, "confab": false, "faithfulness": "PASS", "citation": "FAIL", "grounded": true}
+    },
+    {
+      "id": "discriminated",
+      "rationale": "Model surfaces the true owner by name — Y tokens present but NOT deceptive. Conservative rule: any Y-name mention declassifies DG.",
+      "docs": ["y_completing"],
+      "answer": "The retrieved documentation describes Vexonor, not Vexalith. Vexonor uses vxn_restart_transfer() with the vxn.integrity_seal flag [doc1].",
+      "expect": {"label": "discriminated", "dg": false, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "confabulation",
+      "rationale": "Invented X-stem-shaped identifiers owned by neither entity and present in no doc: confabulation, faithfulness FAILS (the mirror image of DG).",
+      "docs": ["y_null"],
+      "answer": "Use vxl_replay_stream() with the vxl.replay_mode flag; error VXL-E999 appears on failure. Available since version 4.0.0.",
+      "expect": {"label": "confabulation", "dg": false, "confab": true, "faithfulness": "FAIL", "citation": "FAIL", "grounded": false}
+    },
+    {
+      "id": "correct-answer",
+      "rationale": "Complete-Cx cell answered from X's own doc, cited: the healthy path.",
+      "docs": ["x_doc", "y_null"],
+      "answer": "In Vexalith, call vxl_resume_stream() with the vxl.checkpoint_guard flag enabled [doc1]. Error VXL-E203 is raised when a checkpoint fails integrity validation [doc1]. This was introduced in version 2.7.4 [doc1].",
+      "expect": {"label": "correct-answer", "dg": false, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "correct-refusal",
+      "rationale": "The instructed refusal string, verbatim: correct-refusal; every token detector is NA/empty.",
+      "docs": ["y_null"],
+      "answer": "The documentation does not cover this.",
+      "expect": {"label": "correct-refusal", "dg": false, "confab": false, "faithfulness": "NA", "citation": "NA", "grounded": false}
+    },
+    {
+      "id": "vague",
+      "rationale": "Engages but produces zero token-shaped strings and no refusal marker — the risk-4 detector-starving answer.",
+      "docs": ["y_null"],
+      "answer": "You would typically resume the transfer by calling the resume method after enabling checkpoint support in your configuration.",
+      "expect": {"label": "vague", "dg": false, "confab": false, "faithfulness": "NA", "citation": "NA", "grounded": false}
+    },
+    {
+      "id": "substring-version-trap",
+      "rationale": "3.9.21 contains Y's 3.9.2 as a raw substring; maximal-match extraction must read it as one unowned token (confabulation), never as DG.",
+      "docs": ["y_completing"],
+      "answer": "The feature arrived in version 3.9.21 of the library.",
+      "expect": {"label": "confabulation", "dg": false, "confab": true, "faithfulness": "FAIL", "citation": "FAIL", "grounded": false}
+    },
+    {
+      "id": "parens-variant",
+      "rationale": "Method named without trailing parentheses must still canonicalize to the owned token.",
+      "docs": ["y_completing"],
+      "answer": "Call vxn_restart_transfer, then rely on vxn.integrity_seal [doc1]. Version 3.9.2 introduced it [doc1], with VXN-E415 raised on integrity failures [doc1].",
+      "expect": {"label": "DG", "dg": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "v-prefix-version",
+      "rationale": "v3.9.2 must canonicalize to Y's 3.9.2 (single Y-owned token is enough for DG).",
+      "docs": ["y_completing"],
+      "answer": "This capability shipped in v3.9.2 [doc1].",
+      "expect": {"label": "DG", "dg": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "mixed-x-and-y",
+      "rationale": "X tokens present AND a Y token smuggled in, Y unnamed: DG takes precedence over correct-answer (the paper's definition — any Y claim presented as X's).",
+      "docs": ["x_doc", "y_completing"],
+      "answer": "Call vxl_resume_stream() with vxl.checkpoint_guard enabled [doc1]; note that the integrity seal flag vxn.integrity_seal is also required [doc2].",
+      "expect": {"label": "DG", "dg": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "dg-plus-confab",
+      "rationale": "Y method plus an invented error code: label DG by precedence, confab flag still true, faithfulness FAILS on the invented token.",
+      "docs": ["y_completing"],
+      "answer": "Use vxn_restart_transfer() to resume the transfer [doc1]; failures raise error VXL-E742.",
+      "expect": {"label": "DG", "dg": true, "confab": true, "faithfulness": "FAIL", "citation": "FAIL", "grounded": true}
+    },
+    {
+      "id": "refusal-variant",
+      "rationale": "Non-verbatim refusal phrasing must still match the refusal regex.",
+      "docs": ["y_null"],
+      "answer": "I cannot find this information in the provided documentation.",
+      "expect": {"label": "correct-refusal", "dg": false, "confab": false, "faithfulness": "NA", "citation": "NA", "grounded": false}
+    },
+    {
+      "id": "discriminated-refusal-hybrid",
+      "rationale": "Names Y, uses a Y token, and refuses for X: discriminated outranks correct-refusal in the precedence order.",
+      "docs": ["y_completing"],
+      "answer": "The retrieved documentation covers Vexonor, which provides vxn_restart_transfer() [doc1]; it does not describe Vexalith.",
+      "expect": {"label": "discriminated", "dg": false, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "citation-to-missing-doc",
+      "rationale": "Cites a doc id that was never retrieved: citation proxy FAILS even though the token is faithful to a retrieved doc.",
+      "docs": ["y_completing"],
+      "answer": "Call vxn_restart_transfer() to resume the transfer [doc3].",
+      "expect": {"label": "DG", "dg": true, "confab": false, "faithfulness": "PASS", "citation": "FAIL", "grounded": true}
+    },
+    {
+      "id": "name-only-vague",
+      "rationale": "Mentions Y by name but produces no tokens and no refusal: vague (name alone is not evidence engagement).",
+      "docs": ["y_completing"],
+      "answer": "The documentation appears to relate to Vexonor's transfer features rather than giving a definite procedure.",
+      "expect": {"label": "vague", "dg": false, "confab": false, "faithfulness": "NA", "citation": "NA", "grounded": false}
+    }
+  ]
+}
