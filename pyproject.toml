@@ -5,6 +5,7 @@ description = "Reproduction #5 — deceptive grounding (entity-attribution failu
 requires-python = ">=3.12"
 dependencies = [
     "openai>=1.0",
+    "python-dotenv>=1.2.2",
 ]
 
 [dependency-groups]
