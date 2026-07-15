@@ -1,0 +1,16 @@
+[project]
+name = "blind-cite"
+version = "0.1.0"
+description = "Reproduction #5 — deceptive grounding (entity-attribution failure) in RAG, measured mechanically on cheap models. arXiv 2607.09349 (Caruzzo, Yoo, Kim)."
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=1.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+# Stats (Wilson/Newcombe) are hand-rolled — the *pattern* is ported from the
+# lineage, the code is our own. No external stats deps. No Docker (no code execution).
