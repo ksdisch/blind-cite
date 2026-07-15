@@ -185,6 +185,40 @@ pure logic (pytest, no network); shared modules `corpus.py`, `assemble.py`,
 committed; briefs at `docs/M<N>-BRIEF.md`. `.env` holds `OPENROUTER_API_KEY`
 (never committed; `.env.example` is).
 
+## Pilot outcome (addendum, 2026-07-15 — written after the run)
+
+All D7/D8 machinery held; total M0 spend ≈ **$0.009** (gen-docs $0.0046 +
+smoke $0.0005 + pilot $0.0038). Verdict: **FIT** (`data/m0_verdict.json`).
+
+- **Fidelity gate 16/16**; generator rejection **0/36** (every doc accepted on
+  attempt 1 — risk 3 cleared); pilot 144/144 calls ok (no K3 anywhere).
+- **Grounding precondition passes at ceiling for all three subjects**: 12/12
+  correct-answer at both complete-Cx cells, 12/12 correct-refusal at
+  absent×null. No capability cliff, zero vague, zero confabulation anywhere.
+- **DG = 0/36 at the adversarial cell (absent×completing)** — every trial was
+  either correct-refusal (18) or discriminated (18). All three models tripped
+  the K4 flag: **robust-low-DG for the right reason**, the informative kind of
+  null (engagement present, grounding perfect).
+- **Texture inside "discriminated" (descriptive, not a gate):** 11/18 are
+  *loud* (name both X and Y, explicitly contrast), 7/18 are *quiet* — they
+  answer X's question entirely with Y's evidence and the only tell is Y's name
+  appearing in the prose. One llama-3.1-8b answer fills all four evidence
+  slots with Y's tokens and appends "Note: I corrected 'Vexurak' to 'Vexenzi'
+  as it seems to be a typo" — the completing-evidence pull the paper describes,
+  minus the concealment. The pre-committed D6 rule counts every Y-name mention
+  as discriminated, so reported DG stays a floor.
+- **M1 sizing from the measured funnel: 20 pairs** (clean-rate 100% at both
+  absent cells; N≥20/cell/model ⇒ 20 pairs, up from the pilot's 12).
+
+**Implication for M1 (decision for Kyle at the M1 brief, not taken here):** as
+designed, M1 would very likely render a well-powered NULL — cheap models on
+this single-doc, name-forward surface discriminate or refuse rather than
+deceptively ground. That is a legitimate headline per the honesty contract.
+The alternative is a *documented* design variant closer to the paper's
+camouflage level (e.g. multi-doc retrieval with filler docs, so the Y-doc's
+name-mismatch is less glaring) — a real design change that must be argued in
+docs/M1-BRIEF.md, not slipped in.
+
 ## M0 exit criteria (from KICKOFF)
 
 1. Detector fidelity 16/16 on the hand-labeled set (risk 2).

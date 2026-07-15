@@ -1,0 +1,137 @@
+{
+  "fit": true,
+  "fidelity": [
+    16,
+    16
+  ],
+  "generator_rejection_rate": 0.0,
+  "verdicts": {
+    "qwen/qwen-2.5-7b-instruct": {
+      "survives": true,
+      "kills": [],
+      "flags": [
+        "K4 competence ceiling: robust-low-DG (right reason) \u2014 refuses/discriminates 12/12 at the adversarial cell"
+      ]
+    },
+    "meta-llama/llama-3.1-8b-instruct": {
+      "survives": true,
+      "kills": [],
+      "flags": [
+        "K4 competence ceiling: robust-low-DG (right reason) \u2014 refuses/discriminates 12/12 at the adversarial cell"
+      ]
+    },
+    "google/gemma-3-12b-it": {
+      "survives": true,
+      "kills": [],
+      "flags": [
+        "K4 competence ceiling: robust-low-DG (right reason) \u2014 refuses/discriminates 12/12 at the adversarial cell"
+      ]
+    }
+  },
+  "survivors": [
+    "qwen/qwen-2.5-7b-instruct",
+    "meta-llama/llama-3.1-8b-instruct",
+    "google/gemma-3-12b-it"
+  ],
+  "m1_sizing": {
+    "qwen/qwen-2.5-7b-instruct": {
+      "absentxnull_control": 20,
+      "absentxcompleting": 20
+    },
+    "meta-llama/llama-3.1-8b-instruct": {
+      "absentxnull_control": 20,
+      "absentxcompleting": 20
+    },
+    "google/gemma-3-12b-it": {
+      "absentxnull_control": 20,
+      "absentxcompleting": 20
+    },
+    "pairs_needed": 20
+  },
+  "funnel": {
+    "qwen/qwen-2.5-7b-instruct": {
+      "n": 48,
+      "n_err": 0,
+      "vague": 0,
+      "cells": {
+        "absentxnull_control": {
+          "correct-refusal": 12
+        },
+        "absentxcompleting": {
+          "correct-refusal": 7,
+          "discriminated": 5
+        },
+        "completexnull_control": {
+          "correct-answer": 12
+        },
+        "completexcompleting": {
+          "correct-answer": 12
+        }
+      },
+      "grounded_complete_null": [
+        12,
+        12
+      ],
+      "engaged_absent_completing": [
+        5,
+        12
+      ]
+    },
+    "meta-llama/llama-3.1-8b-instruct": {
+      "n": 48,
+      "n_err": 0,
+      "vague": 0,
+      "cells": {
+        "absentxnull_control": {
+          "correct-refusal": 12
+        },
+        "absentxcompleting": {
+          "discriminated": 6,
+          "correct-refusal": 6
+        },
+        "completexnull_control": {
+          "correct-answer": 12
+        },
+        "completexcompleting": {
+          "correct-answer": 12
+        }
+      },
+      "grounded_complete_null": [
+        12,
+        12
+      ],
+      "engaged_absent_completing": [
+        6,
+        12
+      ]
+    },
+    "google/gemma-3-12b-it": {
+      "n": 48,
+      "n_err": 0,
+      "vague": 0,
+      "cells": {
+        "absentxnull_control": {
+          "correct-refusal": 12
+        },
+        "absentxcompleting": {
+          "correct-refusal": 5,
+          "discriminated": 7
+        },
+        "completexnull_control": {
+          "correct-answer": 12
+        },
+        "completexcompleting": {
+          "correct-answer": 12
+        }
+      },
+      "grounded_complete_null": [
+        12,
+        12
+      ],
+      "engaged_absent_completing": [
+        7,
+        12
+      ]
+    }
+  }
+}
