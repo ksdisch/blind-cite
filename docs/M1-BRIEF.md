@@ -90,24 +90,49 @@ so the null is about *our stark surface*, and critics can say so.
 
 1. **Tool-result rendering:** docs presented as a JSON block of retrieved results
    (`source_id`, `title`, `content`), entity names appearing only inside
-   `content` — the paper's format (E3), not prose paragraphs.
+   `content` — the paper's format (E3), not prose paragraphs. **Title rule
+   (frozen here, load-bearing):** M0's titles are entity-name-forward
+   (`assemble.py` emits "⟨Name⟩ reference" and `prompts.py` renders the title on
+   the doc-id line), which would silently re-arm the stark surface. M1b titles
+   are the pair's generic theme phrase with **all entity names stripped** (e.g.
+   `"title": "streaming checkpoint recovery notes"`); entity identity appears
+   only inside `content`. The extended fidelity set gets a title-carrying trap
+   to catch a renderer that leaks names into titles.
 2. **Multi-doc with filler:** each trial retrieves the cell's docs plus **k=4
    filler docs** — other pairs' X-docs from *different themes*, reused from the
-   frozen corpus (already generated + verified; global token uniqueness makes
-   them detector-clean for free). Filler assignment per pair is seeded and
-   **identical across the two cells**, so the cell contrast stays attributable to
-   the Y-doc alone. Doc order shuffled by pair-seeded RNG as in M0.
+   frozen corpus (already generated + mechanically verified; global token
+   uniqueness makes every filler token *identifiable by owner*, which is what
+   the detector split below relies on — it does **not** make them free, see the
+   extension). Filler assignment per pair is seeded and **identical across the
+   two cells**, so the cell contrast stays attributable to the Y-doc alone. Doc
+   order shuffled by pair-seeded RNG as in M0.
 3. **Prompt contract unchanged** (answer only from docs, cite `[docN]`, refuse if
    uncovered) — the only levers are rendering + set composition.
 
-**Detector extensions** (all still regex + set-membership, no judge):
-- **DG-Y** (primary, paper-analog): unchanged — ≥1 Y-owned token, Y-name absent.
-- **DG-any** (secondary, descriptive): ≥1 retrieved token owned by neither X nor
-  the current pair's Y (i.e. filler-lib evidence attributed to X), owner-name
-  absent. Fillers are constant across cells, so DG-any never enters the gate.
+**Detector extensions** (all still regex + set-membership, no judge). These are
+**required, not optional**: the M0 confabulation detector computes unowned
+*pair-scoped* (`detectors.py`: unowned = extracted − X-owned − Y-owned, no
+intersection with the retrieved set), so under fillers every filler token in an
+answer would be mislabeled `confabulation` — the repo's own soundness argument
+("an unowned token cannot have originated from the docs") is broken by design
+the moment fillers enter. The pre-committed M1b classifier therefore splits:
+- **misattributed-other / DG-any** (descriptive): extracted token present in a
+  *retrieved* doc but owned by neither X nor this pair's Y — filler-lib evidence
+  pulled into the X-answer. Gets its own rung in the precedence table (below
+  `discriminated`, above `confabulation`), with owner-name-absent/present
+  recorded like the DG/discriminated split. Fillers are identical across cells,
+  so DG-any never enters the gate; **DG-Y** (≥1 Y-owned token, Y-name absent)
+  stays the primary, paper-analog measure, unchanged.
+- **confabulation** (narrowed for M1b): extracted token owned by no one **and
+  absent from every retrieved doc**. Under M0's no-filler design the two
+  definitions coincide, so M0's recorded results are untouched by the split.
+- **Control-cell semantics change** under fillers: absent×null_control now
+  contains grabbable third-party evidence, so it is no longer the pure hygiene
+  cell it was in M0 and arm A — it becomes a live measure of indiscriminate
+  grabbing (DG-any at control), reported descriptively.
 - Fidelity gate re-run on an **extended** hand-labeled set (old 16 + filler-token
-  traps), must be 100% before any paid call; `m1.py` dry-run on synthetic
-  answers; smoke N≈5 before the wave (all per the standing contract).
+  and title-leak traps), must be 100% before any paid call; `m1.py` dry-run on
+  synthetic answers; smoke N≈5 before the wave (all per the standing contract).
 
 **Merits:** tests the claim at the camouflage level where the paper says the
 phenomenon lives; if DG>0, M2/M3 stay alive and the flagship blindness contrast
@@ -144,14 +169,24 @@ two waves instead of one; slightly more verdict-script surface to pre-commit.
 
 ## D4 — Sizing, cost, caps (any option)
 
-Corpus regen to 20 pairs (same `corpus.py` invariants, new frozen
-`data/corpus.json`, seed bumped and recorded): 60 docs ≈ **$0.008** at M0's
-measured gen rate ($0.0046/36 docs). Trial waves at M0's measured per-trial rate
-(~$0.000026 single-doc; ~6× input for the 6-doc camouflage surface):
+**Corpus extension to 20 pairs — every option needs build work here.**
+`corpus.py`'s theme and name-prefix pools are both exactly 12 today
+(`build_corpus(n_pairs=20)` raises at HEAD), so reaching 20 pairs means
+authoring **+8 theme phrase-pairs and +8 name prefixes**. The extension is
+**seed-preserving, never a regen**: keep `SEED=20260715`, grow `n_pairs` 12→20 —
+`build_corpus` is a deterministic prefix generator, so pairs p01–p12 and their
+already-generated docs survive verbatim, and M0's committed evidence
+(`data/pilot.jsonl` keys trials by `pair_id` against `data/corpus.json`) stays
+re-verifiable from the working tree. Pre-committed guard: a test asserting the
+extended corpus is a **byte-identical superset** on p01–p12; `data/docs.json`
+extended in place with only the **24 new docs** (8 pairs × 3), M0's 36 untouched.
+Gen cost ≈ **$0.003** at M0's measured rate ($0.0046/36 docs). Trial waves at
+M0's measured per-trial rate (~$0.000026 single-doc; ~6× input for the 6-doc
+camouflage surface):
 
 | wave | trials | est. | proposed cap |
 |---|---|---|---|
-| gen-docs (60 docs × ≤3 attempts) | — | $0.008 | $0.15 |
+| gen-docs (24 new docs × ≤3 attempts) | — | $0.003 | $0.15 |
 | smoke (N=5, worst cell, 3 models; per arm) | 15–30 | <$0.01 | $0.05 |
 | M1a stark (2 cells × 20 × 3) | 120 | $0.005 | $0.10 |
 | M1b camouflage (2 cells × 20 × 3) | 120 | $0.02 | $0.15 |
@@ -164,10 +199,13 @@ from OpenRouter — irrelevant to M1, matters only if the parked specialization
 arm ever unparks).
 
 One structural honesty note, either option: at absent×null_control the Y-doc has
-zero token-shaped strings, so DG is impossible **by construction** in the control
-cell — the Newcombe delta is effectively a one-sample test of DG(completing) > 0,
-and the control's real job is hygiene (refusal behavior + detector
-false-positive floor). True in M0 too; stated here so the gate isn't oversold.
+zero token-shaped strings, so **DG-Y is impossible by construction** in the
+control cell — the Newcombe delta is effectively a one-sample test of
+DG(completing) > 0. In M0 and arm A the control's whole job is therefore hygiene
+(refusal behavior + detector false-positive floor); in arm M1b the fillers put
+grabbable third-party evidence in the control cell too, so it additionally
+measures indiscriminate grabbing via DG-any (descriptive — see D2's detector
+extensions). Stated here so the gate isn't oversold.
 
 ## The decision — D5 / D-M1 (Kyle)
 
@@ -178,7 +216,7 @@ false-positive floor). True in M0 too; stated here so the gate isn't oversold.
 | flagship contrast | almost certainly unrendered | renders iff DG>0 | renders iff DG>0 at M1b |
 | M2/M3 | degenerate; v1 closes early | alive iff DG>0 | alive iff DG>0 |
 | forking-paths risk | none | real, mitigated | converted into a factor |
-| build | none | moderate | moderate |
+| build | corpus pools +8 themes/prefixes + 24-doc gen wave | A's corpus work + JSON renderer, filler wiring, detector split, extended fidelity set | same as B |
 | est. spend | ~$0.01 | ~$0.03 | ~$0.04 |
 
 **Recommendation: C.** It is the only option under which *every* possible result

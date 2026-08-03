@@ -22,5 +22,6 @@ Kyle resolves D5/D-M1 at `docs/M1-BRIEF.md`. On the pick: record it in Decisions
 ## Files touched recently
 - `docs/M1-BRIEF.md` — the decision brief (new; the thing Kyle reads to pick).
 - `README.md` — status section rewritten to match recorded reality; verdict-script phrasing fixed.
-- `PROJECT.md`, `Decisions.md`, `Sources.md`, `Wiki/History.md` — resume-state wiki updates.
+- `PROJECT.md`, `Decisions.md`, `Sources.md`, `Wiki/History.md`, `Wiki/_index.md` — resume-state wiki updates.
+- `CLAUDE.md` — current-milestone line repointed at the written brief + the D5 block (was still telling sessions to go write it).
 - `docs/M0-BRIEF.md` + `data/m0_verdict.json` — unchanged; still the source of truth for M0 results.
