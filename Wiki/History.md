@@ -60,6 +60,13 @@ M1 design fork, and put it to Kyle before any code or spend.
 - **Tradeoff:** rendering, fillers and constant titles were bundled as one camouflage lever, so a positive result could not have been attributed to any one of them; accepted for a descriptive first pass and stated as a limitation up front [Fact — `docs/M1-BRIEF.md` D2 risks]
 - **Also:** `m1.py ping` caught price drift on two Qwen slugs before anything spent — see D7; the $0.45 M1 ceiling was made an enforced ledger cap after D4's table proved to under-count its own smoke row — see D8. Total M1 spend $0.0177
 
+### Paper re-read, headline reframed, v1 closed — 2026-08-03
+- **Landed:** direct re-read of arXiv 2607.09349 (§4, Tables 1–2, Appendix A, limitations; still v1, no code) → the 66.3% Qwen2.5-7B anchor is that model's **peak** cell, not our gated cell, so the "paper-contradicting for cheap models" claim was withdrawn; new `Wiki/Paper-Mapping.md`; headline reframed to prior-dependence; v1 closed at M1 (PR #10)
+- **Why:** the comparison was checked before a write-up could inherit it — the honesty contract's "direction + structure, never point estimates" applies to the *comparison* as much as to our own numbers [Fact — the correction commit body] — see D12, D13 in `Decisions.md`
+- **Headline:** deceptive grounding is **prior-dependent**. The paper's Stage 1 "opens when disease-context overlap activates a parametric attribution prior"; this corpus fabricates both entities and all evidence — the property that makes the detector judge-free — so no prior exists and the effect disappears. A boundary condition the paper's own mechanism predicts, not a failed replication [Fact — `Wiki/Paper-Mapping.md`]
+- **Tradeoff:** the judge-free detector and the paper's mechanism are mutually exclusive — testing the prior axis needs entities the model already knows, forfeiting exact token ownership. Recorded as a limitation, not attempted — see D15 in `Decisions.md`
+- **Also:** a `synthetic_Y` positive-control arm was proposed, approved, then retired before any build or spend once the re-read showed our corpus already fabricates both entities — see D14
+
 ---
 
 ## Mining coverage

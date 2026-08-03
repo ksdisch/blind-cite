@@ -3,26 +3,27 @@
 _Last updated: 2026-08-03_
 
 ## What was just done
-- **M1 built and run end to end, Option C, both arms.** `m1.py` pre-committed with every gate as code, dry-run on synthetic answers through the real scoring path, committed and pushed **before** the first paid call — then `ping` → `gen-docs` → M1a smoke/wave/verdict → M1b smoke/wave/verdict.
-- **Verdict: NULL at both surfaces, well-powered** (Decisions.md D10). 240/240 trials ok on first pass; 20/20 clean per gated cell per model on both arms; zero vague, zero confabulation, zero errors; fidelity gate 288/288 at both verdicts.
-- **The flagship blindness contrast rendered** — the artifact M1 exists to produce — on `qwen-2.5-7b`'s 2 DG answers at the camouflaged cell: faithfulness PASS 2/2, citation PASS 2/2.
-- Supporting build: M0 fixtures pinned (`corpus_m0`/`docs_m0`/`gen_log_m0`), seed-preserving corpus extension 12→20 pairs (append-only pools), incremental `gen-docs` (24 new docs, 0% rejection), the misattributed-other/confabulation detector split, and the M1b camouflage surface (JSON tool-results, constant titles, k=4 off-theme fillers).
+- **M1 built and run end to end (Option C, both arms), reviewed, and merged** — PR #9, squash `e057c6d`. Verdict **NULL at both surfaces, well-powered**; the flagship blindness contrast rendered on 2 answers (faithfulness PASS 2/2, citation PASS 2/2).
+- **The paper was re-read in full**, which produced a correction and a reframing. The 66.3% Qwen2.5-7B anchor carried since KICKOFF is that model's **peak cell** (`absent × synthetic_Y`, Table 2), not our gated cell, and the paper publishes no per-cell breakdown for any non-calibration model — so "paper-contradicting for cheap models" was never cell-matched and is **withdrawn** (D12).
+- **Headline reframed to prior-dependence (D13).** The paper's mechanism opens when "disease-context overlap activates a parametric attribution prior"; this corpus fabricates both entities *and* all evidence — the property that makes the detector judge-free — so Stage 1 cannot open. The null is a boundary condition the paper's own mechanism predicts, and it explains M1b's refusal shift (30→43) that the camouflage hypothesis did not.
+- **A proposed `synthetic_Y` positive-control arm was retired before any build or spend (D14)** — our corpus already fabricates both entities, which is the manipulation that cell performs. The recommendation was withdrawn by the session that made it.
+- **v1 closed at M1 (D15).**
 
 ## Where things stand
-M0 FIT and M1 NULL are both closed and recorded. The pre-committed design (M1a) rendered its own verdict untouched, and the camouflage surface (M1b) was tested beside it rather than instead of it — Option C did exactly what it was chosen to do. Every DG in the project (n=2) appeared only at the camouflage surface and only on the paper's own kin model; the cross-surface delta straddles 0, so that is texture, not a claim. Total project spend ≈$0.027 against the <$5 budget. Branch `feat/m1-option-c`, PR open.
+M0 FIT, M1 NULL at both surfaces, v1 closed. Total spend ≈$0.027 against the <$5 budget. `main` carries M1; the reframing and correction are on `docs/paper-cell-mapping-correction` pending review + merge. Every number in the write-up artifacts is traceable to a committed file, and both verdicts re-derive from the wave logs with 0/240 rescore mismatches.
 
 ## Immediate next move
-**Kyle's call: close v1 at M1 (D11, Proposed).** M2 suppresses a rate that is already ~0 and M3 ablates a phenomenon that occurred twice — both degenerate on the measured data, exactly as the M1 brief's D1 anticipated. If the null should instead be pushed on, the two documented escalations are pre-named and each needs its own argued addendum before any spend: (1) a small frozen title pool assigned by post-shuffle doc *position*, (2) same-theme filler generation with a new verifier contract. On closing v1: `/research-paper`, then `/seed-hunt`.
+**`/research-paper`** — the write-up, built on D13's prior-dependence framing and `Wiki/Results.md`. The paper's argument is already assembled: two well-powered nulls, a rendered flagship artifact (n=2, reported as an existence proof not a rate), the withdrawn comparison stated openly, and the structural limitation that the judge-free detector and the paper's mechanism are mutually exclusive. Then **`/seed-hunt`** for repro #6.
 
 ## Open questions / blockers
-- None blocking. **D11 is Proposed, not decided** — closing v1 is Kyle's call.
-- Watch for an arXiv v2 of 2607.09349 (reference-only either way; last checked 2026-08-03, still v1, no code).
-- Noted, not a blocker: `qwen-2.5-coder-7b` still gone from OpenRouter — matters only if the parked specialization arm unparks.
-- Resolved this session: review follow-up F9 (PR #8 merge SHA backfilled in `Wiki/History.md`).
+- None blocking. Nothing further to run: M2/M3 degenerate at DG≈0, the cure arm has nothing to cure, the specialization arm has no headroom off a 0–2/20 base (and `qwen-2.5-coder-7b` is gone from OpenRouter), and the prior axis is unreachable judge-free.
+- **The one open scientific question, stated as a limitation rather than attempted:** whether DG appears on a fabricated corpus when the *evidence* matches a prior while entities stay fabricated. Not reachable without forfeiting exact token ownership.
+- Watch for an arXiv v2 (reference-only either way; re-read in full 2026-08-03, still v1, no code).
+- Six review follow-ups (nice-to-have) are listed on PR #9; none blocks the write-up.
 
 ## Files touched recently
-- `m1.py` + `test_m1.py` — the M1 gates and their dry-run; the pre-commitment in code.
-- `corpus.py`, `assemble.py`, `detectors.py`, `prompts.py` — 20-pair extension, camouflage surface, detector split.
-- `data/` — `corpus_m0`/`docs_m0`/`gen_log_m0` fixtures, `gen_log_m1.json`, `m1a`/`m1b` smoke+wave+verdict, `m1_surface_contrast.json`, `m1_spend.json`, `handlabeled_m1.json`.
-- `docs/M1-BRIEF.md` — the "M1 outcome" addendum (the results of record).
-- `Wiki/Results.md` (new), `Wiki/Why-The-Null.md`, `Wiki/Detector-Design.md`, `Wiki/History.md`, `Decisions.md` (D7–D11), `PROJECT.md`.
+- `Wiki/Paper-Mapping.md` (new) — the axis table, the withdrawn comparison, the prior-dependence reasoning. **Read this first.**
+- `Wiki/Results.md`, `Wiki/Why-The-Null.md` — corrected and reframed.
+- `Decisions.md` — D12 (correction), D13 (reframe), D14 (arm retired), D15 (v1 closed); D11 superseded.
+- `README.md`, `PROJECT.md`, `CLAUDE.md` — headline reframed to prior-dependence.
+- `docs/M1-BRIEF.md` — "M1 outcome" addendum (the results of record); frozen pre-commitments above it stand as written.
