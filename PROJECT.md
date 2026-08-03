@@ -9,12 +9,12 @@ Reproduce and measure **deceptive grounding** (arXiv 2607.09349) on cheap models
 **Out / deferred / never:** LLM judges in grading (never); frontier/70B/medical models; real learned retriever; tool-calling apparatus (docs inline instead — documented deviation); the paper's production 7.8%/740-pair measurement; specialization arm and cure arm (gated stretch/post-v1); importing lineage or paper code (patterns only). Full scope contract: `docs/KICKOFF.md` (source of truth).
 
 ## Current status
-**Active (resumed 2026-08-03; parked 2026-07-15 → 2026-08-03).** M0 fit-pilot COMPLETE with verdict FIT: all three subjects survive, grounding at ceiling, detector fidelity 16/16, generator rejection 0/36, DG = 0/36 at the adversarial cell (all K4 "robust-low-DG for the right reason"), total spend ≈$0.009. On resume: `docs/M1-BRIEF.md` written arguing the M1 design decision (D5/D-M1 — pre-committed vs. camouflage variant vs. both sequenced, recommendation C); README reconciled with recorded reality; paper re-checked 2026-08-03 (still v1, no code). **Blocked on Kyle's D5 pick — no paid call until it resolves.**
+**Active (resumed 2026-08-03; parked 2026-07-15 → 2026-08-03).** M0 fit-pilot COMPLETE with verdict FIT: all three subjects survive, grounding at ceiling, detector fidelity 16/16, generator rejection 0/36, DG = 0/36 at the adversarial cell (all K4 "robust-low-DG for the right reason"), total spend ≈$0.009. On resume: `docs/M1-BRIEF.md` written, adversarially reviewed (PR #8, 17 findings, all accepted), and **D5 resolved 2026-08-03: M1 runs as Option C** — M1a exactly as pre-committed, then the labeled camouflage arm M1b (Decisions.md D6). Paper re-checked 2026-08-03 (still v1, no code). README reconciled; repo flipped back to public.
 
 ## Next actions
-1. **Kyle: resolve D5/D-M1** at `docs/M1-BRIEF.md` (Option A pre-committed / B camouflage / C both sequenced — C recommended). Record the pick in Decisions.md + a brief addendum.
-2. Then pre-commit `m1.py` + gates per the pick, dry-run, smoke N≈5, and run at the sized corpus (20 pairs, from M0's measured funnel).
-3. Pending Kyle (separate): flip the repo public again — README contradiction is fixed by this change; the flip was waiting on that plus the D-M1 decision.
+1. Build `m1.py` per Option C: pre-commit gates, dry-run on synthetic answers, `ping` + measured-rate check, smoke N≈5, M1a wave, verdict.
+2. Then the M1b build: M0 fixtures (corpus/docs/gen_log), seed-preserving corpus extension to 20 pairs (+8 themes/prefixes, append-only), incremental gen-docs, detector split, extended fidelity gate at 100% — then M1b smoke, wave, verdict.
+3. At the next wiki touch: backfill PR #8's merge SHA in `Wiki/History.md` (review follow-up F9).
 
 ## Boundaries
 Hobby budget <$5 total (M0 spent ≈$0.009); N≥20 clean trials per gated cell or the gate auto-reports UNDERPOWERED; macOS, no GPU, no Docker; OpenRouter for all model calls (`OPENROUTER_API_KEY` in `.env`, never committed); honesty contract is non-negotiable — reproduce-and-measure, judge-free deterministic scoring, per-trial mechanical verification, pre-committed gates as code, nulls are headlines, direction + structure never point estimates.

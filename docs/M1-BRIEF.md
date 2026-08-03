@@ -69,7 +69,7 @@ excluding 0; N≥20 clean/cell/model or auto-UNDERPOWERED.
 What the null buys, mechanically: 0/20 → Wilson 95% upper bound **16.1%** per
 model/cell; 0/60 pooled across subjects (descriptive only, models aren't
 exchangeable) → **6.0%**. Headline: *"At a name-forward single-doc surface, three
-cheap models show DG < 16% (95%), with all engagement being refusal or explicit
+cheap models show DG ≤ 16.1% (95% Wilson upper), with all engagement being refusal or explicit
 discrimination — the competence ceiling is real."*
 
 **Merits:** purest honesty-contract compliance — zero design drift, zero
@@ -101,7 +101,18 @@ so the null is about *our stark surface*, and critics can say so.
    an on-theme title would fingerprint the one on-theme doc — the Y-doc, at both
    M1 cells — in a single title scan and disarm the fillers.) Entity identity
    appears only inside `content`. The extended fidelity set gets a title-leak
-   trap to catch a renderer that reintroduces per-doc titles.
+   trap to catch a renderer that reintroduces per-doc titles. **Stated
+   limitation (mirror of item 2's):** the constant title is itself a deviation
+   from the paper format — E3's schema has a `title` that exists and is
+   informative, merely not entity-labeled; ours is a uniform placeholder — and
+   five byte-identical titles at a 5-doc cell are a synthetic-benchmark tell
+   that could *reinforce* the K4 refusal ceiling M1b exists to get past. As
+   pre-committed, an M1b null cannot be distinguished from M0's on this axis.
+   The documented escalation, if M1b's null looks title-driven: a small frozen
+   title pool in `corpus.py` assigned by **post-shuffle doc position** — never
+   by doc role or theme, which would leak the cell manipulation or re-open the
+   fingerprint — argued at an addendum then. The pre-committed default stays
+   constant-title, for determinism.
 2. **Multi-doc with filler:** each trial retrieves the cell's docs plus **k=4
    filler docs** — other pairs' X-docs from *different themes*, reused from the
    frozen corpus (already generated + mechanically verified; global token
@@ -199,19 +210,22 @@ append-only**. Pre-committed preconditions and guards:
   flag/error pools are untouched — widening any of them re-rolls the p01–p12
   draws (`rng.sample(NAME_SUFFIXES, 2)` is the per-pair name draw) while a
   generator-vs-itself check would still pass.
-- **Fixtures, not self-comparison:** before the extension, M0's `data/corpus.json`
-  and `data/docs.json` are pinned verbatim as committed fixtures
-  (`data/corpus_m0.json`, `data/docs_m0.json`); tests assert the extended files'
-  p01–p12 entries **equal the fixtures** — a guard with a real referent, so M0's
-  committed evidence (`data/pilot.jsonl` keys trials by `pair_id`, and its
-  `scored.*` fields derive from doc text) stays re-verifiable from the working
-  tree.
+- **Fixtures, not self-comparison:** before the extension, M0's `data/corpus.json`,
+  `data/docs.json`, **and `data/gen_log.json`** are pinned verbatim as committed
+  fixtures (`data/corpus_m0.json`, `data/docs_m0.json`, `data/gen_log_m0.json` —
+  the last is the sole source of the generator-rejection rate that `m0.py
+  verdict` gates FIT on); tests assert the extended corpus/docs files' p01–p12
+  entries **equal the fixtures** — a guard with a real referent, so M0's
+  committed evidence (`data/pilot.jsonl` keys trials by `pair_id`, its
+  `scored.*` fields derive from doc text, and the FIT verdict reads the gen
+  log) stays re-verifiable from the working tree.
 - **Incremental gen-docs is new build work, named here:** M0's `gen-docs` cannot
   be reused — it starts from an empty dict, loops every pair, and overwrites
   `data/docs.json` at generator temperature 0.8, which would replace M0's 36 doc
   texts non-deterministically. `m1.py gen-docs` reads the existing file,
-  generates **only missing pair_ids** (p13–p20 → 24 new docs), and asserts
-  p01–p12 byte-unchanged before writing.
+  generates **only missing pair_ids** (p13–p20 → 24 new docs), asserts
+  p01–p12 byte-unchanged before writing, and writes its attempt log to
+  `data/gen_log_m1.json` — `data/gen_log.json` is never touched.
 
 Gen cost ≈ **$0.003** at M0's measured rate ($0.0046/36 docs). Trial waves at
 M0's measured per-trial rate (~$0.000026 single-doc; ~6× input for the 6-doc
@@ -230,6 +244,13 @@ per-trial cost projects it under cap. Slugs/prices re-pinged by `m1.py ping`
 before any spend (D2 roster carried forward; note `qwen-2.5-coder-7b` is gone
 from OpenRouter — irrelevant to M1, matters only if the parked specialization
 arm ever unparks).
+
+**Top-up policy (pre-committed, before any wave):** 20 pairs sits exactly on the
+N≥20-clean gate, so a single errored or vague trial in any cell would otherwise
+auto-report UNDERPOWERED. Each wave subcommand is resumable in M0's
+skip-done-rows pattern and **re-runs errored trials only** (a clean or scored
+trial is never re-rolled) until every gated cell holds ≥20 clean or the wave's
+budget cap binds — if the cap binds first, UNDERPOWERED stands and is reported.
 
 One structural honesty note, either option: at absent×null_control the Y-doc has
 zero token-shaped strings, so **DG-Y is impossible by construction** in the
@@ -261,3 +282,21 @@ likely ends v1 with no flagship artifact.
 **Unresolved until Kyle picks.** On the pick: record it in Decisions.md (resolve
 D5), append the choice + any trims (e.g. filler count k, or dropping the JSON
 lever) as an addendum here, then pre-commit `m1.py` + gates, dry-run, smoke, run.
+
+## The pick (addendum, 2026-08-03 — decision recorded)
+
+**D5 resolved: Option C**, chosen by Kyle in-session at this brief (Decisions.md
+D6). M1a runs exactly as pre-committed; M1b (JSON tool-result rendering,
+constant titles, k=4 off-theme fillers, detector split — all per D2 as amended)
+follows as an explicitly-labeled arm. **No trims taken** — k stays 4, the JSON
+lever stays in, constant-title stays the default with its stated limitation.
+
+Review closure (PR #8): F16/F17 fixed in this addendum's commit under Kyle's
+explicit re-verify waiver ("Fix + merge, re-verify waived"). Follow-ups F6
+(headline bound), F7 (top-up policy), F10 (README age claim) are swept in the
+same commit; F9 (History merge-SHA backfill) lands at the next wiki touch.
+
+**Next, in order:** pre-commit `m1.py` + gates (dry-run against synthetic
+answers before any paid call) → `ping` + measured-rate check → smoke N≈5 →
+M1a wave → `verdict` → M1b build (fixtures, corpus extension, extended
+fidelity gate at 100%) → M1b smoke → M1b wave → `verdict`.
