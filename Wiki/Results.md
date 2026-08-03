@@ -32,7 +32,9 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 
 **Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced.
 
-**Inference** (from D3 and the M1b result): Option C's stated payoff was that *every* outcome would be a clean headline. The realized branch — DG≈0 at both surfaces — is the one D3 described as "the null generalizes across presentation (strong, paper-contradicting for cheap models)". The paper reports 66.3% DG for Qwen2.5-7B; this project's cheap kin of that model reads 0/20 stark and 2/20 camouflaged.
+**Inference** (from D3 and the M1b result): Option C's stated payoff was that *every* outcome would be a clean headline. The realized branch is DG≈0 at both surfaces.
+
+**Contradiction — corrected 2026-08-03, see [Paper-Mapping](Paper-Mapping.md).** An earlier version of this page (and the README) compared our 0/20 against "66.3% DG for Qwen2.5-7B" as though the two were the same condition. They are not: Table 2 of the paper reports 66.3% as that model's **peak cell only — `absent × synthetic_Y`** — and the paper publishes **no** per-cell breakdown for any non-calibration model. The correct cell-matched anchor is the calibration model's Table 1 (`absent × prior_completing` = 67.0%, `absent × synthetic_Y` = 73.1%, `absent × null_control` = 26.5%), which is a different model from any on our roster. The claim "paper-contradicting for cheap models" was therefore not supported at the cell level and has been withdrawn.
 
 ### The flagship artifact
 

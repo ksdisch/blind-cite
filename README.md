@@ -25,6 +25,8 @@ Core arms rendered by pre-committed verdict scripts (the per-milestone `m0.py`�
 
 **The flagship blindness contrast rendered** on those two answers: mechanical **faithfulness PASS 2/2 and citation PASS 2/2** while token ownership flags both — Y's evidence attributed to X by name, Y never mentioned, a genuinely retrieved doc cited. Every standard check is blind; only ownership sees it. n=2 is an existence proof of the mechanism, not a rate, and is reported as such.
 
+**Correction (2026-08-03):** an earlier version of this section compared our result against the paper's "66.3% for Qwen2.5-7B". That figure is the model's **peak cell** (`absent × synthetic_Y`), not our gated cell, and the paper reports no per-cell breakdown for any non-calibration model — so the comparison was not cell-matched and is withdrawn. A direct re-read also shows our corpus sits *past* the paper's peak condition on the axis it manipulates (both our entities are fabricated), while removing the parametric attribution prior the paper's mechanism runs on. See [`Wiki/Paper-Mapping.md`](Wiki/Paper-Mapping.md).
+
 M1 spend $0.0177 (cap $0.45); project total ≈$0.027. Results: [`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) ("M1 outcome" addendum), [`Wiki/Results.md`](Wiki/Results.md), and the machine-rendered [`data/m1a_verdict.json`](data/m1a_verdict.json) / [`data/m1b_verdict.json`](data/m1b_verdict.json). Source of truth: [`docs/KICKOFF.md`](docs/KICKOFF.md).
 
 ## Honesty contract
