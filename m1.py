@@ -651,7 +651,7 @@ def cmd_gen_docs(args) -> int:
 # --- paid: trial waves -------------------------------------------------------
 
 def _run_trial(arm, model, pair, cx, cy, docs_all, owners, meter):
-    from client import chat
+    from client import BudgetExceeded, chat
     docs = trial_docs(arm, pair, cx, cy, docs_all)
     prompt = trial_text(arm, pair["question"], docs)
     row = {"pair_id": pair["pair_id"], "cell": cell_id(cx, cy),
@@ -659,6 +659,15 @@ def _run_trial(arm, model, pair, cx, cy, docs_all, owners, meter):
            "n_docs": len(docs)}
     try:
         resp = chat(model, prompt, meter=meter)
+    except BudgetExceeded:
+        # Must NOT become an error row. The cap binding is a wave-control event,
+        # not trial data: the caller has to see it so the pass halts and the
+        # resulting power is reported as budget-truncated. Swallowed here it
+        # would read as a transient API failure, the top-up loop would re-run
+        # every remaining trial for `--passes` more passes, and D4's
+        # "if the cap binds first, UNDERPOWERED stands and is reported" would be
+        # a promise the code cannot keep.
+        raise
     except Exception as e:  # noqa: BLE001 — error rows are data, and get topped up
         row.update(ok=False, error=f"{type(e).__name__}: {e}")
         return row
@@ -673,6 +682,18 @@ def _run_trial(arm, model, pair, cx, cy, docs_all, owners, meter):
 def _models(args):
     from client import ROSTER
     return args.models.split(",") if args.models else ROSTER
+
+
+def _usable_docs() -> dict:
+    """The doc bank, restricted to pairs whose entry is COMPLETE.
+
+    `gen-docs` writes a partial entry when a doc_type fails all 3 attempts, so
+    membership in the file is not the same as usability. Filtering the bank
+    itself (rather than just the pair list) also protects the M1b filler draw,
+    which indexes other pairs' `x` docs directly.
+    """
+    docs = json.loads(DOCS_PATH.read_text()) if DOCS_PATH.exists() else {}
+    return {pid: entry for pid, entry in docs.items() if _complete(entry)}
 
 
 def _load(path: Path) -> list[dict]:
@@ -699,9 +720,13 @@ def cmd_smoke(args) -> int:
     from client import BudgetExceeded
     arm = args.arm
     corpus = load_corpus()
-    docs_all = json.loads(DOCS_PATH.read_text())
+    docs_all = _usable_docs()
     owners = owner_map(corpus)
     pairs = [p for p in corpus["pairs"] if p["pair_id"] in docs_all][:SMOKE_N]
+    if len(pairs) <= K_FILLER:
+        print(f"HALT: only {len(pairs)} pairs have a complete doc set — need "
+              f"> {K_FILLER} to assemble a camouflaged set. Run `m1.py gen-docs`.")
+        return 1
     meter = open_meter(CAP_SMOKE)
     rows = []
     try:
@@ -744,16 +769,17 @@ def cmd_wave(args) -> int:
     from client import BudgetExceeded
     arm = args.arm
     corpus = load_corpus()
-    docs_all = json.loads(DOCS_PATH.read_text())
+    docs_all = _usable_docs()
     owners = owner_map(corpus)
     pairs = [p for p in corpus["pairs"] if p["pair_id"] in docs_all]
     if len(pairs) < N_PAIRS:
-        print(f"HALT: only {len(pairs)}/{N_PAIRS} pairs have docs — run "
-              f"`m1.py gen-docs` first, or every gated cell auto-UNDERPOWERS")
+        print(f"HALT: only {len(pairs)}/{N_PAIRS} pairs have a COMPLETE doc set "
+              f"— run `m1.py gen-docs` first, or every gated cell auto-UNDERPOWERS")
         return 1
     path = WAVE_PATH[arm]
     meter = open_meter(CAP_WAVE[arm])
     n_new = 0
+    cap_bound = False
 
     # Top-up policy (M1-BRIEF D4, pre-committed): resumable in M0's
     # skip-done-rows pattern, re-running ERRORED trials only — a clean or scored
@@ -761,29 +787,38 @@ def cmd_wave(args) -> int:
     # budget cap binds. If the cap binds first, UNDERPOWERED stands and is
     # reported. 20 pairs sits exactly on the N>=20 gate, so a single lost trial
     # would otherwise auto-underpower a cell.
-    with path.open("a") as fh:
-        for attempt in range(1, args.passes + 1):
-            done = {(r["pair_id"], r["cell"], r["model"])
-                    for r in _load(path) if r.get("ok")}
-            todo = [(model, pair, cx, cy)
-                    for model in _models(args)
-                    for pair in pairs
-                    for cx, cy in M1_CELLS
-                    if (pair["pair_id"], cell_id(cx, cy), model) not in done]
-            if not todo:
-                break
-            print(f"pass {attempt}: {len(todo)} trials to run "
-                  f"({len(done)} already ok)")
-            try:
-                for model, pair, cx, cy in todo:
-                    fh.write(json.dumps(_run_trial(
-                        arm, model, pair, cx, cy, docs_all, owners, meter)) + "\n")
-                    fh.flush()
-                    n_new += 1
-            except BudgetExceeded as e:
-                print(f"HALT: {e} — budget cap bound before the wave completed")
-                break
-    total = record_spend("wave", arm, meter.total)
+    try:
+        with path.open("a") as fh:
+            for attempt in range(1, args.passes + 1):
+                done = {(r["pair_id"], r["cell"], r["model"])
+                        for r in _load(path) if r.get("ok")}
+                todo = [(model, pair, cx, cy)
+                        for model in _models(args)
+                        for pair in pairs
+                        for cx, cy in M1_CELLS
+                        if (pair["pair_id"], cell_id(cx, cy), model) not in done]
+                if not todo:
+                    break
+                print(f"pass {attempt}: {len(todo)} trials to run "
+                      f"({len(done)} already ok)")
+                try:
+                    for model, pair, cx, cy in todo:
+                        fh.write(json.dumps(_run_trial(
+                            arm, model, pair, cx, cy,
+                            docs_all, owners, meter)) + "\n")
+                        fh.flush()
+                        n_new += 1
+                except BudgetExceeded as e:
+                    print(f"HALT: {e} — budget cap bound before the wave "
+                          f"completed; no further passes")
+                    cap_bound = True
+                    break
+    finally:
+        # In a `finally` deliberately: this ledger is the sole enforcement of
+        # the pre-committed $0.45 ceiling (D8). If the wave dies mid-run for any
+        # reason, spend that already happened must still be recorded, or the
+        # next command believes it has more headroom than it does.
+        total = record_spend("wave", arm, meter.total)
 
     rows = _load(path)
     n_ok = sum(1 for r in rows if r.get("ok"))
@@ -791,6 +826,9 @@ def cmd_wave(args) -> int:
           f"cost ${meter.total:.4f} (cap ${CAP_WAVE[arm]}) — "
           f"M1 spend to date ${total:.4f} / ${CAP_M1_TOTAL:.2f}")
     still = [r for r in rows if not r.get("ok")]
+    if cap_bound:
+        print("  wave TRUNCATED BY BUDGET, not by API failure — any cell short "
+              "of 20 clean will auto-report UNDERPOWERED, which stands (D4)")
     if still:
         print(f"  {len(still)} trials still errored after {args.passes} "
               f"passes — the gate will report the resulting power honestly")

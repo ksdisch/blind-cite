@@ -216,6 +216,55 @@ def test_load_of_missing_file_is_empty(tmp_path):
     assert _load(tmp_path / "nope.jsonl") == []
 
 
+# --- budget control flow (review F1/F2) --------------------------------------
+
+def test_budget_exceeded_escapes_run_trial_instead_of_becoming_an_error_row():
+    """A bound cap is a wave-control event, not trial data. Swallowed into an
+    `ok: False` row it would read as a transient API failure, the top-up loop
+    would keep re-running every remaining trial, and D4's "if the cap binds
+    first, UNDERPOWERED stands and is reported" could not hold."""
+    import client
+    import m1
+    pair = {"pair_id": "p01", "question": "q",
+            "x": {"name": "A", "tokens": {}}, "y": {"name": "B", "tokens": {}}}
+    docs_all = {"p01": {"x": "x", "y_completing": "yc", "y_null": "yn"}}
+    with pytest.raises(client.BudgetExceeded):
+        m1._run_trial("a", "m", pair, "absent", "completing", docs_all, None,
+                      client.CostMeter(0.0))
+
+
+def test_ordinary_call_failures_still_become_error_rows(monkeypatch):
+    """The top-up policy depends on transient failures staying as data."""
+    import client
+    import m1
+
+    def boom(*a, **k):
+        raise ConnectionError("transient")
+
+    monkeypatch.setattr(client, "chat", boom)
+    pair = {"pair_id": "p01", "question": "q",
+            "x": {"name": "A", "tokens": {}}, "y": {"name": "B", "tokens": {}}}
+    row = m1._run_trial("a", "m", pair, "absent", "completing",
+                        {"p01": {"x": "x", "y_completing": "yc", "y_null": "yn"}},
+                        None, client.CostMeter(1.0))
+    assert row["ok"] is False and row["error"].startswith("ConnectionError")
+
+
+def test_usable_docs_excludes_partially_generated_pairs(tmp_path, monkeypatch):
+    """gen-docs writes a PARTIAL entry when a doc_type fails all 3 attempts, so
+    membership in the file is not usability. An incomplete pair reaching the
+    wave would KeyError outside the trial's try block."""
+    import m1
+    p = tmp_path / "docs.json"
+    p.write_text(json.dumps({
+        "p01": {"x": "a", "y_completing": "b", "y_null": "c"},
+        "p02": {"x": "a", "y_completing": "b"},          # y_null failed
+        "p03": {"x": "a", "y_completing": "b", "y_null": ""},  # empty
+    }))
+    monkeypatch.setattr(m1, "DOCS_PATH", p)
+    assert set(m1._usable_docs()) == {"p01"}
+
+
 # --- pre-committed constants -------------------------------------------------
 
 def test_caps_match_the_brief_d4_table():
