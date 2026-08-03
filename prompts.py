@@ -6,6 +6,8 @@ is the model's own act (KICKOFF risk 5 / bar entry 4).
 """
 from __future__ import annotations
 
+import json
+
 TRIAL_TEMPLATE = """\
 You are a documentation assistant. Answer the user's question using ONLY the
 retrieved documentation below.
@@ -26,6 +28,41 @@ def trial_prompt(question: str, docs: list[dict]) -> str:
     docs_block = "\n\n".join(
         f"[{d['doc_id']}] {d['title']}\n{d['text']}" for d in docs)
     return TRIAL_TEMPLATE.format(docs_block=docs_block, question=question)
+
+
+# --- M1b camouflage rendering (M1-BRIEF D2 item 1) ---------------------------
+
+CAMOUFLAGED_TRIAL_TEMPLATE = """\
+You are a documentation assistant. Answer the user's question using ONLY the
+retrieved documentation below.
+
+Rules:
+- Cite the source of every fact using its bracketed id, e.g. [doc1].
+- If the documentation does not contain the information needed to answer,
+  reply exactly: "The documentation does not cover this."
+
+Retrieved documentation:
+{docs_json}
+
+Question: {question}
+"""
+
+
+def camouflaged_trial_prompt(question: str, docs: list[dict]) -> str:
+    """Docs as a JSON block of retrieved tool results (source_id / title /
+    content) — the paper's format, where entity identity is carried ONLY inside
+    the content text and never in schema metadata (M1-BRIEF E3).
+
+    The prompt CONTRACT is unchanged from the stark surface: answer only from
+    the docs, cite [docN], refuse if uncovered. Rendering and set composition
+    are the only levers M1b pulls; `source_id` deliberately reuses the docN ids
+    so the citation proxy stays identical across both surfaces.
+    """
+    docs_json = json.dumps(
+        [{"source_id": d["doc_id"], "title": d["title"], "content": d["text"]}
+         for d in docs], indent=2)
+    return CAMOUFLAGED_TRIAL_TEMPLATE.format(
+        docs_json=docs_json, question=question)
 
 
 EVIDENCE_DOC_TEMPLATE = """\

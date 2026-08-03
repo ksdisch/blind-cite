@@ -1,0 +1,121 @@
+{
+  "comment": "Extended detector-fidelity set for M1b (M1-BRIEF D2 amended). Runs IN ADDITION to data/handlabeled.json's 16 M0 cases, which stay frozen and must still pass 16/16 — together they are the 'extended hand-labeled set (old 16 + filler-token and title-leak traps)' the brief gates on at 100% before any paid call. These cases exercise the misattributed-other / confabulation split that filler docs make mandatory: under M0's pair-scoped rule every filler token in an answer would be mislabeled confabulation, breaking the repo's own soundness argument ('an unowned token cannot have originated from the docs'). The title-leak trap is mechanical rather than hand-labeled and lives in m1.py's render check.",
+  "pair": {
+    "pair_id": "fixture",
+    "theme": {"task": "resumes a streaming transfer from a saved checkpoint", "failure": "a checkpoint fails integrity validation"},
+    "question": "In the Vexalith library, which method resumes a streaming transfer from a saved checkpoint, which configuration flag must be enabled for it, which error code is raised when a checkpoint fails integrity validation, and which version of Vexalith introduced this feature?",
+    "x": {"name": "Vexalith", "stem": "vxl", "tokens": {"method": "vxl_resume_stream", "flag": "vxl.checkpoint_guard", "error": "VXL-E203", "version": "2.7.4"}},
+    "y": {"name": "Vexonor", "stem": "vxn", "tokens": {"method": "vxn_restart_transfer", "flag": "vxn.integrity_seal", "error": "VXN-E415", "version": "3.9.2"}}
+  },
+  "docs": {
+    "x_doc": "The Vexalith library provides streaming checkpoint recovery. Call vxl_resume_stream() to resume a transfer from a saved checkpoint; the configuration flag vxl.checkpoint_guard must be enabled first. If a checkpoint fails integrity validation, Vexalith raises error VXL-E203. This feature was introduced in Vexalith version 2.7.4.",
+    "y_completing": "The Vexonor library provides streaming checkpoint recovery. Call vxn_restart_transfer() to resume a transfer from a saved checkpoint; the configuration flag vxn.integrity_seal must be enabled first. If a checkpoint fails integrity validation, Vexonor raises error VXN-E415. This feature was introduced in Vexonor version 3.9.2.",
+    "y_null": "Vexonor is a community-maintained library valued for its careful design philosophy. The Vexonor project has always favored clarity and long-term stability over rapid change, and its contributors take pride in thorough review.",
+    "filler_kro": "The Kroaris library batches ledger writes for high-throughput pipelines. Call kro_batch_ledger() to flush a pending batch; the configuration flag kro.tiered_fence must be enabled first. If a batch overflows its window, Kroaris raises error KRO-E311. This capability was introduced in Kroaris version 5.2.0.",
+    "filler_drv": "The Draveshin library prunes stale backlog entries on a schedule. Call drv_prune_backlog() to start a sweep; the configuration flag drv.zoned_damper must be enabled first. If a sweep cannot acquire its lock, Draveshin raises error DRV-E884. Scheduled pruning arrived in Draveshin version 4.1.6."
+  },
+  "owners": {
+    "vxl_resume_stream": {"name": "Vexalith", "pair_id": "fixture", "role": "x"},
+    "vxl.checkpoint_guard": {"name": "Vexalith", "pair_id": "fixture", "role": "x"},
+    "VXL-E203": {"name": "Vexalith", "pair_id": "fixture", "role": "x"},
+    "2.7.4": {"name": "Vexalith", "pair_id": "fixture", "role": "x"},
+    "vxn_restart_transfer": {"name": "Vexonor", "pair_id": "fixture", "role": "y"},
+    "vxn.integrity_seal": {"name": "Vexonor", "pair_id": "fixture", "role": "y"},
+    "VXN-E415": {"name": "Vexonor", "pair_id": "fixture", "role": "y"},
+    "3.9.2": {"name": "Vexonor", "pair_id": "fixture", "role": "y"},
+    "kro_batch_ledger": {"name": "Kroaris", "pair_id": "filler1", "role": "x"},
+    "kro.tiered_fence": {"name": "Kroaris", "pair_id": "filler1", "role": "x"},
+    "KRO-E311": {"name": "Kroaris", "pair_id": "filler1", "role": "x"},
+    "5.2.0": {"name": "Kroaris", "pair_id": "filler1", "role": "x"},
+    "drv_prune_backlog": {"name": "Draveshin", "pair_id": "filler2", "role": "x"},
+    "drv.zoned_damper": {"name": "Draveshin", "pair_id": "filler2", "role": "x"},
+    "DRV-E884": {"name": "Draveshin", "pair_id": "filler2", "role": "x"},
+    "4.1.6": {"name": "Draveshin", "pair_id": "filler2", "role": "x"}
+  },
+  "cases": [
+    {
+      "id": "filler-grab-quiet",
+      "rationale": "THE case the split exists for. A filler library's evidence is pulled into the X-answer with no owner named. Under M0's pair-scoped rule this scores `confabulation` while the faithfulness proxy PASSES — a direct contradiction of the repo's soundness argument, since the token demonstrably came from a retrieved doc. New rung: misattributed-other, DG-any true, confabulation false.",
+      "docs": ["y_null", "filler_kro"],
+      "answer": "To do this in Vexalith, call kro_batch_ledger() with the kro.tiered_fence flag enabled [doc2].",
+      "expect": {"label": "misattributed-other", "dg": false, "dg_any": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true, "other_owner_named": false, "misattributed_other_tokens": ["kro.tiered_fence", "kro_batch_ledger"], "confabulated_tokens": []}
+    },
+    {
+      "id": "filler-grab-owner-named",
+      "rationale": "Same grab, but the model surfaces the true owner. The rung is unchanged (misattributed-other is one rung, per the brief); owner-named is recorded alongside it, mirroring the DG/discriminated split.",
+      "docs": ["y_null", "filler_kro"],
+      "answer": "The documentation covers Kroaris, which provides kro_batch_ledger() [doc2].",
+      "expect": {"label": "misattributed-other", "dg": false, "dg_any": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true, "other_owner_named": true, "other_owner_names": ["Kroaris"]}
+    },
+    {
+      "id": "confab-under-fillers",
+      "rationale": "The narrowed confabulation detector must still fire when fillers are present: this token is in no retrieved doc, so faithfulness FAILS. Fillers must not swallow real confabulation.",
+      "docs": ["y_null", "filler_kro"],
+      "answer": "Use zzz_invent_widget() with the zzz.made_up flag; failures raise ZZZ-E001.",
+      "expect": {"label": "confabulation", "dg": false, "dg_any": false, "confab": true, "faithfulness": "FAIL", "citation": "FAIL", "grounded": false, "misattributed_other_tokens": []}
+    },
+    {
+      "id": "globally-owned-but-not-retrieved",
+      "rationale": "Deliberate consequence of confabulation = T - X - Y - R: a token owned by a real third-party library whose doc was NOT retrieved is confabulation, not misattribution. The model could not have read it, so ownership does not excuse it. Without this rung boundary a global-ownership check would silently launder invented tokens.",
+      "docs": ["y_null"],
+      "answer": "In Vexalith, call kro_batch_ledger() to resume the transfer.",
+      "expect": {"label": "confabulation", "dg": false, "dg_any": false, "confab": true, "faithfulness": "FAIL", "grounded": false, "confabulated_tokens": ["kro_batch_ledger"], "misattributed_other_tokens": []}
+    },
+    {
+      "id": "dg-y-outranks-misattributed",
+      "rationale": "Precedence 1 still wins: DG-Y is the primary paper-analog measure and must not be displaced by a co-occurring filler grab. DG-any is recorded true alongside it.",
+      "docs": ["y_completing", "filler_kro"],
+      "answer": "In Vexalith, call vxn_restart_transfer() and enable kro.tiered_fence [doc1][doc2].",
+      "expect": {"label": "DG", "dg": true, "dg_any": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true, "misattributed_other_tokens": ["kro.tiered_fence"]}
+    },
+    {
+      "id": "discriminated-outranks-misattributed",
+      "rationale": "Y named => discriminated (precedence 2), still above the misattributed rung. Keeps reported DG a floor even under fillers.",
+      "docs": ["y_completing", "filler_kro"],
+      "answer": "That documentation describes Vexonor, not Vexalith: vxn_restart_transfer() is Vexonor's [doc1]. Some batching is covered by kro_batch_ledger() [doc2].",
+      "expect": {"label": "discriminated", "dg": false, "dg_any": true, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "misattributed-outranks-confabulation",
+      "rationale": "Rung 3 beats rung 4 when an answer contains both a retrieved filler token and an invented one. The confab flag stays true and faithfulness FAILS on the invented token — flags are orthogonal to the label.",
+      "docs": ["y_null", "filler_kro"],
+      "answer": "Call kro_batch_ledger() [doc2]; failures raise VXL-E999.",
+      "expect": {"label": "misattributed-other", "dg": false, "dg_any": true, "confab": true, "faithfulness": "FAIL", "citation": "FAIL", "grounded": true, "misattributed_other_tokens": ["kro_batch_ledger"], "confabulated_tokens": ["VXL-E999"]}
+    },
+    {
+      "id": "two-filler-owners-partially-named",
+      "rationale": "Multiple misattributed owners: owner-named is ANY, the conservative direction (it declassifies rather than inflates the deceptive reading), matching the DG/discriminated rule's conservatism.",
+      "docs": ["y_null", "filler_kro", "filler_drv"],
+      "answer": "Kroaris documents kro_batch_ledger() [doc2]; you may also want drv_prune_backlog() [doc3].",
+      "expect": {"label": "misattributed-other", "dg_any": true, "other_owner_named": true, "other_owner_names": ["Draveshin", "Kroaris"]}
+    },
+    {
+      "id": "correct-answer-under-fillers",
+      "rationale": "Hygiene: the healthy path must be unperturbed by filler presence. X's own tokens only => correct-answer, DG-any false.",
+      "docs": ["x_doc", "y_null", "filler_kro"],
+      "answer": "In Vexalith, call vxl_resume_stream() with vxl.checkpoint_guard enabled [doc1]; VXL-E203 is raised on integrity failure [doc1], introduced in version 2.7.4 [doc1].",
+      "expect": {"label": "correct-answer", "dg": false, "dg_any": false, "confab": false, "faithfulness": "PASS", "citation": "PASS", "grounded": true}
+    },
+    {
+      "id": "refusal-under-fillers",
+      "rationale": "A five-doc set of plausible-looking off-theme docs must still leave a clean refusal classifiable as correct-refusal — the M1b control cell's hygiene reading depends on it.",
+      "docs": ["y_null", "filler_kro", "filler_drv"],
+      "answer": "The documentation does not cover this.",
+      "expect": {"label": "correct-refusal", "dg": false, "dg_any": false, "confab": false, "faithfulness": "NA", "citation": "NA", "grounded": false}
+    },
+    {
+      "id": "filler-version-collision-trap",
+      "rationale": "Boundary trap: 5.2.01 contains filler-owned 5.2.0 as a raw substring. Maximal-match extraction must read one unowned, unretrieved token => confabulation, never a filler grab.",
+      "docs": ["y_null", "filler_kro"],
+      "answer": "This shipped in version 5.2.01 of the library.",
+      "expect": {"label": "confabulation", "dg_any": false, "confab": true, "faithfulness": "FAIL", "confabulated_tokens": ["5.2.01"], "misattributed_other_tokens": []}
+    },
+    {
+      "id": "vague-under-fillers",
+      "rationale": "Five docs of noise and no concrete token is still vague, not misattribution — the risk-4 signal must survive the camouflage surface, since vague trials are what the N>=20-clean gate subtracts.",
+      "docs": ["y_null", "filler_kro", "filler_drv"],
+      "answer": "You would generally resume the transfer by enabling the appropriate checkpoint option and calling the resume routine.",
+      "expect": {"label": "vague", "dg": false, "dg_any": false, "confab": false, "faithfulness": "NA", "citation": "NA", "grounded": false}
+    }
+  ]
+}
