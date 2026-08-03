@@ -93,11 +93,15 @@ so the null is about *our stark surface*, and critics can say so.
    `content` — the paper's format (E3), not prose paragraphs. **Title rule
    (frozen here, load-bearing):** M0's titles are entity-name-forward
    (`assemble.py` emits "⟨Name⟩ reference" and `prompts.py` renders the title on
-   the doc-id line), which would silently re-arm the stark surface. M1b titles
-   are the pair's generic theme phrase with **all entity names stripped** (e.g.
-   `"title": "streaming checkpoint recovery notes"`); entity identity appears
-   only inside `content`. The extended fidelity set gets a title-carrying trap
-   to catch a renderer that leaks names into titles.
+   the doc-id line), which would silently re-arm the stark surface. M1b uses one
+   **constant title for every doc**: `"API documentation excerpt"` — no entity
+   names, no theme words, no per-doc authoring, nothing to leak and nothing to
+   scan. (A stripped *theme-phrase* title was considered and rejected: the theme
+   phrase is interpolated verbatim into the trial question by `build_corpus`, so
+   an on-theme title would fingerprint the one on-theme doc — the Y-doc, at both
+   M1 cells — in a single title scan and disarm the fillers.) Entity identity
+   appears only inside `content`. The extended fidelity set gets a title-leak
+   trap to catch a renderer that reintroduces per-doc titles.
 2. **Multi-doc with filler:** each trial retrieves the cell's docs plus **k=4
    filler docs** — other pairs' X-docs from *different themes*, reused from the
    frozen corpus (already generated + mechanically verified; global token
@@ -105,7 +109,14 @@ so the null is about *our stark surface*, and critics can say so.
    the detector split below relies on — it does **not** make them free, see the
    extension). Filler assignment per pair is seeded and **identical across the
    two cells**, so the cell contrast stays attributable to the Y-doc alone. Doc
-   order shuffled by pair-seeded RNG as in M0.
+   order shuffled by pair-seeded RNG as in M0. **Stated limitation:** off-theme
+   fillers are the only fillers the frozen corpus can supply without new
+   generation — they buy realistic set length and burial, not topical dilution;
+   a model that reads contents can still single out the on-theme doc (with
+   constant titles it must at least read them to do so). If M1b still nulls,
+   the next documented camouflage level is **same-theme filler generation**
+   (new docs, new verifier contract) — argued at an addendum then, never
+   slipped in.
 3. **Prompt contract unchanged** (answer only from docs, cite `[docN]`, refuse if
    uncovered) — the only levers are rendering + set composition.
 
@@ -116,16 +127,21 @@ intersection with the retrieved set), so under fillers every filler token in an
 answer would be mislabeled `confabulation` — the repo's own soundness argument
 ("an unowned token cannot have originated from the docs") is broken by design
 the moment fillers enter. The pre-committed M1b classifier therefore splits:
-- **misattributed-other / DG-any** (descriptive): extracted token present in a
-  *retrieved* doc but owned by neither X nor this pair's Y — filler-lib evidence
-  pulled into the X-answer. Gets its own rung in the precedence table (below
-  `discriminated`, above `confabulation`), with owner-name-absent/present
-  recorded like the DG/discriminated split. Fillers are identical across cells,
-  so DG-any never enters the gate; **DG-Y** (≥1 Y-owned token, Y-name absent)
-  stays the primary, paper-analog measure, unchanged.
-- **confabulation** (narrowed for M1b): extracted token owned by no one **and
-  absent from every retrieved doc**. Under M0's no-filler design the two
-  definitions coincide, so M0's recorded results are untouched by the split.
+- The split, as set algebra with the scope pinned (`T` = extracted token-shaped
+  strings; `R` = tokens appearing in ≥1 retrieved doc; X-owned/Y-owned are
+  **pair-scoped**, relative to the current pair, exactly as in M0):
+  **misattributed-other / DG-any** `= (T ∩ R) − X-owned − Y-owned` — retrieved
+  filler-lib evidence pulled into the X-answer; **confabulation** `= T − X-owned
+  − Y-owned − R` — didn't come from the docs, whether globally owned by some
+  other pair's library or owned by no one. The two are a **partition of M0's
+  pair-scoped `unowned` set** — nothing falls through the precedence table.
+- **misattributed-other / DG-any** (descriptive) gets its own rung in the
+  precedence table (below `discriminated`, above `confabulation`), with
+  owner-name-absent/present recorded like the DG/discriminated split. Fillers
+  are identical across cells, so DG-any never enters the gate; **DG-Y** (≥1
+  Y-owned token, Y-name absent) stays the primary, paper-analog measure,
+  unchanged. Under M0's no-filler design `unowned ∩ R = ∅`, so the narrowed
+  `confabulation` coincides with M0's and M0's recorded results are untouched.
 - **Control-cell semantics change** under fillers: absent×null_control now
   contains grabbable third-party evidence, so it is no longer the pure hygiene
   cell it was in M0 and arm A — it becomes a live measure of indiscriminate
@@ -174,12 +190,29 @@ two waves instead of one; slightly more verdict-script surface to pre-commit.
 (`build_corpus(n_pairs=20)` raises at HEAD), so reaching 20 pairs means
 authoring **+8 theme phrase-pairs and +8 name prefixes**. The extension is
 **seed-preserving, never a regen**: keep `SEED=20260715`, grow `n_pairs` 12→20 —
-`build_corpus` is a deterministic prefix generator, so pairs p01–p12 and their
-already-generated docs survive verbatim, and M0's committed evidence
-(`data/pilot.jsonl` keys trials by `pair_id` against `data/corpus.json`) stays
-re-verifiable from the working tree. Pre-committed guard: a test asserting the
-extended corpus is a **byte-identical superset** on p01–p12; `data/docs.json`
-extended in place with only the **24 new docs** (8 pairs × 3), M0's 36 untouched.
+`build_corpus` consumes the RNG strictly in pair order and indexes the pools by
+position, so pairs p01–p12 survive verbatim **provided the pool edits are
+append-only**. Pre-committed preconditions and guards:
+
+- **Append-only, those two pools only:** the sole `corpus.py` edits are appends
+  to `THEMES` and `NAME_PREFIXES`. `NAME_SUFFIXES`, `VERBS`, `NOUNS`, and the
+  flag/error pools are untouched — widening any of them re-rolls the p01–p12
+  draws (`rng.sample(NAME_SUFFIXES, 2)` is the per-pair name draw) while a
+  generator-vs-itself check would still pass.
+- **Fixtures, not self-comparison:** before the extension, M0's `data/corpus.json`
+  and `data/docs.json` are pinned verbatim as committed fixtures
+  (`data/corpus_m0.json`, `data/docs_m0.json`); tests assert the extended files'
+  p01–p12 entries **equal the fixtures** — a guard with a real referent, so M0's
+  committed evidence (`data/pilot.jsonl` keys trials by `pair_id`, and its
+  `scored.*` fields derive from doc text) stays re-verifiable from the working
+  tree.
+- **Incremental gen-docs is new build work, named here:** M0's `gen-docs` cannot
+  be reused — it starts from an empty dict, loops every pair, and overwrites
+  `data/docs.json` at generator temperature 0.8, which would replace M0's 36 doc
+  texts non-deterministically. `m1.py gen-docs` reads the existing file,
+  generates **only missing pair_ids** (p13–p20 → 24 new docs), and asserts
+  p01–p12 byte-unchanged before writing.
+
 Gen cost ≈ **$0.003** at M0's measured rate ($0.0046/36 docs). Trial waves at
 M0's measured per-trial rate (~$0.000026 single-doc; ~6× input for the 6-doc
 camouflage surface):
@@ -216,7 +249,7 @@ extensions). Stated here so the gate isn't oversold.
 | flagship contrast | almost certainly unrendered | renders iff DG>0 | renders iff DG>0 at M1b |
 | M2/M3 | degenerate; v1 closes early | alive iff DG>0 | alive iff DG>0 |
 | forking-paths risk | none | real, mitigated | converted into a factor |
-| build | corpus pools +8 themes/prefixes + 24-doc gen wave | A's corpus work + JSON renderer, filler wiring, detector split, extended fidelity set | same as B |
+| build | corpus extension kit: append-only pools +8, M0 fixtures, incremental gen-docs, 24-doc wave | A's corpus work + JSON renderer, filler wiring, detector split, extended fidelity set | same as B |
 | est. spend | ~$0.01 | ~$0.03 | ~$0.04 |
 
 **Recommendation: C.** It is the only option under which *every* possible result
