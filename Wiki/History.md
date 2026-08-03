@@ -43,6 +43,16 @@ No research work; the repo received fleet-wide upkeep so it stays resume-ready.
 - **Landed:** PROJECT.md, HANDOFF.md, Sources.md, Decisions.md created and CLAUDE.md wired to the project-wiki skill; no code or data changes (PR #3, merge `7ec3647`)
 - **Why:** capture resume-ready state for the parked repo — status, the open M1 design call, and the source index [Fact — PR #3 body]
 
+## Era: Resume & the M1 decision (2026-08-03 – )
+
+The park ended with a docs-first resume: reconcile the repo's story, argue the
+M1 design fork, and put it to Kyle before any code or spend.
+
+### M1 decision brief written; README reconciled — 2026-08-03
+- **Landed:** `docs/M1-BRIEF.md` arguing D5 (A pre-committed / B camouflage variant / C both sequenced — C recommended), README truth-fix (no more "M0 not yet started"), resume-state wiki updates (PR #8)
+- **Why:** D5 must be argued at a brief and decided by Kyle, never slipped in [Fact — `docs/M0-BRIEF.md` addendum] — see D5 in `Decisions.md` (Unresolved)
+- **Also:** paper re-checked 2026-08-03 — still v1, no code; the brief's E3 records the presentation-layer reading (JSON tool-result format; §5.3 mismatch-detection claim) [Fact — arXiv fetch, recorded in the brief]
+
 ---
 
 ## Mining coverage
