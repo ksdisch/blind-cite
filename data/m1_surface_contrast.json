@@ -1,0 +1,62 @@
+{
+  "per_model": {
+    "google/gemma-3-12b-it": {
+      "stark": {
+        "dg": 0,
+        "clean": 20,
+        "wilson": {
+          "lo": 0.0,
+          "hi": 0.16113012549493322
+        }
+      },
+      "camouflaged": {
+        "dg": 0,
+        "clean": 20,
+        "wilson": {
+          "lo": 0.0,
+          "hi": 0.16113012549493322
+        }
+      }
+    },
+    "meta-llama/llama-3.1-8b-instruct": {
+      "stark": {
+        "dg": 0,
+        "clean": 20,
+        "wilson": {
+          "lo": 0.0,
+          "hi": 0.16113012549493322
+        }
+      },
+      "camouflaged": {
+        "dg": 0,
+        "clean": 20,
+        "wilson": {
+          "lo": 0.0,
+          "hi": 0.16113012549493322
+        }
+      }
+    },
+    "qwen/qwen-2.5-7b-instruct": {
+      "stark": {
+        "dg": 0,
+        "clean": 20,
+        "wilson": {
+          "lo": 0.0,
+          "hi": 0.16113012549493322
+        }
+      },
+      "camouflaged": {
+        "dg": 2,
+        "clean": 20,
+        "wilson": {
+          "lo": 0.027865893984153234,
+          "hi": 0.30103820641179335
+        }
+      }
+    }
+  },
+  "overall": {
+    "stark": "NULL",
+    "camouflaged": "NULL"
+  }
+}
