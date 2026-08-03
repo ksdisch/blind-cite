@@ -3,23 +3,26 @@
 _Last updated: 2026-08-03_
 
 ## What was just done
-- **Resumed from park and D5 resolved.** `docs/M1-BRIEF.md` written (A pre-committed / B camouflage / C both sequenced), adversarially reviewed on PR #8 — 3 rounds, 17 findings, all accepted, 15 fixed+verified or swept, F16/F17 fixed under Kyle's explicit re-verify waiver — and **Kyle picked Option C** in-session (Decisions.md D6, brief addendum "The pick").
-- README reconciled with recorded reality; CLAUDE.md/PROJECT.md/wiki brought in step; paper re-checked 2026-08-03 (arXiv 2607.09349 still v1, no code).
-- Repo flipped back to **public** (README contradiction fixed + D-M1 decided — both stated preconditions met).
+- **M1 built and run end to end, Option C, both arms.** `m1.py` pre-committed with every gate as code, dry-run on synthetic answers through the real scoring path, committed and pushed **before** the first paid call — then `ping` → `gen-docs` → M1a smoke/wave/verdict → M1b smoke/wave/verdict.
+- **Verdict: NULL at both surfaces, well-powered** (Decisions.md D10). 240/240 trials ok on first pass; 20/20 clean per gated cell per model on both arms; zero vague, zero confabulation, zero errors; fidelity gate 288/288 at both verdicts.
+- **The flagship blindness contrast rendered** — the artifact M1 exists to produce — on `qwen-2.5-7b`'s 2 DG answers at the camouflaged cell: faithfulness PASS 2/2, citation PASS 2/2.
+- Supporting build: M0 fixtures pinned (`corpus_m0`/`docs_m0`/`gen_log_m0`), seed-preserving corpus extension 12→20 pairs (append-only pools), incremental `gen-docs` (24 new docs, 0% rejection), the misattributed-other/confabulation detector split, and the M1b camouflage surface (JSON tool-results, constant titles, k=4 off-theme fillers).
 
 ## Where things stand
-M0 closed FIT (fidelity 16/16, generator rejection 0/36, 144/144 calls ok, grounding at ceiling, DG 0/36 all-K4). **D6: M1 runs as Option C** — M1a exactly as pre-committed, then labeled camouflage arm M1b (JSON tool-result rendering, constant titles, k=4 off-theme fillers, misattributed/confab detector split). Sized at 20 pairs; est. ~$0.04 against the $5 budget. `main` carries the merged brief; no branches open.
+M0 FIT and M1 NULL are both closed and recorded. The pre-committed design (M1a) rendered its own verdict untouched, and the camouflage surface (M1b) was tested beside it rather than instead of it — Option C did exactly what it was chosen to do. Every DG in the project (n=2) appeared only at the camouflage surface and only on the paper's own kin model; the cross-surface delta straddles 0, so that is texture, not a claim. Total project spend ≈$0.027 against the <$5 budget. Branch `feat/m1-option-c`, PR open.
 
 ## Immediate next move
-Build `m1.py` per the brief's "The pick" addendum, in order: pre-commit gates → dry-run on synthetic answers → `ping` + measured-rate check → smoke N≈5 → M1a wave → verdict → M1b build (M0 fixtures `corpus_m0/docs_m0/gen_log_m0`, seed-preserving corpus extension +8 themes/prefixes append-only, incremental gen-docs writing `gen_log_m1.json`, extended fidelity gate 100%) → M1b smoke → wave → verdict. The top-up policy (re-run errored trials only, until ≥20 clean per cell or the cap binds) is pre-committed in the brief's D4.
+**Kyle's call: close v1 at M1 (D11, Proposed).** M2 suppresses a rate that is already ~0 and M3 ablates a phenomenon that occurred twice — both degenerate on the measured data, exactly as the M1 brief's D1 anticipated. If the null should instead be pushed on, the two documented escalations are pre-named and each needs its own argued addendum before any spend: (1) a small frozen title pool assigned by post-shuffle doc *position*, (2) same-theme filler generation with a new verifier contract. On closing v1: `/research-paper`, then `/seed-hunt`.
 
 ## Open questions / blockers
-- None blocking. Watch for an arXiv v2 (reference-only either way; last checked 2026-08-03).
-- Review follow-up F9: backfill PR #8's merge SHA in `Wiki/History.md` at the next wiki touch.
-- Noted, not a blocker: `qwen-2.5-coder-7b` gone from OpenRouter — matters only if the parked specialization arm unparks.
+- None blocking. **D11 is Proposed, not decided** — closing v1 is Kyle's call.
+- Watch for an arXiv v2 of 2607.09349 (reference-only either way; last checked 2026-08-03, still v1, no code).
+- Noted, not a blocker: `qwen-2.5-coder-7b` still gone from OpenRouter — matters only if the parked specialization arm unparks.
+- Resolved this session: review follow-up F9 (PR #8 merge SHA backfilled in `Wiki/History.md`).
 
 ## Files touched recently
-- `docs/M1-BRIEF.md` — the decision brief + "The pick" addendum (D5→C); the M1 build spec.
-- `Decisions.md` — D5 Resolved (by D6); D6 Approved (Option C).
-- `README.md`, `CLAUDE.md`, `PROJECT.md`, `Sources.md`, `Wiki/History.md`, `Wiki/_index.md` — resume-state + post-decision consistency.
-- `docs/M0-BRIEF.md` + `data/m0_verdict.json` — unchanged; still the source of truth for M0 results.
+- `m1.py` + `test_m1.py` — the M1 gates and their dry-run; the pre-commitment in code.
+- `corpus.py`, `assemble.py`, `detectors.py`, `prompts.py` — 20-pair extension, camouflage surface, detector split.
+- `data/` — `corpus_m0`/`docs_m0`/`gen_log_m0` fixtures, `gen_log_m1.json`, `m1a`/`m1b` smoke+wave+verdict, `m1_surface_contrast.json`, `m1_spend.json`, `handlabeled_m1.json`.
+- `docs/M1-BRIEF.md` — the "M1 outcome" addendum (the results of record).
+- `Wiki/Results.md` (new), `Wiki/Why-The-Null.md`, `Wiki/Detector-Design.md`, `Wiki/History.md`, `Decisions.md` (D7–D11), `PROJECT.md`.

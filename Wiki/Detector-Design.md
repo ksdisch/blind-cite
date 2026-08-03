@@ -80,13 +80,20 @@ Fires when the answer contains any token-shaped string that is neither X-owned n
 - [`test_detectors.py`](../test_detectors.py) — hand-labeled fidelity gate (16/16 required before paid calls)
 
 ## Uncertainties & contradictions
-- **Unresolved**: The confabulation detector has a theoretical false-positive path via real-world version strings (e.g. `3.11.0`) matching the version regex from model training memory. Rate was zero at M0 (12 pairs, 3 models); unknown at M1's 20-pair scale or with different models.
+- **Resolved 2026-08-03**: the confabulation false-positive path via real-world version strings stayed at **zero** across all 240 M1 trials at 20 pairs (`data/m1a_verdict.json`, `data/m1b_verdict.json`) — including under k=4 filler docs. Still unknown for models outside the roster.
+- **Resolved 2026-08-03**: `REFUSAL_RE` coverage held — `vague` was **0/240** across both M1 arms, so no refusal phrasing escaped the pattern at 20 pairs.
 - **Unresolved**: The `REFUSAL_RE` pattern is fixed (`detectors.py` lines 22–29). If M1 models use refusal phrasings not in this pattern, they would be classified `vague` rather than `correct-refusal`, inflating the K2 vague-rate trigger. Not observed at M0.
 
 ## Related pages
 - [Why-The-Null](Why-The-Null.md)
 
 ## Relevance to current work
-This project is parked at M0 with M1 design pending (D5, **Unresolved** — see `Decisions.md`). Before writing `docs/M1-BRIEF.md`, a returning reader should confirm the detectors handle any M1 design variant (e.g. multi-doc retrieval with filler docs): the `assemble.py` doc-list construction and the `classify()` call signature are unchanged, but filler docs introduce new retrieved_tokens that would expand the faithfulness/citation pass sets. Whether that matters for M1 scoring is a design question, not a detector bug.
+M1 answered the question this section used to pose. Filler docs were **not** neutral for the detectors: M0's confabulation rule computed `unowned` pair-scoped with no intersection against the retrieved set, so every filler token in an answer would have been mislabeled `confabulation` — breaking the soundness argument above ("an unowned token cannot have originated from the docs") by construction. It was a detector concern after all, not merely a design question.
 
-_Last reviewed: 2026-07-26_
+**Fact** (`detectors.py`, `docs/M1-BRIEF.md` D2 as amended): the set is now split, with scope pinned — `misattributed-other / DG-any = (T & R) - X-owned - Y-owned` and `confabulation = T - X-owned - Y-owned - R`. The two partition M0's `unowned` exactly, so nothing falls through the precedence table, and `misattributed-other` takes its own rung below `discriminated` and above `confabulation`. A deliberate consequence: a token owned by another pair's library whose doc was *not* retrieved scores as confabulation — ownership does not excuse a token the retrieval never supplied.
+
+**Fact** (`test_detectors.py::test_m0_pilot_rescores_identically`): the claim that the split leaves M0 untouched is verified, not assumed — all 144 committed M0 pilot rows re-score byte-identical against the frozen M0 fixtures, so M0's FIT verdict stays re-verifiable from the working tree.
+
+**Fact** (`data/m1b_verdict.json`): DG-any read **0/120** — no model pulled a filler token at either cell. The split never had to separate anything in practice, and was still required: without it, that claim could not have been made.
+
+_Last reviewed: 2026-08-03_
