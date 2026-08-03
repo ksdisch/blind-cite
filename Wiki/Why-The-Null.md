@@ -1,7 +1,7 @@
 # Why-The-Null
 
 ## Purpose
-Explains what the M0 DG = 0/36 result actually means: what was measured, why the null is informative rather than a failure, what it does not rule out, and what M1 must change (or not) to be a valid next step. For anyone resuming the project who needs to understand the experimental state before writing `docs/M1-BRIEF.md`.
+Explains what this project's null results actually mean: what was measured, why the nulls are informative rather than failures, and what they do not rule out. Written at M0 (DG = 0/36) and extended 2026-08-03 after M1 tested the same question at power and at a second, deliberately harder surface.
 
 ## Key understanding
 
@@ -24,34 +24,46 @@ The K4 flag fires when: K1 passes (grounding ≥6/12 at complete×null_control �
 
 **Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, `Decisions.md` D5): The M0-BRIEF addendum explicitly states: "as designed, M1 would very likely render a well-powered NULL" on the pre-committed design, and proposes a camouflage-level variant (e.g. multi-doc retrieval with filler docs) as an alternative that would make the Y-doc's name-mismatch less glaring — a design change that must be argued, not slipped in.
 
-**Decision** (D5, **Unresolved** — `Decisions.md`): Whether M1 runs pre-committed (likely well-powered NULL headline, legitimate per the honesty contract) or with the camouflage variant is Kyle's call at the M1 brief.
+**Decision** (D5, resolved by **D6** — `Decisions.md`): M1 ran as Option C — the pre-committed design *and* a labeled camouflage arm, sequenced, so the frozen design rendered its own verdict rather than being replaced by the variant.
 
-### What M1 would need to change
-**Fact** (`docs/M0-BRIEF.md` Pilot outcome, `Decisions.md` D3): M1 sizing is already computed from the M0 funnel: 20 pairs (clean-rate 100% at both absent cells; N≥20/cell/model). The `m1.py` script is pre-committed in structure (same subcommand pattern: `ping|gen-docs|smoke|pilot|verdict`).
+### What M1 answered — 2026-08-03
 
-**Inference** (from the discriminated-texture finding and the paper's design space, `docs/M0-BRIEF.md` D1): The paper's DG effect peaks at `absent × synthetic_Y` (73.1%), where the Y-doc is written to look as if it answers an X-question — the maximum camouflage condition. The M0 design uses `absent × completing` (Y's doc is honestly about Y) — a weaker camouflage. A M1 variant that introduces filler docs (making the Y-doc one of several, reducing name-salience) or uses a more X-framed Y-doc would move the design toward the paper's high-DG cells.
+**Fact** (`data/m1a_verdict.json`, `Decisions.md` D10): The pre-committed design at 20 pairs rendered **NULL, well-powered** — DG 0/20 per model per cell, Wilson 95% upper 16.1% per model, engagement present (`discriminated` 30/60 at the adversarial cell). The M0 null was not an artifact of small N; it reproduced at power.
 
-**Unresolved** (from D5 and `HANDOFF.md`): The camouflage-variant path requires a documented design change in `docs/M1-BRIEF.md`. The pre-committed path runs as-is and would likely confirm the null with power. Both are valid outcomes per the honesty contract ("nulls are headlines").
+**Fact** (`data/m1b_verdict.json`): The camouflage surface — JSON tool-result rendering, one constant title per doc, k=4 off-theme filler docs, the levers built precisely to defeat the name-salience described in the section above — also rendered **NULL, well-powered**. DG was 0/20 for two models and **2/20** for `qwen-2.5-7b` (Newcombe +0.100 [−0.077, +0.301], straddles 0).
+
+**Inference:** the "what the null does NOT rule out" argument below was the right argument to make, and it was tested rather than left standing. Reducing name-salience did not unlock the phenomenon at this scale. That is a stronger result than M0's, because the obvious alternative explanation was built and run rather than merely conceded.
+
+**Fact** (`data/m1b_wave.jsonl`): those 2 DG answers are nonetheless the project's flagship artifact — faithfulness PASS 2/2 and citation PASS 2/2 while token ownership flags both. The mechanism the paper describes is real and demonstrable here; what these models do not show is the *rate*. See [Results](Results.md).
+
+**Inference:** the "quiet discriminated" prediction below (that some quiet cases might flip to DG under harder camouflage) is weakly supported at best — `discriminated` fell from 30/60 stark to 15/60 camouflaged while DG rose only 0→2. The bulk of the change went to `correct-refusal` (30/60 → 43/60): under camouflage these models refuse *more*, rather than mis-attributing more. That is consistent with the pre-stated worry that a uniform-title synthetic surface may itself reinforce the refusal ceiling.
+
+### What the null still does not rule out
+**Unresolved:** the camouflage levers were bundled, so no single lever is exonerated. Two documented escalations remain unrun and each needs its own argued addendum first (`docs/M1-BRIEF.md` D2): a frozen title pool assigned by post-shuffle doc *position*, and same-theme filler generation. Neither was slipped in after seeing the data.
+
+**Inference** (from the paper's design space, `docs/M0-BRIEF.md` D1): the paper's DG effect peaks at `absent × synthetic_Y` (73.1%) — a Y-doc written to look as if it answers an X-question. This project measures `absent × completing` (Y's doc is honestly about Y) at both surfaces. The `synthetic_Y` condition was never in scope (KICKOFF) and remains untested here.
 
 ### The grounding precondition (why K1 matters)
 **Fact** (`docs/M0-BRIEF.md` D7, Pilot outcome): K1 (capability cliff kill trigger) requires grounding ≥6/12 at `complete × null_control`. All three models grounded at 12/12. This is the load-bearing precondition: without K1 passing, a low-DG result is uninterpretable — the model might just be incapable of RAG. K1 passing at ceiling means the DG null is interpretable as "capable models chose not to deceive" rather than "models cannot do RAG."
 
 ## Sources
 - [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) — D1 (paper DG definition), D3 (corpus design), D4 (retrieval design), D6 (detector taxonomy), D7 (K4 flag definition), Pilot outcome addendum
-- [`Decisions.md`](../Decisions.md) — D3 (FIT verdict), D5 (M1 design, Unresolved)
+- [`docs/M1-BRIEF.md`](../docs/M1-BRIEF.md) — D1–D4 (the two designs and their pre-stated limitations), "M1 outcome" addendum
+- [`Decisions.md`](../Decisions.md) — D3 (FIT verdict), D5→D6 (Option C), D10 (M1 verdict), D11 (close v1, Proposed)
 - [`PROJECT.md`](../PROJECT.md) — Current status, Next actions
-- [`HANDOFF.md`](../HANDOFF.md) — Immediate next move, Open questions
-- [`detectors.py`](../detectors.py) — `classify()` label precedence (lines 127–136)
+- [`detectors.py`](../detectors.py) — `classify()` label precedence
 
 ## Uncertainties & contradictions
-- **Unresolved** (D5): M1 design path not chosen — pre-committed NULL vs. camouflage variant. This is the central open question for the project resume.
-- **Unresolved**: The 18 discriminated answers include 7 "quiet" cases where Y's name appears incidentally. If M1 uses a design where Y's name is harder to notice (filler docs, shorter Y-doc), some quiet-discriminated cases might flip to DG. The M0 data does not predict the M1 flip rate.
-- **Unresolved**: Whether an arXiv v2 of 2607.09349 ships code or appendices — reference-only either way per the honesty contract, but would inform the camouflage-variant design.
+- **Unresolved**: whether `qwen-2.5-7b`'s 2/20 at the camouflaged cell is a real surface effect or noise. n=2 cannot distinguish them and the pre-committed gate declines to try.
+- **Unresolved**: the "quiet discriminated might flip to DG" prediction from M0 is only weakly supported — camouflage moved answers into `correct-refusal`, not into DG. Whether that is the constant-title tell or a genuine property of these models is untested.
+- **Unresolved**: an M1b null cannot be distinguished from M0's on the constant-title axis. Stated in `docs/M1-BRIEF.md` D2 *before* the run, not discovered after.
+- **Unresolved**: Whether an arXiv v2 of 2607.09349 ships code or appendices — reference-only either way per the honesty contract.
 
 ## Related pages
+- [Results](Results.md) — the full measured record these arguments rest on
 - [Detector-Design](Detector-Design.md)
 
 ## Relevance to current work
-This project is parked at M0. The M1 design decision (D5) is the first action on resume. This page is the primary reference for understanding *why* M0's null result does not close the question, and what the two M1 paths would each yield. A returning reader should read this page before writing `docs/M1-BRIEF.md`.
+M0 and M1 are both closed. This page explains why two nulls are the project's headline rather than its failure, and why the M1b arm makes the M0 null stronger rather than merely repeating it. It is the argument a write-up (`/research-paper`) has to carry, and the reference for the open D11 call on whether v1 closes here.
 
-_Last reviewed: 2026-07-26_
+_Last reviewed: 2026-08-03_

@@ -1,0 +1,264 @@
+{
+  "summary": {
+    "attempts": 36,
+    "rejected_attempts": 0,
+    "rejection_rate": 0.0,
+    "incomplete": [],
+    "cost": 0.0046,
+    "generator": "openai/gpt-4o-mini"
+  },
+  "attempts": [
+    {
+      "pair_id": "p01",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.0001446
+    },
+    {
+      "pair_id": "p01",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013245
+    },
+    {
+      "pair_id": "p01",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011595
+    },
+    {
+      "pair_id": "p02",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00014595
+    },
+    {
+      "pair_id": "p02",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.000141
+    },
+    {
+      "pair_id": "p02",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011114999999999999
+    },
+    {
+      "pair_id": "p03",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.0001383
+    },
+    {
+      "pair_id": "p03",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00012525
+    },
+    {
+      "pair_id": "p03",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011175
+    },
+    {
+      "pair_id": "p04",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013995
+    },
+    {
+      "pair_id": "p04",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.0001398
+    },
+    {
+      "pair_id": "p04",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00012765
+    },
+    {
+      "pair_id": "p05",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013319999999999999
+    },
+    {
+      "pair_id": "p05",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013575
+    },
+    {
+      "pair_id": "p05",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011475
+    },
+    {
+      "pair_id": "p06",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.0001272
+    },
+    {
+      "pair_id": "p06",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00012209999999999999
+    },
+    {
+      "pair_id": "p06",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00012525
+    },
+    {
+      "pair_id": "p07",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00014130000000000002
+    },
+    {
+      "pair_id": "p07",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013544999999999999
+    },
+    {
+      "pair_id": "p07",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00012795
+    },
+    {
+      "pair_id": "p08",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013094999999999998
+    },
+    {
+      "pair_id": "p08",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.0001383
+    },
+    {
+      "pair_id": "p08",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011055
+    },
+    {
+      "pair_id": "p09",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013275
+    },
+    {
+      "pair_id": "p09",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013604999999999997
+    },
+    {
+      "pair_id": "p09",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011475
+    },
+    {
+      "pair_id": "p10",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.0001218
+    },
+    {
+      "pair_id": "p10",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013979999999999998
+    },
+    {
+      "pair_id": "p10",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011954999999999999
+    },
+    {
+      "pair_id": "p11",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00012885
+    },
+    {
+      "pair_id": "p11",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00013859999999999998
+    },
+    {
+      "pair_id": "p11",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00010664999999999999
+    },
+    {
+      "pair_id": "p12",
+      "doc_type": "x",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011879999999999999
+    },
+    {
+      "pair_id": "p12",
+      "doc_type": "y_completing",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.0001146
+    },
+    {
+      "pair_id": "p12",
+      "doc_type": "y_null",
+      "attempt": 1,
+      "violations": [],
+      "cost": 0.00011685
+    }
+  ]
+}

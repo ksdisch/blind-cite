@@ -17,8 +17,10 @@ import random
 from pathlib import Path
 
 SEED = 20260715
-N_PAIRS = 12
+N_PAIRS = 20  # M1 sizing from M0's measured funnel (M0-BRIEF addendum); was 12 at M0
 CORPUS_PATH = Path(__file__).parent / "data" / "corpus.json"
+CORPUS_M0_PATH = Path(__file__).parent / "data" / "corpus_m0.json"  # frozen M0 fixture
+N_PAIRS_M0 = 12
 
 # (task — 3rd-person verb phrase completing "which method …",
 #  failure — clause completing "raised when …")
@@ -47,10 +49,37 @@ THEMES = [
      "a cron expression is malformed"),
     ("negotiates payload compression with a remote peer",
      "the peer rejects every offered codec"),
+    # --- M1 extension (p13-p20), APPEND-ONLY (M1-BRIEF D4) ------------------
+    # build_corpus indexes THEMES/NAME_PREFIXES by pair position and consumes
+    # the RNG strictly in pair order, so appending leaves p01-p12 bit-identical.
+    # Inserting, reordering, or editing anything above this line re-rolls M0's
+    # frozen corpus; data/corpus_m0.json is the committed guard against that.
+    ("streams server-sent events to subscribed clients",
+     "a subscriber falls too far behind the event buffer"),
+    ("deduplicates records during a bulk ingestion run",
+     "a duplicate key survives the merge window"),
+    ("throttles outbound webhook deliveries per tenant",
+     "a tenant exceeds its delivery quota"),
+    ("encrypts field-level data before it is persisted",
+     "a data key cannot be unwrapped"),
+    ("rebalances shards across a storage cluster",
+     "a shard move stalls midway through a transfer"),
+    ("renders vector tiles from a geospatial index",
+     "a tile request falls outside the indexed extent"),
+    ("reconciles inventory counts against an upstream feed",
+     "the upstream feed reports a negative count"),
+    ("warms a read-through cache ahead of peak traffic",
+     "a warm-up pass exceeds its time budget"),
 ]
 
 NAME_PREFIXES = ["vex", "qua", "zor", "fen", "lum", "dra",
-                 "syl", "kro", "bel", "tor", "nim", "pra"]
+                 "syl", "kro", "bel", "tor", "nim", "pra",
+                 # M1 extension (p13-p20), APPEND-ONLY — see the note in THEMES
+                 "myr", "sev", "hal", "gri", "vor", "cae", "tyr", "ulm"]
+# FROZEN at M0 (M1-BRIEF D4): NAME_SUFFIXES, VERBS, NOUNS, FLAG_ADJS,
+# FLAG_NOUNS and STEM_LETTERS are drawn from by rng.sample/rng.choice, so
+# widening ANY of them re-rolls p01-p12 while a generator-vs-itself check would
+# still pass. Only THEMES and NAME_PREFIXES may grow, and only by appending.
 NAME_SUFFIXES = ["alith", "onor", "effa", "urak", "ilon", "aris",
                  "umet", "enzi", "aroq", "ivex", "olyn", "ettiq",
                  "axen", "obul", "erra", "ustro", "imar", "ovek",
@@ -155,6 +184,24 @@ def load_corpus(path: Path = CORPUS_PATH) -> dict:
 def all_owned_tokens(corpus: dict) -> set[str]:
     return {t for p in corpus["pairs"]
             for side in ("x", "y") for t in p[side]["tokens"].values()}
+
+
+def owner_map(corpus: dict) -> dict[str, dict]:
+    """token -> {"name", "pair_id", "role"} for every owned token in the corpus.
+
+    Global ownership, as opposed to the pair-scoped X/Y ownership the M0
+    detectors use. Needed only by the M1b detector split, which has to name the
+    true owner of a filler token pulled into an answer (M1-BRIEF D2 amended).
+    Tokens are globally unique by construction, so this map is well-defined.
+    """
+    out: dict[str, dict] = {}
+    for p in corpus["pairs"]:
+        for role in ("x", "y"):
+            side = p[role]
+            for token in side["tokens"].values():
+                out[token] = {"name": side["name"],
+                              "pair_id": p["pair_id"], "role": role}
+    return out
 
 
 if __name__ == "__main__":

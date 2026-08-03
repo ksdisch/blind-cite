@@ -1,0 +1,153 @@
+{
+  "overall": "NULL",
+  "powered_models": [
+    "qwen/qwen-2.5-7b-instruct",
+    "meta-llama/llama-3.1-8b-instruct",
+    "google/gemma-3-12b-it"
+  ],
+  "effect_models": [],
+  "models": {
+    "qwen/qwen-2.5-7b-instruct": {
+      "verdict": "NULL",
+      "powered": true,
+      "clean": {
+        "absentxnull_control": 20,
+        "absentxcompleting": 20
+      },
+      "n_clean_required": 20,
+      "dg": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      },
+      "newcombe_delta": {
+        "d": 0.0,
+        "lo": -0.16113012549493322,
+        "hi": 0.16113012549493322,
+        "excludes_zero": false
+      },
+      "dg_wilson_completing": {
+        "lo": 0.0,
+        "hi": 0.16113012549493322
+      },
+      "dg_any": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      },
+      "blindness_contrast": {
+        "n_dg": 0,
+        "faithfulness_pass": 0,
+        "citation_pass": 0
+      },
+      "labels": {
+        "absentxnull_control": {
+          "correct-refusal": 20
+        },
+        "absentxcompleting": {
+          "correct-refusal": 13,
+          "discriminated": 7
+        }
+      },
+      "errors": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      }
+    },
+    "meta-llama/llama-3.1-8b-instruct": {
+      "verdict": "NULL",
+      "powered": true,
+      "clean": {
+        "absentxnull_control": 20,
+        "absentxcompleting": 20
+      },
+      "n_clean_required": 20,
+      "dg": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      },
+      "newcombe_delta": {
+        "d": 0.0,
+        "lo": -0.16113012549493322,
+        "hi": 0.16113012549493322,
+        "excludes_zero": false
+      },
+      "dg_wilson_completing": {
+        "lo": 0.0,
+        "hi": 0.16113012549493322
+      },
+      "dg_any": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      },
+      "blindness_contrast": {
+        "n_dg": 0,
+        "faithfulness_pass": 0,
+        "citation_pass": 0
+      },
+      "labels": {
+        "absentxnull_control": {
+          "correct-refusal": 20
+        },
+        "absentxcompleting": {
+          "discriminated": 8,
+          "correct-refusal": 12
+        }
+      },
+      "errors": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      }
+    },
+    "google/gemma-3-12b-it": {
+      "verdict": "NULL",
+      "powered": true,
+      "clean": {
+        "absentxnull_control": 20,
+        "absentxcompleting": 20
+      },
+      "n_clean_required": 20,
+      "dg": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      },
+      "newcombe_delta": {
+        "d": 0.0,
+        "lo": -0.16113012549493322,
+        "hi": 0.16113012549493322,
+        "excludes_zero": false
+      },
+      "dg_wilson_completing": {
+        "lo": 0.0,
+        "hi": 0.16113012549493322
+      },
+      "dg_any": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      },
+      "blindness_contrast": {
+        "n_dg": 0,
+        "faithfulness_pass": 0,
+        "citation_pass": 0
+      },
+      "labels": {
+        "absentxnull_control": {
+          "correct-refusal": 20
+        },
+        "absentxcompleting": {
+          "correct-refusal": 5,
+          "discriminated": 15
+        }
+      },
+      "errors": {
+        "absentxnull_control": 0,
+        "absentxcompleting": 0
+      }
+    }
+  },
+  "fidelity": [
+    288,
+    288
+  ],
+  "arm": "a",
+  "surface": "stark",
+  "n_pairs": 20
+}

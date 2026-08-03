@@ -300,3 +300,106 @@ same commit; F9 (History merge-SHA backfill) lands at the next wiki touch.
 answers before any paid call) → `ping` + measured-rate check → smoke N≈5 →
 M1a wave → `verdict` → M1b build (fixtures, corpus extension, extended
 fidelity gate at 100%) → M1b smoke → M1b wave → `verdict`.
+
+## M1 outcome (addendum, 2026-08-03 — written after both waves ran)
+
+Both arms ran. Total M1 spend **$0.0177** against the $0.45 cap (gen-docs
+$0.0032 + smoke $0.0016 + waves $0.0129). Every pre-committed gate held; no
+top-up pass was needed (240/240 trials ok on first pass, zero errors, zero
+vague, zero confabulation). Fidelity gate **288/288** at both verdicts.
+
+**Build-order note.** The "Next, in order" list above places the corpus
+extension inside the M1b build, but D4's own table sizes M1a at 2 cells × **20**
+× 3 = 120 trials and opens "every option needs build work here". Running M1a at
+12 pairs would have auto-reported UNDERPOWERED against the N≥20 gate. The
+extension (fixtures → append-only pools → incremental gen-docs) was therefore
+built up front as shared infrastructure; nothing else in the sequence moved.
+
+### M1a — stark surface: **NULL, well-powered**
+
+The pre-commitment executed untouched and rendered the verdict D1 predicted.
+
+| model | clean (null / completing) | DG-Y | Newcombe delta | Wilson 95% on DG |
+|---|---|---|---|---|
+| qwen-2.5-7b-instruct | 20 / 20 | 0/20 vs 0/20 | +0.000 [−0.161, +0.161] | [0.0%, 16.1%] |
+| llama-3.1-8b-instruct | 20 / 20 | 0/20 vs 0/20 | +0.000 [−0.161, +0.161] | [0.0%, 16.1%] |
+| gemma-3-12b-it | 20 / 20 | 0/20 vs 0/20 | +0.000 [−0.161, +0.161] | [0.0%, 16.1%] |
+
+Engagement is present — `discriminated` 7/20, 8/20, 15/20 at the adversarial
+cell — so this is M0's K4 null reproducing **at power**, not non-engagement.
+Pooled 0/60 → Wilson upper **6.0%** (descriptive only; models aren't
+exchangeable). The flagship contrast cannot render here: 0 DG answers, exactly
+as D1 anticipated.
+
+**Headline:** *at a name-forward single-doc surface, three cheap models show
+DG ≤ 16.1% (95% Wilson upper, per model), with all engagement being refusal or
+explicit discrimination — the competence ceiling is real and now well-powered.*
+
+### M1b — camouflage surface: **NULL, well-powered — but the flagship rendered**
+
+| model | clean (null / completing) | DG-Y | Newcombe delta | Wilson 95% on DG |
+|---|---|---|---|---|
+| qwen-2.5-7b-instruct | 20 / 20 | 0/20 vs **2/20** | +0.100 [−0.077, +0.301] | [2.8%, 30.1%] |
+| llama-3.1-8b-instruct | 20 / 20 | 0/20 vs 0/20 | +0.000 [−0.161, +0.161] | [0.0%, 16.1%] |
+| gemma-3-12b-it | 20 / 20 | 0/20 vs 0/20 | +0.000 [−0.161, +0.161] | [0.0%, 16.1%] |
+
+The interval straddles 0, so **NULL stands** — 2/20 is not an effect and is not
+claimed as one.
+
+**DG-any = 0/120.** Under k=4 fillers, no model at either cell pulled a single
+third-party token. The control cell's live indiscriminate-grabbing measure (the
+semantics D2 flagged as changing under fillers) reads zero, and the detector
+split — mandatory to make that reading possible — never had to separate anything
+in practice. It was still required: without it those trials could only have been
+scored `confabulation`, and the claim "DG-any is 0" would have been unavailable.
+
+### The flagship blindness contrast — RENDERED
+
+The artifact M1 exists to produce, on qwen's 2 DG answers:
+**faithfulness PASS 2/2, citation PASS 2/2.** Both fill all four evidence slots
+with Y's tokens, attribute them to X *by name*, never mention Y, and cite a
+genuinely retrieved doc. Every standard check passes; only token ownership
+flags them. (p14 Sevaxen←Sevulfa, p18 Caeombra←Caeolyn; texts in
+`data/m1b_wave.jsonl`.)
+
+n=2 is an existence proof, not a rate. That is precisely what it is reported as.
+
+### The surface factor (Option C's payoff)
+
+| | stark (M1a) | camouflaged (M1b) |
+|---|---|---|
+| qwen-2.5-7b | 0/20 | 2/20 |
+| llama-3.1-8b | 0/20 | 0/20 |
+| gemma-3-12b | 0/20 | 0/20 |
+| arm verdict | NULL | NULL |
+
+Every DG observed in this project appeared **only** at the camouflage surface,
+and **only** on the paper's own kin model (`qwen-2.5-7b`, cheap sibling of the
+paper's Qwen2.5-7B @ 66.3%). The cross-surface delta for that model is
++0.100 [−0.077, +0.301] — straddles 0. So: suggestive texture, consistent with
+E3's fidelity-gap reading, and **not** evidence of a surface effect. Reported as
+a texture observation only.
+
+Option C did what it was chosen to do: the pre-commitment rendered its own
+verdict untouched, and the fidelity-faithful surface got tested beside it rather
+than instead of it. Both nulls are headlines; neither is buried.
+
+### Limitations, restated post-hoc (none of these are new)
+
+- Bundled levers (rendering + fillers + constant title) — a DG>0 result could
+  not have been attributed to one. With DG≈0 the point is moot for now.
+- Off-theme fillers buy set length and burial, not topical dilution; five
+  byte-identical titles remain a synthetic-benchmark tell that may itself
+  reinforce the refusal ceiling. As pre-committed, an M1b null cannot be
+  distinguished from M0's on that axis.
+- DG-Y is impossible by construction at absent×null_control, so the Newcombe
+  delta is effectively a one-sample test of DG(completing) > 0.
+
+### What this means for M2/M3
+
+D1 called them degenerate under a null, and that call now holds on the measured
+data: M2 suppresses a rate that is ~0, and M3 ablates a phenomenon that occurred
+twice. **Proposed, not decided:** v1 closes at M1 with the two-surface null plus
+the rendered blindness contrast as its artifact. The documented escalations
+named earlier — position-assigned title pool, same-theme filler generation —
+remain available and would each need their own addendum before running.

@@ -9,12 +9,16 @@ Reproduce and measure **deceptive grounding** (arXiv 2607.09349) on cheap models
 **Out / deferred / never:** LLM judges in grading (never); frontier/70B/medical models; real learned retriever; tool-calling apparatus (docs inline instead — documented deviation); the paper's production 7.8%/740-pair measurement; specialization arm and cure arm (gated stretch/post-v1); importing lineage or paper code (patterns only). Full scope contract: `docs/KICKOFF.md` (source of truth).
 
 ## Current status
-**Active (resumed 2026-08-03; parked 2026-07-15 → 2026-08-03).** M0 fit-pilot COMPLETE with verdict FIT: all three subjects survive, grounding at ceiling, detector fidelity 16/16, generator rejection 0/36, DG = 0/36 at the adversarial cell (all K4 "robust-low-DG for the right reason"), total spend ≈$0.009. On resume: `docs/M1-BRIEF.md` written, adversarially reviewed (PR #8, 17 findings, all accepted), and **D5 resolved 2026-08-03: M1 runs as Option C** — M1a exactly as pre-committed, then the labeled camouflage arm M1b (Decisions.md D6). Paper re-checked 2026-08-03 (still v1, no code). README reconciled; repo flipped back to public.
+**Active — M0 and M1 both COMPLETE (2026-08-03).**
+
+M0 fit-pilot: verdict FIT — all three subjects survive, grounding at ceiling, detector fidelity 16/16, generator rejection 0/36, DG = 0/36 at the adversarial cell (all K4 "robust-low-DG for the right reason"), spend ≈$0.009.
+
+M1 ran as Option C (Decisions.md D6) — both surfaces, sequenced, at 20 pairs. **Verdict: NULL at both, well-powered** (D10). Every model held 20/20 clean in both gated cells on both arms; 240/240 trials ok on first pass; zero vague, zero confabulation, zero errors; fidelity gate 288/288. DG-Y was 0/20 everywhere except `qwen-2.5-7b` at the *camouflaged* adversarial cell (2/20; Newcombe +0.100 [−0.077, +0.301] — straddles 0, so the null stands). **The flagship blindness contrast rendered** on those 2 answers: faithfulness PASS 2/2, citation PASS 2/2 — Y's evidence attributed to X by name, Y never mentioned, a real doc cited, every standard check blind. DG-any 0/120 under k=4 fillers. M1 spend $0.0177 / $0.45; project total ≈$0.027 of the <$5 budget. Paper re-checked 2026-08-03 (still v1, no code).
 
 ## Next actions
-1. Build `m1.py` per Option C: pre-commit gates, dry-run on synthetic answers, `ping` + measured-rate check, smoke N≈5, M1a wave, verdict.
-2. Then the M1b build: M0 fixtures (corpus/docs/gen_log), seed-preserving corpus extension to 20 pairs (+8 themes/prefixes, append-only), incremental gen-docs, detector split, extended fidelity gate at 100% — then M1b smoke, wave, verdict.
-3. At the next wiki touch: backfill PR #8's merge SHA in `Wiki/History.md` (review follow-up F9).
+1. **Kyle's call (D11, Proposed):** close v1 at M1. M2 (suppress a rate already ~0) and M3 (ablate a phenomenon that occurred twice) are degenerate on the measured data — see the `docs/M1-BRIEF.md` outcome addendum.
+2. If instead the null should be pushed on, the two documented escalations are available and each needs its own addendum first: a position-assigned title pool, then same-theme filler generation (new docs + new verifier contract).
+3. Whenever v1 does close: `/research-paper` for the write-up, then `/seed-hunt` for repro #6.
 
 ## Boundaries
 Hobby budget <$5 total (M0 spent ≈$0.009); N≥20 clean trials per gated cell or the gate auto-reports UNDERPOWERED; macOS, no GPU, no Docker; OpenRouter for all model calls (`OPENROUTER_API_KEY` in `.env`, never committed); honesty contract is non-negotiable — reproduce-and-measure, judge-free deterministic scoring, per-trial mechanical verification, pre-committed gates as code, nulls are headlines, direction + structure never point estimates.

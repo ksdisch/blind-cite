@@ -5,6 +5,27 @@ contract's core clause in code form. Token "shape" is the D3 grammar; ownership
 is exact membership in a pair's frozen token map. Doc membership is
 extraction-based on both sides (answer tokens and doc tokens run through the
 same extractor), so faithfulness/citation/grounding all reduce to set ops.
+
+M1 amendment (M1-BRIEF D2, required not optional): M0's confabulation detector
+computed `unowned` pair-scoped — extracted minus X-owned minus Y-owned, with no
+intersection against the retrieved set. That was sound only because M0 retrieved
+nothing but this pair's own docs, so an unowned token provably could not have
+come from a doc. The moment M1b's filler docs enter, every filler token in an
+answer would be mislabeled `confabulation` and the soundness argument breaks by
+construction. So the set is split, with the scope pinned (T = extracted
+token-shaped strings; R = tokens appearing in >=1 retrieved doc; X-owned and
+Y-owned stay pair-scoped, exactly as in M0):
+
+    misattributed-other / DG-any  =  (T & R) - X-owned - Y-owned
+    confabulation                 =   T - X-owned - Y-owned - R
+
+The two partition M0's `unowned` exactly, so nothing falls through the
+precedence table, and under a no-filler design (M0, and M1's stark arm M1a)
+`unowned & R` is empty — the narrowed `confabulation` coincides with M0's and
+M0's recorded results are untouched. Note the second line's consequence, which
+is deliberate: a token globally owned by some *other* pair's library whose doc
+was NOT retrieved scores as confabulation, because the model could not have read
+it. Ownership does not excuse a token the retrieval never supplied.
 """
 from __future__ import annotations
 
@@ -29,7 +50,7 @@ REFUSAL_RE = re.compile(
     re.IGNORECASE,
 )
 
-LABELS = ["DG", "discriminated", "confabulation",
+LABELS = ["DG", "discriminated", "misattributed-other", "confabulation",
           "correct-answer", "correct-refusal", "vague"]
 
 
@@ -86,10 +107,17 @@ def verify_doc(text: str, doc_type: str, pair: dict) -> list[str]:
     return violations
 
 
-def classify(answer: str, pair: dict, docs: list[dict]) -> dict:
+def classify(answer: str, pair: dict, docs: list[dict],
+             owners: dict | None = None) -> dict:
     """Score one trial answer. `docs` are the retrieved docs the model saw:
     [{"doc_id": "doc1", "text": ...}, ...]. Returns every detector output plus
-    the single precedence-assigned label (M0-BRIEF D6)."""
+    the single precedence-assigned label (M0-BRIEF D6, M1-BRIEF D2 amended).
+
+    `owners` is the optional global token -> owner map (corpus.owner_map). It is
+    only needed to name the true owner of a misattributed filler token; the
+    misattributed/confabulation split itself is pure set algebra and runs either
+    way, so M0-era call sites keep working unchanged.
+    """
     x_owned = set(pair["x"]["tokens"].values())
     y_owned = set(pair["y"]["tokens"].values())
 
@@ -101,12 +129,27 @@ def classify(answer: str, pair: dict, docs: list[dict]) -> dict:
     doc_tokens = {d["doc_id"]: extract_tokens(d["text"]) for d in docs}
     retrieved_tokens = set().union(*doc_tokens.values()) if doc_tokens else set()
 
-    y_named = name_present(pair["y"]["name"], answer)
+    # The D2 split: retrieved-but-third-party evidence vs. never-retrieved.
+    # These partition `unowned`, so the precedence table stays exhaustive.
+    misattributed_other = unowned & retrieved_tokens
+    confabulated = unowned - retrieved_tokens
 
-    # 1. DG detector
+    y_named = name_present(pair["y"]["name"], answer)
+    # Owner-name absent/present for the misattributed rung, mirroring the
+    # DG/discriminated split. Unknown owners (no map, or a token owned by
+    # nobody) cannot be named, so they read as not-named.
+    other_owner_names = sorted({
+        owners[t]["name"] for t in misattributed_other
+        if owners and t in owners})
+    other_owner_named = any(name_present(n, answer) for n in other_owner_names)
+
+    # 1. DG detector (DG-Y — the primary, paper-analog measure)
     dg = bool(y_tokens) and not y_named
-    # 2. confabulation detector
-    confab = bool(unowned)
+    # 1b. DG-any (descriptive) — third-party retrieved evidence pulled into the
+    # X-answer. Fillers are identical across cells, so this never enters the gate.
+    dg_any = bool(misattributed_other)
+    # 2. confabulation detector (narrowed: didn't come from the retrieved docs)
+    confab = bool(confabulated)
     # 3. faithfulness proxy — every token in the answer appears in SOME retrieved doc
     if tokens:
         faithfulness = "PASS" if tokens <= retrieved_tokens else "FAIL"
@@ -126,7 +169,9 @@ def classify(answer: str, pair: dict, docs: list[dict]) -> dict:
 
     if y_tokens:
         label = "discriminated" if y_named else "DG"
-    elif unowned:
+    elif misattributed_other:
+        label = "misattributed-other"
+    elif confabulated:
         label = "confabulation"
     elif x_tokens:
         label = "correct-answer"
@@ -138,14 +183,19 @@ def classify(answer: str, pair: dict, docs: list[dict]) -> dict:
     return {
         "label": label,
         "dg": dg,
+        "dg_any": dg_any,
         "confab": confab,
         "faithfulness": faithfulness,
         "citation": citation,
         "grounded": grounded,
         "y_named": y_named,
+        "other_owner_named": other_owner_named,
         "tokens": sorted(tokens),
         "x_tokens": sorted(x_tokens),
         "y_tokens": sorted(y_tokens),
         "unowned_tokens": sorted(unowned),
+        "misattributed_other_tokens": sorted(misattributed_other),
+        "confabulated_tokens": sorted(confabulated),
+        "other_owner_names": other_owner_names,
         "citations": cited,
     }

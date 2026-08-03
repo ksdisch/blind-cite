@@ -27,12 +27,17 @@ BENCH = [  # promotion order (D7 roster floor)
 ]
 GENERATOR = "openai/gpt-4o-mini"  # fixed, non-roster, never graded
 
-PRICES = {  # $ per 1M tokens (input, output) — openrouter.ai/api/v1/models, 2026-07-15
-    "qwen/qwen-2.5-7b-instruct": (0.04, 0.10),
+PRICES = {  # $ per 1M tokens (input, output) — openrouter.ai/api/v1/models
+    # Re-pinned 2026-08-03 at `m1.py ping` before M1 spent anything. Two slugs
+    # had drifted since the M0 pin; the roster itself is unchanged (every D2
+    # slug still exists), so this is meter accuracy, not a design change. M0's
+    # recorded per-call costs in data/pilot.jsonl were measured under the old
+    # rates and stay as the historical fact they are.
+    "qwen/qwen-2.5-7b-instruct": (0.10, 0.20),   # drift: was (0.04, 0.10)
     "meta-llama/llama-3.1-8b-instruct": (0.05, 0.08),
     "google/gemma-3-12b-it": (0.05, 0.15),
     "openai/gpt-oss-20b": (0.03, 0.13),
-    "qwen/qwen3-14b": (0.10, 0.24),
+    "qwen/qwen3-14b": (0.2275, 0.91),            # drift: was (0.10, 0.24)
     "openai/gpt-4o-mini": (0.15, 0.60),
 }
 
@@ -86,10 +91,15 @@ def chat(
     Retries transient failures with backoff (incl. OpenRouter's occasional
     malformed-body JSONDecodeError, observed in the ghost-patch waves)."""
     global _OAI
-    if _OAI is None:
-        _OAI = _client()
+    # Cap check FIRST, before the client is constructed. A bound cap is a hard
+    # stop that must not depend on credential state: checking it second meant a
+    # capped-out meter raised SystemExit("OPENROUTER_API_KEY missing") on a
+    # keyless checkout instead of BudgetExceeded, so the budget guard reported
+    # the wrong stop reason and callers could not act on it. Fail closed.
     if meter:
         meter.check()
+    if _OAI is None:
+        _OAI = _client()
     t0 = time.monotonic()
     for attempt in range(retries):
         try:

@@ -49,9 +49,16 @@ The park ended with a docs-first resume: reconcile the repo's story, argue the
 M1 design fork, and put it to Kyle before any code or spend.
 
 ### M1 decision brief written; README reconciled — 2026-08-03
-- **Landed:** `docs/M1-BRIEF.md` arguing D5 (A pre-committed / B camouflage variant / C both sequenced — C recommended), README truth-fix (no more "M0 not yet started"), resume-state wiki updates (PR #8)
-- **Why:** D5 must be argued at a brief and decided by Kyle, never slipped in [Fact — `docs/M0-BRIEF.md` addendum] — see D5 in `Decisions.md` (Unresolved)
+- **Landed:** `docs/M1-BRIEF.md` arguing D5 (A pre-committed / B camouflage variant / C both sequenced — C recommended), README truth-fix (no more "M0 not yet started"), resume-state wiki updates (PR #8, merge `1beb5ac`)
+- **Why:** D5 must be argued at a brief and decided by Kyle, never slipped in [Fact — `docs/M0-BRIEF.md` addendum] — see D5, D6 in `Decisions.md`
 - **Also:** paper re-checked 2026-08-03 — still v1, no code; the brief's E3 records the presentation-layer reading (JSON tool-result format; §5.3 mismatch-detection claim) [Fact — arXiv fetch, recorded in the brief]
+
+### M1 built and run — both surfaces, verdict NULL — 2026-08-03
+- **Landed:** `m1.py` + `test_m1.py` with every gate as code and dry-run on synthetic answers **before** the first paid call; corpus extension 12→20 pairs (seed-preserving, append-only pools, M0 fixtures pinned); the misattributed-other/confabulation detector split; the M1b camouflage surface (JSON tool-results, constant titles, k=4 off-theme fillers); both paid arms and their verdicts (PR #9)
+- **Why:** Option C runs the pre-commitment untouched and tests the fidelity-faithful surface beside it, converting the forking-paths objection into a measured factor [Fact — `docs/M1-BRIEF.md` D3] — see D6, D10 in `Decisions.md`
+- **Headline:** NULL at both surfaces, well-powered — 20/20 clean per gated cell per model on both arms, DG-Y 0/20 everywhere except `qwen-2.5-7b` at the camouflaged adversarial cell (2/20, CI straddles 0). **The flagship blindness contrast rendered** on those 2 answers: faithfulness PASS 2/2, citation PASS 2/2 [Fact — `data/m1b_verdict.json`]
+- **Tradeoff:** rendering, fillers and constant titles were bundled as one camouflage lever, so a positive result could not have been attributed to any one of them; accepted for a descriptive first pass and stated as a limitation up front [Fact — `docs/M1-BRIEF.md` D2 risks]
+- **Also:** `m1.py ping` caught price drift on two Qwen slugs before anything spent — see D7; the $0.45 M1 ceiling was made an enforced ledger cap after D4's table proved to under-count its own smoke row — see D8. Total M1 spend $0.0177
 
 ---
 
