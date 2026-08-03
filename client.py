@@ -91,10 +91,15 @@ def chat(
     Retries transient failures with backoff (incl. OpenRouter's occasional
     malformed-body JSONDecodeError, observed in the ghost-patch waves)."""
     global _OAI
-    if _OAI is None:
-        _OAI = _client()
+    # Cap check FIRST, before the client is constructed. A bound cap is a hard
+    # stop that must not depend on credential state: checking it second meant a
+    # capped-out meter raised SystemExit("OPENROUTER_API_KEY missing") on a
+    # keyless checkout instead of BudgetExceeded, so the budget guard reported
+    # the wrong stop reason and callers could not act on it. Fail closed.
     if meter:
         meter.check()
+    if _OAI is None:
+        _OAI = _client()
     t0 = time.monotonic()
     for attempt in range(retries):
         try:
