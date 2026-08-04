@@ -1,4 +1,4 @@
-# Deceptive grounding is measurable without a judge — and a null at N=20 was a power artifact
+# Deceptive grounding is measurable without a judge — and a null at N=20 that did not survive a pre-registered extension to N=80
 
 **A judge-free reproduction of entity-attribution failure in retrieval-augmented generation, on cheap models, under pre-committed gates**
 
@@ -29,7 +29,7 @@ The contribution is narrow and stated as such:
 1. **A judge-free DG detector** and the corpus construction that makes it sound, with per-trial mechanical verification of the manipulation.
 2. **A measured rate with an interval**, on one model at two presentation surfaces, from a pre-registered power-sized run: stark 3/80 [1.3%, 10.5%], camouflaged 7/80 [4.3%, 17.0%].
 3. **The blindness contrast rendered as an artifact** — ten answers on which both standard proxies pass and only ownership catches the failure.
-4. **A methodological finding about the project itself**: its own pre-committed N was sized for clean-trial yield rather than for power, and the null it produced did not survive being sized properly. This paper reports that reversal against itself in the same detail as the positive result.
+4. **A methodological finding about the project itself**: its own pre-committed N was sized for clean-trial yield rather than for power, and the null it produced did not survive the pre-registered extension that audit prompted. This paper reports that reversal against itself in the same detail as the positive result — including the reason (§5.7) that N is not the only thing which changed between the two stages, so the reversal is not attributed to N alone.
 
 ---
 
@@ -244,7 +244,7 @@ The consequence is mechanical. At N=20, an observed 0/N has a Wilson upper bound
 
 > **Figure 3.** Pre-registered sizing. The Wilson 95% upper bound on an *observed 0/N*, at the five combined-N values tabulated in the M1C pre-registration, against the same 14% reference magnitude. The two values this project actually ran are emphasised: at N=20 the bound sits **above** the reference line; at N=80 it is 4.6%. Values are the five recorded in `docs/M1C-BRIEF.md` D2 and pinned by `test_m1c_sizing.py`; they are drawn as discrete bars and deliberately **not** connected by a curve, because the repository records those five points and no interpolation between them.
 
-The extension was sized against this table: N=80 was chosen because it is the smallest tabulated N at which every reachable outcome k maps to exactly one pre-committed template, with no outcome left saying "cannot tell." Because the Wilson lower bound exceeds zero exactly when k ≥ 1, power against the "does DG occur at all" direction is closed-form — 0.9998 at N=80 if the true rate is 10%, 0.9835 if it is 5%.
+The extension was sized against this table, and the brief records its reasoning as a set of exclusions rather than as a single optimum. **Why not 24**, the bare-exclusion minimum: 0/24 clears the reference magnitude only if the extension observes zero events, and the camouflaged cell already carried 2 — "the interesting deliverable is a **tight estimate**, not a bare exclusion." **Why not 120**: "$0.034 more for template-band shifts that change no verb", plus the corpus-quality risk of 100 new hand-authored themes. **Why 80 rather than the N=60 fallback**: $0.017 that "buys the wider decisive bands in D2's table and headroom against the floor-is-a-floor caveat" — the T2 band spans k=1–3 at N=60 and k=1–5 at N=80. What N=80 does *not* uniquely buy is one-template-per-outcome: that property holds at **every** tabulated N, N=20 included, and `test_m1c_sizing.py` asserts it there too. Because the Wilson lower bound exceeds zero exactly when k ≥ 1, power against the "does DG occur at all" direction is closed-form — 0.9998 at N=80 if the true rate is 10%, 0.9835 if it is 5%.
 
 The extension is an N-extension decided **after** seeing the data, and this paper does not ask anyone to take its innocence on faith. Three guards were fixed in advance: it was argued in a brief approved before any build or spend; N, cells, analysis and reporting language were frozen with a single look at the end; and the original N=20 result is reported alongside forever rather than replaced. What made the decision defensible was that its trigger was the sizing audit above, not the observed rate — and the extension-only rows exist precisely so a reader can check the conditioned analysis against an unconditioned one.
 
@@ -310,7 +310,7 @@ One cross-study observation is offered as an explicitly-labelled **inference, no
 
 ## 7. Discussion
 
-**The mechanism is real, demonstrable, and cheap to catch — if you have ownership.** Ten answers — from an extension whose whole measured cost was $0.044642 — in which the model filled every evidence slot of a question about X with Y's tokens, cited a genuinely retrieved document, and never mentioned Y. Faithfulness and citation proxies passed all ten. That is the paper's blindness claim, reproduced with a stronger instrument than the original: not a judge's assessment that attribution went wrong, but an exact set-membership fact.
+**The mechanism is real, demonstrable, and cheap to catch — if you have ownership.** Ten answers — eight from the extension, two (camouflaged p14 and p18) carried from M1's own wave — in which the model filled every evidence slot of a question about X with Y's tokens, cited a genuinely retrieved document, and never mentioned Y. Faithfulness and citation proxies passed all ten. That is the paper's blindness claim, reproduced with a stronger instrument than the original: not a judge's assessment that attribution went wrong, but an exact set-membership fact.
 
 **The rate is low here, and that is a claim about this condition, not about the phenomenon.** Both intervals are single-digit to mid-teens percent. The condition is unusually hostile to the failure: names are fabricated so nothing is recognizable, evidence is fabricated so no prior can be completed, and the conservative `discriminated` rule sends every answer that so much as names Y out of the DG count. Reported DG is a floor by construction, twice over.
 
