@@ -344,3 +344,40 @@ def test_pooling_precondition_rejects_a_drifted_m1_doc(tmp_path, monkeypatch):
 def test_pooling_precondition_passes_on_the_committed_tree():
     import m1c
     m1c._assert_pooling_preconditions(when="test")
+
+
+# --- frozen-record protection, carried forward (PR #12 review F2's note) -----
+
+def test_m1c_scope_is_pinned_not_read_from_the_live_pool():
+    """M1C's own scope is a pre-registered fact. Reading `corpus.N_PAIRS` here
+    would let a later milestone's corpus growth redefine what "the extension"
+    means — the exact coupling that broke `m1.py` when M1C grew the pool."""
+    import corpus
+    import m1c
+    assert m1c.N_PAIRS_M1C == 80
+    assert N_EXTENSION == 60 and N_ORIGINAL == 20
+    assert max(EXTENSION_PAIR_IDS) == "p80"
+    corpus.N_PAIRS  # still 80 today; the point is that nothing above reads it
+
+
+def test_m1c_verdict_refuses_to_rewrite_itself_against_a_grown_corpus(monkeypatch):
+    import corpus
+    import m1c
+    monkeypatch.setattr(corpus, "N_PAIRS", 120)
+    with pytest.raises(SystemExit):
+        m1c.cmd_verdict(None)
+
+
+def test_the_published_m1c_verdict_re_derives_from_the_committed_logs():
+    """PR #12 review F5, taken up here because the guard above makes
+    re-rendering impossible after a future corpus growth: the published
+    artifact must stay derivable from the logs it was rendered from. A pure
+    re-derivation, no network — and not a second "look", since these numbers
+    are already published (D24)."""
+    import m1c
+    published = json.loads(m1c.VERDICT_PATH.read_text())["surfaces"]
+    for arm in sorted(m1c.ARMS):
+        derived = surface_verdict(
+            _load(m1c.M1_WAVE_PATH[arm], ORIGINAL_PAIR_IDS),
+            _load(m1c.WAVE_PATH[arm], EXTENSION_PAIR_IDS))
+        assert derived == published[arm], arm

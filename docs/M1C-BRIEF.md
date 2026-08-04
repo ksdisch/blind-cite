@@ -397,8 +397,9 @@ power artifact.
   reported beside the combined ones precisely so this is visible rather than
   averaged away — but the DG rates themselves rest on pairs that elicit more
   engagement than M1's did. No mechanism for the difference is established
-  here; the pairs differ only in their hand-authored themes and generated
-  prose.
+  here; the pairs differ in their hand-authored themes and generated prose —
+  and, per D27 below, repeat draws of the same prompt are not stable either, so
+  "only" would be wrong.
 - **The filler population changed**, as D5 stated in advance: extension trials
   draw fillers from 80 pairs, the original M1b trials drew from 20. The
   original trials were never re-assembled.
@@ -412,6 +413,34 @@ power artifact.
   never a null hypothesis about our cell. No p-value is attached to any
   comparison with the paper, and the templates above are the only permitted
   verbs.
+- **Repeat draws are not stable at `temperature = 0.0` (D27), and D5's premise
+  above is wrong because of it.** Smoke and wave both ran `absent × completing`
+  on p21–p25, so this milestone committed 10 duplicate trials of byte-identical
+  prompts. **3 differ in answer text, 2 change label** (`m1ca` p25 and `m1cb`
+  p22, both `correct-refusal` → `discriminated`), and **2 report different
+  `prompt_tokens` for the same prompt** — which prompt construction cannot
+  produce, so those calls reached different backends. `client.py` sends no
+  `provider` preference and no seed. Three consequences, stated rather than
+  smoothed over:
+  1. **D5's frozen rationale is false as written.** It says *"Temperature is 0.0
+     by pre-commitment … so new trials require new pairs. There is no
+     re-sampling alternative that isn't a design change to the frozen subject
+     contract."* Re-sampling the same 20 pairs would in fact have produced new
+     information — and would have avoided the stage heterogeneity that is now
+     this study's principal limitation. The frozen section stands as written
+     because it is frozen; this addendum is where it is corrected.
+  2. **The "only" in the heterogeneity note above is corrected.** Repeat-draw
+     instability is a second live source of variation between stages, alongside
+     theme and prose composition.
+  3. **No committed rate in this repo is exactly reproducible by re-running its
+     wave.** That is a fair property for a study to have; it is not a fair
+     property to leave unstated in a repo whose contract is per-trial
+     mechanical verification.
+
+  The condition is **pre-existing, not introduced here** — M1's own logs show it
+  (30 duplicates: 8 text differences, 2 label flips). Pinning provider routing
+  is the durable fix, is a design change, and belongs in a future brief rather
+  than a retrofit into this one.
 
 ### The stopping rule holds
 

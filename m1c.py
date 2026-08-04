@@ -35,9 +35,20 @@ Two things this file does NOT inherit from M1, both deliberate:
     downstream rendering can drop them, and 14% is a reference magnitude for
     sizing and wording ONLY — never a null hypothesis about our cell.
 
-`m0.py` and `m1.py` are frozen records and are not modified. The fidelity gate
-is imported from `m1` rather than re-implemented, which is the only way to make
-D7's "unchanged from M1" literally true.
+The fidelity gate is imported from `m1` rather than re-implemented, which is the
+only way to make D7's "unchanged from M1" literally true.
+
+`m0.py` and `m1.py` remain frozen records, but this milestone did have to touch
+them, and D7's "untouched" wording is superseded on that point (D26). Growing
+the shared corpus to 80 pairs re-scoped the `corpus.N_PAIRS` those scripts read,
+which silently changed their behaviour: `m1.py dryrun` began reporting FAILED,
+`m1.py wave` would have run 480 trials instead of 120, and `m0.py`/`m1.py
+verdict` would have rewritten their published verdict files with fidelity counts
+from a corpus those milestones never ran on. Leaving the bytes alone was what
+broke the records. Both are now pinned to their own `N_PAIRS_M0` / `N_PAIRS_M1`
+— restoring exactly the behaviour they had — and both refuse to re-render a
+verdict once the shared pool has moved. This file carries the same guard forward
+for M1C (PR #12 review F1/F2).
 
 Subcommands (free ones never touch the network except `ping`):
   ping      re-pin roster slugs + prices against live OpenRouter, pre-spend
@@ -58,8 +69,9 @@ from pathlib import Path
 
 from assemble import (K_FILLER, assemble, assemble_camouflaged, cell_id,
                       filler_pair_ids)
-from corpus import (CORPUS_M1_PATH, CORPUS_PATH, N_PAIRS, N_PAIRS_M1,
-                    load_corpus, owner_map)
+import corpus as _corpus
+from corpus import (CORPUS_M1_PATH, CORPUS_PATH, N_PAIRS_M1, load_corpus,
+                    owner_map)
 from detectors import classify, verify_doc
 from m1 import run_fidelity  # D7: the fidelity gate, unchanged from M1
 from prompts import (camouflaged_trial_prompt, evidence_doc_prompt,
@@ -86,13 +98,19 @@ ARM_CELL = cell_id("absent", "completing")
 # definition, and itself a stated lower bound.
 FLOOR = 0.14
 
+# Pinned literally, NOT read from the live pool. M1C's own scope is a
+# pre-registered fact, and reading `corpus.N_PAIRS` here would let a later
+# milestone's corpus growth silently redefine what "the extension" means —
+# exactly the coupling that broke `m1.py` when this milestone grew the pool
+# (PR #12 review F1/F2).
+N_PAIRS_M1C = 80                        # M1C's corpus size (D2's sizing choice)
 N_ORIGINAL = N_PAIRS_M1                 # 20, M1's own N, ingested read-only
-N_EXTENSION = N_PAIRS - N_PAIRS_M1      # 60, this milestone's new trials
+N_EXTENSION = N_PAIRS_M1C - N_PAIRS_M1  # 60, this milestone's new trials
 N_CLEAN_REQUIRED_M1C = 80               # combined clean per gated cell per surface
 SMOKE_N = 5
 
 ORIGINAL_PAIR_IDS = {f"p{i:02d}" for i in range(1, N_ORIGINAL + 1)}
-EXTENSION_PAIR_IDS = {f"p{i:02d}" for i in range(N_ORIGINAL + 1, N_PAIRS + 1)}
+EXTENSION_PAIR_IDS = {f"p{i:02d}" for i in range(N_ORIGINAL + 1, N_PAIRS_M1C + 1)}
 
 SCOPES = ("original", "extension_only", "combined")
 
@@ -368,7 +386,8 @@ def cmd_fidelity(_args) -> int:
     ok, n, failures = run_fidelity()
     for f in failures:
         print(f"  MISS {f}")
-    print(f"fidelity gate (M1's, unchanged, over {N_PAIRS} pairs): {ok}/{n} "
+    print(f"fidelity gate (M1's, unchanged, over {_corpus.N_PAIRS} pairs): "
+          f"{ok}/{n} "
           f"{'PASS' if ok == n else 'FAIL — no paid call'}")
     return 0 if ok == n else 1
 
@@ -816,6 +835,16 @@ def cmd_wave(args) -> int:
 
 def cmd_verdict(_args) -> int:
     """The ONE look (D3). Everything before this point logs; this aggregates."""
+    # Same guard m1.py and m0.py now carry, one milestone forward (PR #12
+    # review F2's note): `run_fidelity` counts render traps over every pair
+    # that has docs, so an M2-sized corpus would rewrite M1C's published
+    # fidelity beside M1C's 80-pair cell counts.
+    if _corpus.N_PAIRS != N_PAIRS_M1C:
+        raise SystemExit(
+            f"HALT: corpus.N_PAIRS is {_corpus.N_PAIRS}, not M1C's "
+            f"{N_PAIRS_M1C}. M1C's verdict cannot be re-rendered against a "
+            f"grown corpus. data/m1c_verdict.json stands as the record; read "
+            f"it, do not regenerate it.")
     _assert_pooling_preconditions(when="verdict")
     surfaces = {}
     for arm in sorted(ARMS):
