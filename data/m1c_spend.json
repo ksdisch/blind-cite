@@ -1,0 +1,11 @@
+{
+  "cap_total": 0.1,
+  "total": 0.023814,
+  "entries": [
+    {
+      "command": "gen-docs",
+      "arm": null,
+      "cost": 0.023814
+    }
+  ]
+}
