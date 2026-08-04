@@ -21,20 +21,23 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 | vague / confabulation | 0 / 0 | 0 / 0 | 0 / 0 |
 | DG-any (fillers) | n/a (no fillers) | 0/120 | 0/120 |
 | fidelity gate | 16/16 | 288/288 | 288/288 |
-| verdict | **FIT** | **NULL** (well-powered) | **NULL** (well-powered) |
+| gate verdict | **FIT** | **NULL** | **NULL** |
+| vs. cell-matched 14% anchor (qwen only) | n/a | 0/20 — CI contains it | 2/20 — CI contains it, p=0.455 |
 | spend | ≈$0.009 | — | — (M1 total $0.0177) |
 
 **Fact** (`data/m1a_verdict.json`, `data/m1b_verdict.json`): per-model Wilson 95% intervals on DG at the adversarial cell are [0.0%, 16.1%] for every model/arm except `qwen-2.5-7b` camouflaged, which is [2.8%, 30.1%] on 2/20. Pooled M1a 0/60 → [0.0%, 6.0%] (descriptive only; models are not exchangeable).
 
 ### Prediction vs. outcome
 
-**Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, written 2026-07-15 — *before* M1 ran): "as designed, M1 would very likely render a well-powered NULL." **Observed:** exactly that, on all three subjects, at both surfaces. The pre-registration held.
+**Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, written 2026-07-15 — *before* M1 ran): "as designed, M1 would very likely render a well-powered NULL." **Observed:** a NULL gate outcome on all three subjects at both surfaces. **But the "well-powered" half did not hold** (D18): the N was derived from clean-trial yield, not from power against a target effect size, and against the cell-matched 14% anchor it is underpowered. The prediction was right about the verdict and wrong about what the verdict would license.
 
-**Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced.
+**Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced — but that bound was chosen when the assumed target was 66.3%, and it does not exclude the real 14% anchor (D18).
 
 **Inference** (from D3 and the M1b result): Option C's stated payoff was that *every* outcome would be a clean headline. The realized branch is DG≈0 at both surfaces.
 
-**Contradiction — corrected 2026-08-03, see [Paper-Mapping](Paper-Mapping.md).** An earlier version of this page (and the README) compared our 0/20 against "66.3% DG for Qwen2.5-7B" as though the two were the same condition. They are not: Table 2 of the paper reports 66.3% as that model's **peak cell only — `absent × synthetic_Y`** — and the paper publishes **no** per-cell breakdown for any non-calibration model. The correct cell-matched anchor is the calibration model's Table 1 (`absent × prior_completing` = 67.0%, `absent × synthetic_Y` = 73.1%, `absent × null_control` = 26.5%), which is a different model from any on our roster. The claim "paper-contradicting for cheap models" was therefore not supported at the cell level and has been withdrawn.
+**Contradiction — corrected twice; see [Paper-Mapping](Paper-Mapping.md) for the full history.** An earlier version of this page compared our 0/20 against "66.3% DG for Qwen2.5-7B" as though the two were the same condition; they are not (that is the model's **peak** cell, `absent × synthetic_Y`, Table 2). A second version then claimed no cell-matched anchor existed at all; that was **also wrong** — the paper's Appendix C, Figure 6 publishes per-cell matrices for all 13 models, and gives **Qwen2.5-7B at `absent × prior_completing` = 14%**, our exact model at our exact cell.
+
+**Fact.** Measured against that anchor, both our kin-model intervals *contain* it: stark 0/20 → [0.0%, 16.1%]; camouflaged 2/20 → [2.8%, 30.1%], exact binomial P(X≤2 | p=0.14, n=20) = 0.455. **The camouflaged result is consistent with the paper, not a refutation** (D17). The claim "paper-contradicting for cheap models" is withdrawn, and so is the "prior-dependence, well-powered" headline that replaced it. Note also that `llama-3.1-8b-instruct` and `gemma-3-12b-it` are **not** the paper's Llama-3.1-70B / Gemma4 models, so their 0/20 results have no published anchor at all.
 
 ### The flagship artifact
 
@@ -55,7 +58,7 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 - [`data/m1b_wave.jsonl`](../data/m1b_wave.jsonl) — the two DG answer texts behind the flagship contrast
 - [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) — D7/D8 pre-commitments, Pilot outcome addendum (the M1 prediction)
 - [`docs/M1-BRIEF.md`](../docs/M1-BRIEF.md) — D1–D4 pre-commitments, "The pick", "M1 outcome" addendum
-- [`Decisions.md`](../Decisions.md) — D3 (FIT), D6 (Option C), D7–D11 (M1 run and verdict)
+- [`Decisions.md`](../Decisions.md) — D3 (FIT), D6 (Option C), D7–D11 (M1 run and verdict), D12–D19 (paper-mapping corrections, the withdrawn headlines, the pre-registration gap, and the reopened v1-closure call)
 
 ## Uncertainties & contradictions
 - **Unresolved:** whether the 2 DG answers reflect a real camouflage effect or sampling noise. n=2 cannot distinguish them, and the pre-committed gate declines to try.
@@ -69,6 +72,6 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 - [History](History.md) — the chronology these results sit in
 
 ## Relevance to current work
-This is the evidence base for the open call in `PROJECT.md`: whether v1 closes at M1 (D11, **Proposed**) or the null gets pushed on via a documented escalation. It is also the table a write-up (`/research-paper`) would be built from — every number here is traceable to a committed file.
+This is the evidence base for the open call in `PROJECT.md` (D19): close v1 on an honestly-underpowered result, or run a pre-registered power-sized extension on `qwen-2.5-7b` — the one model with a published cell-matched anchor — to resolve 14% vs ~0. It is also the table a write-up (`/research-paper`) is built from: every number here is traceable to a committed file, the comparison is to **14%**, and the supported verb is *"consistent with"*, never *"disappears"*.
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-04_

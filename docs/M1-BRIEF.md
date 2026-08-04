@@ -364,6 +364,15 @@ flags them. (p14 Sevaxen←Sevulfa, p18 Caeombra←Caeolyn; texts in
 
 n=2 is an existence proof, not a rate. That is precisely what it is reported as.
 
+### Correction to this addendum (2026-08-04)
+
+The paragraph below compares the kin model to "the paper's Qwen2.5-7B @ 66.3%". That is the model's
+**peak** cell (`absent × synthetic_Y`, Table 2), not our gated cell. The cell-matched anchor —
+**Qwen2.5-7B at `absent × prior_completing` = 14%**, paper Appendix C / Figure 6 — makes our camouflaged
+2/20 *consistent with* the paper (exact binomial p = 0.455), not contrary to it. See
+`Wiki/Paper-Mapping.md` and Decisions D16–D18. The text below is left as written (it is the record of
+what was concluded at the time); this note is the correction.
+
 ### The surface factor (Option C's payoff)
 
 | | stark (M1a) | camouflaged (M1b) |

@@ -1,68 +1,81 @@
 # Paper-Mapping
 
 ## Purpose
-Which cell of arXiv 2607.09349 our factorial actually corresponds to, and what the paper's stated mechanism implies about our null. Written 2026-08-03 after a direct re-read of the paper's §4, §5.3, Table 1, Table 2 and Appendix A, prompted by a suspected overclaim in the M1 write-up. It corrects a comparison that was wrong, and supplies a better explanation for the null than the one the M1 brief reached for.
+Which cell of arXiv 2607.09349 our factorial corresponds to, what the paper's own published rate is for that cell **on our exact model**, and what our measurements do and do not establish against it. Rewritten 2026-08-04 after adversarial review caught a false premise in the first version of this page; the correction is recorded below rather than hidden.
 
 ## Key understanding
 
-### The correction: our headline comparison was not cell-matched
+### The anchor: 14%, published, for our exact model at our exact cell
 
-**Fact** (paper Table 2, caption: *"Cross-model deceptive grounding rates. Peak DG rate (absent Cx × synthetic_Y), 10-tool schema"*): the **66.3%** figure for Qwen2.5-7B — carried since KICKOFF as our roster's directional anchor — is that model's **peak cell only**, `absent × synthetic_Y`. The paper publishes no per-cell breakdown for any non-calibration model.
+**Fact** (paper Appendix C, *"Full Cross-Model DG Rate Matrices and Profile Taxonomy"*; Figure 6, *"Complete cross-model DG rate matrices for 13 models (4-tool schema)"*; figure asset read directly at `2607.09349v1/figures/fig9_supp_matrices.png`, titled *"Cross-Model Failure Rate Matrices — RAG-4 Schema, 15 Conditions, n=3,960 per model (13 models)"*). At `Cx = absent`:
 
-**Fact** (paper Table 1, caption: *"Deceptive grounding rate by retrieval condition. L1-16B-A3B, 10-tool schema, n=264 triples per cell"*), at `Cx = absent`:
+| model (paper) | null_ctrl | class_prox | ctx_adj | **prior_completing** | synthetic_Y |
+|---|---|---|---|---|---|
+| **Qwen2.5-7B** | 2% | 4% | 6% | **14%** | 61% |
+| Llama-3.1-70B | 4% | 5% | 2% | 14% | 42% |
+| Gemma4-27B-A4B | 0% | 0% | 1% | 6% | 21% |
+| Gemma4-31B | 0% | 0% | 1% | 4% | 11% |
+| L1-16B-A3B (calibration) | 5% | 15% | 17% | 34% | 77% |
 
-| Cy condition | DG |
-|---|---|
-| null_control | 26.5% |
-| class_proximate | 49.2% |
-| context_adjacent | 32.6% |
-| prior_completing | **67.0%** |
-| synthetic_Y | **73.1%** |
+**Fact:** our gated cell is `absent × completing`, mapped to `prior_completing` at `docs/M0-BRIEF.md` D1. **Fact:** of our three subjects, only `qwen/qwen-2.5-7b-instruct` is an exact match for a model in that figure. `meta-llama/llama-3.1-8b-instruct` is not Llama-3.1-**70B**; `google/gemma-3-12b-it` is not Gemma4-27B or Gemma4-31B. So exactly one cell-matched anchor exists for this project: **14%**.
 
-That breakdown is for **L1-16B-A3B**, the calibration model from which the completing-information targets were elicited — not for any model on our roster.
+### What our data actually says against that anchor
 
-**Contradiction (resolved by withdrawal):** `Wiki/Results.md` and `README.md` compared our `0/20` against `66.3%` as if they were the same condition. They are not, and the intermediate claim "paper-contradicting for cheap models" was withdrawn on 2026-08-03. Note also that the paper's `null_control` shows **26.5%** DG, whereas ours is 0 *by construction* (the Y-null doc contains no token-shaped strings) — the two control cells are not the same instrument either.
+**Fact** (`data/m1a_verdict.json`, `data/m1b_verdict.json`, intervals from the repo's own `stats.wilson`; exact binomial computed alongside):
 
-### The deeper finding: our corpus removes the mechanism the paper's effect runs on
+| our arm, `qwen-2.5-7b` at `absent × completing` | measured | Wilson 95% | contains 14%? | P(X≤k \| p=0.14, n=20) |
+|---|---|---|---|---|
+| M1a stark | 0/20 = 0.0% | [0.0%, 16.1%] | **yes** | 0.049 |
+| M1b camouflaged | 2/20 = 10.0% | [2.8%, 30.1%] | **yes** | 0.455 |
 
-**Fact** (paper §4 / §5, quoted): the mechanism is prior-driven — *"Stage 1 opens when disease-context overlap activates a parametric attribution prior"*, and DG occurs because *"retrieved Y-documents are consistent with model expectations about X in context C, differing only at the entity level."* Domain fine-tuning amplifies it: *"Domain-specific fine-tuning loads stronger pharmacological class representations… increasing both Stage 1 susceptibility and Stage 2 risk."*
+**Inference (high confidence).** The camouflaged result is *consistent with the paper's published rate for the same model at the same cell* — 10% observed against 14% expected, p = 0.455. This is not a refutation. The stark result is marginally lower (p = 0.049) but its interval still contains 14%. **At N = 20 per cell this study cannot resolve 14% from 0**, and 0/25 would have been the minimum needed to exclude it (Wilson upper 13.3%).
 
-**Fact** (paper, on why `synthetic_Y` beats `prior_completing`): *"The model attributes evidence based on information content, not Y's entity-label recognition."* Recognizing a real alternate drug lets the model disambiguate; fabricating the name removes that check.
+**Inference — the methodological lesson.** The pre-committed N ≥ 20 was computed from M0's *clean-trial yield* (`m0.py m1_sizing`: clean-rate 100% ⇒ 20 pairs), never from a power calculation against a target effect size. That is a real gap in the pre-registration: it sized the wave for *usable trials*, not for *detectable difference*. Against a 14% rate it is underpowered, and the gate's NULL verdict — correct as a mechanical gate outcome, since the Newcombe delta straddles 0 — must not be read as "the phenomenon is absent."
 
-**Fact** (paper limitations): *"CITs were elicited from L1-16B-A3B by design, meaning absolute failure rates are anchored to that model's pharmacological prior."* The paper never tests entities absent from training data.
+### What survives about prior-dependence
 
-**Inference (high confidence).** Our design fabricates **both** entities *and* all their evidence, deliberately — it is KICKOFF bar entry 4, the property that makes the detector judge-free and contamination-proof ("a token can only enter an answer from a retrieved doc"). Mapped onto the paper's axes:
+**Fact** (paper §4, Appendix A): `synthetic_Y` fabricates Y's **name** while holding the completing information constant. **Fact** (paper §5.1 R3): *"absent × synthetic_Y DG exceeds absent × prior_completing in 13/13 models (Wilcoxon signed-rank, W=91, p<0.001; median delta: 37.8 pp, range: 6.5–54.9 pp)"* — for Qwen2.5-7B specifically, 14% → 61%. Removing entity-label recognition **quadruples** DG for our kin model.
+
+**Inference (moderate confidence, cross-study and confounded).** Our corpus fabricates Y's name — matching `synthetic_Y` on the recognition axis — *and* fabricates all the evidence, which neither paper cell does. If the name axis alone drove the effect we would expect something near 61%; we observe 0–10%, close to `prior_completing`'s 14% and far below `synthetic_Y`'s 61%. That pattern is **consistent with** completing information (the parametric prior) being the load-bearing factor, which is what the paper itself says: *"The model attributes evidence based on information content, not Y's entity-label recognition."*
+
+**This is an explanation, not a measurement.** It is a cross-study comparison across different domains (clinical vs API docs), different corpora, different detectors (LLM judge vs token ownership) and different schemas, at N far too small to separate 14% from 0. It is offered as the most parsimonious reading, explicitly labelled **Inference**, and it is **not** the project's headline claim.
+
+### The axis map, corrected
 
 | axis | paper `prior_completing` | paper `synthetic_Y` | **ours** |
 |---|---|---|---|
-| alternate entity recognizable? | yes (real drug) | **no** (fabricated name) | **no** (fabricated) |
-| evidence matches a prior about X? | **yes** (elicited from the model) | **yes** (identical content) | **no** (fabricated tokens) |
-| DG (paper's calibration model) | 67.0% | 73.1% | — |
+| alternate entity recognizable? | yes (real drug) | **no** (fabricated name) | **no** (fabricated) — *equal to* synthetic_Y, not past it |
+| evidence matches a prior about X? | **yes** (elicited from the model) | **yes** (identical content) | **no** (fabricated tokens) — off the paper's grid |
+| queried entity X real? | yes | yes | **no** (fabricated) — the paper never varies X |
+| Qwen2.5-7B rate (paper) | 14% | 61% | 0/20 stark, 2/20 camouflaged |
 
-We are **past** `synthetic_Y` on the recognition axis and **off** the paper's grid entirely on the prior axis. There is no parametric attribution prior about `Vexurak` for disease-context overlap to activate, so by the paper's own account Stage 1 cannot open. Our null is therefore not a failed replication — it is a **boundary condition the paper's stated mechanism predicts**.
+**Fact:** the paper *does* test fabricated entities — `synthetic_Y` by definition, plus the anonymous-label substitution (§5.3 / Table 11, *"XC-9941"*) and Appendix F's `ENTITY_XYZZY_42`. What it never varies is the **queried** entity X, which is always a real drug.
 
-**Inference.** This also explains the M1b texture that the camouflage hypothesis did not: under heavier camouflage the models moved into `correct-refusal` (30→43 of 60) rather than into DG. With nothing in the retrieved evidence that the model already believes about X, the cheapest correct continuation is to decline — exactly what was observed.
+**Inference.** The structural tension stands and is the honest methodological finding: **the property that makes our detector judge-free — fabricating both entities and all evidence — is the property that moves us off the paper's grid on the completing-information axis.** Reaching that axis needs evidence a model already believes, which forfeits exact token ownership (KICKOFF bar entry 4). Within this project's contract that axis is unreachable.
 
-**Inference.** The tension is structural, not a design flaw to fix: **the property that makes our detector judge-free is the property that removes the paper's mechanism.** Testing the prior axis needs entities the model knows, which reintroduces training contamination and forfeits exact token ownership — the one thing KICKOFF's honesty contract will not trade (bar entry 2: never an LLM judge). Within this project's contract, the prior axis is not reachable.
+### Correction history (kept, not hidden)
+
+**Fact.** The first version of this page (2026-08-03, commit `e550652`) asserted *"the paper publishes no per-cell breakdown for any non-calibration model"* and built a headline on it. That is **false** — Appendix C publishes complete per-cell matrices for all 13 models, and the re-read that produced the page stopped one appendix short of it. Caught by adversarial review on PR #10 (F1/F2), verified first-hand by reading the figure. Consequences: the "no cell-matched anchor exists" claim is withdrawn; the "remove the prior and it disappears — well-powered" headline is withdrawn; D12 and D13 are superseded by D16/D17.
+
+**Fact.** An earlier error in the same lineage: the 66.3% figure carried since KICKOFF is Qwen2.5-7B's **peak** cell (`absent × synthetic_Y`, Table 2, 10-tool), not our gated cell. That withdrawal stands — it was correct, just incomplete, because the right anchor (14%) existed and was missed.
 
 ## Sources
-- arXiv 2607.09349 (Caruzzo, Yoo, Kim), v1 2026-07-10 — §4 (factorial + Cy definitions), §5.3 + Appendix D (noticing does not prevent DG), Table 1 (per-cell, calibration model), Table 2 (cross-model peak), Appendix A (synthetic_Y construction), limitations. Re-read 2026-08-03; still v1, no code released.
-- [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) D1 — the original mapping (`completing ↔ prior_completing`), now known to be partial
-- [`docs/KICKOFF.md`](../docs/KICKOFF.md) — bar entry 4 (fabricated corpus, zero contamination), the honesty contract
-- [Results](Results.md), [Why-The-Null](Why-The-Null.md) — the artifacts this correction propagates into
+- arXiv 2607.09349 (Caruzzo, Yoo, Kim), v1 2026-07-10 — §4 (Cy definitions), §5.1 R3/R4, §5.3 + Table 11 (anonymous label), §6, Table 1 (calibration model per-cell), Table 2 (cross-model **peak**), **Appendix C + Figure 6 (per-cell, all 13 models)**, Appendix A, Appendix F, limitations. Re-read 2026-08-03; Appendix C read 2026-08-04; still v1, no code.
+- [`data/m1a_verdict.json`](../data/m1a_verdict.json), [`data/m1b_verdict.json`](../data/m1b_verdict.json), [`stats.py`](../stats.py) — our side of every comparison above
+- [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) D1 (the `completing ↔ prior_completing` mapping), D7 (sizing); [`docs/KICKOFF.md`](../docs/KICKOFF.md) (bar entry 4, honesty contract)
 
 ## Uncertainties & contradictions
-- **Unresolved:** the paper gives no `prior_completing` rate for Qwen2.5-7B or any other cross-model entry, so no cell-matched cheap-model anchor exists in the published tables. Our result cannot be compared like-for-like against any number the paper reports.
-- **Unresolved:** whether DG would appear on our corpus if the *evidence* matched a prior while the entities stayed fabricated. Not reachable judge-free (see above), so untested and likely untestable within this contract.
-- **Inference, not Fact:** that the absent parametric prior *causes* our null. It is consistent with the paper's mechanism, our two nulls, and the refusal shift — but we did not manipulate the prior, so this is an explanation, not a measurement.
-- **Fact:** M0-BRIEF D1's mapping line (`completing ↔ prior_completing`) is a frozen pre-commitment and is **not** rewritten. This page records the correction; the historical brief stands as written.
+- **Unresolved — the live one:** whether our kin-model rate differs from the paper's 14%. At N=20 we cannot tell; the camouflaged interval contains it outright. Resolving it needs a power-sized extension (~N=100/cell), which would be an N-extension after seeing data and must be pre-registered as such or not done at all.
+- **Unresolved:** no cell-matched anchor exists for `llama-3.1-8b-instruct` or `gemma-3-12b-it` — the paper's Llama and Gemma entries are different models. Their 0/20 results have nothing published to compare against.
+- **Contradiction (schema):** Figure 6 is RAG-4; Table 1/Table 2 are 10-tool. The paper claims *"DG changes by less than 2 pp at completing-Cy conditions"* between schemas, yet L1-16B-A3B reads 34% (Fig. 6) vs 67.0% (Table 1) at `absent × prior_completing`. Flagged, not resolved; the 14% Qwen anchor is RAG-4 and the 10-tool value for that cell is not tabulated.
+- **Inference, not Fact:** that the absent parametric prior explains our low rate. We did not manipulate the prior.
 
 ## Related pages
 - [Results](Results.md) — the measured record
-- [Why-The-Null](Why-The-Null.md) — what the nulls mean
+- [Why-The-Null](Why-The-Null.md) — what the results mean and what they do not rule out
 - [Detector-Design](Detector-Design.md) — why judge-free scoring requires fabricated entities
 
 ## Relevance to current work
-This is the reframing the v1 write-up should be built on: not "the paper fails to replicate on cheap models" (unsupported at the cell level) but "**DG is prior-dependent; strip the parametric prior and it disappears — measured judge-free, well-powered, across two presentation surfaces and three models.**" It also retires the proposed `synthetic_Y` positive-control arm as redundant: our design already sits past that cell on the axis it manipulates.
+This page is the evidence base for the open call in `PROJECT.md`: whether to close v1 on an honestly-underpowered result, or run a pre-registered power-sized extension on the one cell-matched model. It also fixes what a `/research-paper` session must not repeat — the write-up's comparison is to **14%**, not 66.3%, and the supported verb is *"consistent with"*, not *"disappears"*.
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-04_
