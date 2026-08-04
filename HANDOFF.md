@@ -9,7 +9,7 @@ _Last updated: 2026-08-04_
 - Run quality: 240/240 calls ok on the first pass, zero errored / vague / confabulated; 180 doc generations with 0 rejections; fidelity 1068/1068; DG-any 0/160. Spend **$0.0446 / $0.10**.
 
 ## Where things stand
-`main` carries M0, M1 and the correction campaign; branch `feat/m1c-extension` carries all of M1C. Project total ≈$0.072 of the <$5 budget. **D3's stopping rule is now binding** — no further extension, whatever these numbers invite; any further measurement is a new pre-registered study with its own brief.
+`main` carries everything through M1C — PR #12 squash-merged as `f1230fc` on Kyle's call after a three-round adversarial review (12 findings, no disputes, every should-fix fixed and verified, six nice-to-have follow-ups open). Project total ≈$0.072 of the <$5 budget. **D3's stopping rule is now binding** — no further extension, whatever these numbers invite; any further measurement is a new pre-registered study with its own brief.
 
 The secondary paired gate disagrees with the primary on the stark arm (Newcombe +0.037 [−0.015, +0.105] straddles 0 → gate NULL, while the primary Wilson interval excludes 0). This is not a defect and not a conflict: DG-Y is impossible by construction at `absent × null_control`, so the paired interval carries the control's own Wilson width and is strictly the more conservative of the two. Both are reported; neither is presented as the other. The dry-run carried a scenario for this exact case before any spend.
 
@@ -23,7 +23,8 @@ The secondary paired gate disagrees with the primary on the stark arm (Newcombe 
 Then `/seed-hunt` for repro #6.
 
 ## Open questions / blockers
-- **No blockers.** M1C is complete and the stopping rule closes the measurement phase.
+- **No blockers.** M1C is complete, merged, and the stopping rule closes the measurement phase.
+- **Six open follow-ups from PR #12's review, none blocking.** Ranked: **F11** — `m1.py cmd_gen_docs` is the last unpinned doc generator and the new `m0.py` HALT text points operators at it; same hazard class as F2/F6, latent until a milestone grows the pool past 80, and it would overwrite `data/gen_log_m1.json` and bill M1's ledger. Then **F8** (`m1.py cmd_wave` filters before slicing, so a missing early doc set would backfill an M1C pair into M1's published wave), **F4** (the "power artifact" headline credits N for a change partly driven by the engagement shift — stark opportunities 7/20 → 39/60, Fisher p = 0.035; stating the 0/7 → 3/39 denominator beside it would be more exact), and **F9/F10/F12** (test hygiene). Full detail: `~/.claude/reviews/blind-cite/2026-08-04-feat-m1c-extension.md`.
 - **Unresolved — what drives the stage heterogeneity (D25).** The extension pairs elicit materially more engagement than M1's. Two sources are live — theme/prose composition **and** repeat-draw instability (D27) — and no mechanism is established; the pre-registration correctly forbids adjusting for it after the fact.
 - **Unresolved — the camouflage levers stay bundled.** Stark 3/80 [1.3%, 10.5%] vs camouflaged 7/80 [4.3%, 17.0%] have overlapping intervals, and M1C pre-registered no cross-surface test, so none was performed. No attribution among JSON rendering / constant titles / k=4 fillers is possible from this data.
 - **Unresolved — one model only.** Nothing transfers to `llama-3.1-8b-instruct` or `gemma-3-12b-it`; the paper's Llama and Gemma entries are different models and neither has an anchor of any kind.
