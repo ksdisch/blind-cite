@@ -58,7 +58,7 @@ The M1C column is deliberately absent from this table: it covers **one model** a
 
 **Fact.** The paper has **no cell for the condition we ran**: §4 and Appendix A define `prior_completing` as evidence elicited to match a model's parametric prior for X, and ours is fabricated tokens matching no prior. The nearest published cell — `Qwen2.5-7B, absent × prior_completing` = 14% (Fig. 6, **RAG-4** schema) — is additionally labelled a **lower bound for non-L1 models** (paper §5.2 body; Appendix C Table 8), and this project ran neither of the paper's schemas.
 
-**What is reportable:** direction only. Our rates (0/20 stark, 2/20 camouflaged for `qwen-2.5-7b`) sit at or below the nearest published floor, while the paper's completing-Cy regime for that model spans 14% → 61%. No point comparison, no p-value on one, no verb claiming agreement or disagreement (D21). `llama-3.1-8b-instruct` and `gemma-3-12b-it` are not the paper's Llama/Gemma models and have no anchor at all.
+**What is reportable:** direction only, and after M1C only through the pre-committed D4 templates — **stark fired T2**, "occurs, low" (3/80 [1.3%, 10.5%], upper below the floor); **camouflaged fired T3**, "comparable magnitude, hedged" (7/80 [4.3%, 17.0%], interval reaching the floor). The pre-M1C wording here — "our rates (0/20 stark, 2/20 camouflaged) sit at or below the nearest published floor" — is **superseded by M1C (D24)**: it quotes the N=20 rates, and "at or below" is no longer true of the camouflaged surface, whose interval reaches ≥14%. The paper's completing-Cy regime for that model spans 14% → 61%. No point comparison, no p-value on one, no verb claiming agreement or disagreement (D21). `llama-3.1-8b-instruct` and `gemma-3-12b-it` are not the paper's Llama/Gemma models and have no anchor at all.
 
 ### The flagship artifact
 
@@ -70,7 +70,9 @@ The M1C column is deliberately absent from this table: it covers **one model** a
 
 ### The surface factor
 
-**Fact** (`data/m1_surface_contrast.json`): stark 0/20 vs camouflaged 2/20 for `qwen-2.5-7b`; 0/20 vs 0/20 for both others. **Inference:** every DG in the project appeared only at the camouflage surface and only on the paper's kin model — consistent with the M1-BRIEF E3 fidelity-gap reading, and far too small to support it. The cross-surface delta straddles 0.
+**Fact** (`data/m1_surface_contrast.json`): stark 0/20 vs camouflaged 2/20 for `qwen-2.5-7b`; 0/20 vs 0/20 for both others.
+
+**Inference — *superseded by M1C (D24)*.** As written at M1: "every DG in the project appeared only at the camouflage surface and only on the paper's kin model — consistent with the M1-BRIEF E3 fidelity-gap reading, and far too small to support it. The cross-surface delta straddles 0." The hedge was right and the claim was not: at N=80 DG occurs at **both** surfaces — stark **3/80 [1.3%, 10.5%]**, camouflaged **7/80 [4.3%, 17.0%]** (the table at the top of this page). "Only at the camouflage surface" was a statement about N, not about surface. What survives is direction only — the camouflaged rate remains the higher of the two, and the paired gate separates them (stark Newcombe +0.037 [−0.015, +0.105], straddles 0; camouflaged +0.087 [+0.024, +0.170], excludes it) — but the M1-era reading that the stark surface produces no DG is withdrawn. The `qwen-2.5-7b`-only half is untested at N=80: M1C extended that model alone (D23), so the other two remain at 0/20 with a 16.1% upper bound.
 
 ### Why DG-any reads zero and the split was still required
 

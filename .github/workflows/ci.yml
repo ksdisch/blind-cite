@@ -21,13 +21,7 @@ jobs:
         with:
           enable-cache: true
       - name: Run the offline test suite
-        # This repo keeps flat scripts at the root with no pyproject (M0-BRIEF
-        # D9), so the deps are named here rather than resolved from a manifest.
-        # Majors are pinned so a future upstream break shows up as a dependency
-        # bump rather than as a mystery red run on an unrelated PR.
-        run: >
-          uv run --python 3.12
-          --with 'pytest>=8,<10'
-          --with 'openai>=2,<3'
-          --with 'python-dotenv>=1,<2'
-          pytest -q
+        # Deps resolve from pyproject.toml + uv.lock, which stay the single
+        # source of truth — a dependency bump belongs in the manifest, not in
+        # a parallel list here that would silently drift from it.
+        run: uv run --python 3.12 pytest -q
