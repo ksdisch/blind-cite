@@ -69,6 +69,12 @@ M1 design fork, and put it to Kyle before any code or spend.
 - **Tradeoff:** the judge-free detector and the paper's grid are mutually exclusive — reaching the completing-information axis needs evidence a model already believes, forfeiting exact token ownership. Recorded as a limitation, not attempted
 - **Also:** a `synthetic_Y` positive-control arm was proposed, approved, then retired before any build or spend — as degenerate for this corpus, not (as D14 first recorded) because we "already perform the manipulation" — see D14, corrected by D20
 
+### Corrections merged after a five-round review; M1C pre-registration committed — 2026-08-04
+- **Landed:** PR #10 squash-merged as `2de0f1b` — the full correction campaign: 23 findings over 5 review rounds across 2 runs, every one fixed and verified, zero waivers (Kyle flipped the final nice-to-haves to fix-now at the round-4 triage gate); resolves the prior entry's "merge SHA to be backfilled" note. Then `docs/M1C-BRIEF.md`, the pre-registered power-sized extension design (this PR)
+- **Why:** run 1 hit the 3-dispatch cap NOT CLEAR with six fixes unverified; Kyle ruled for a fresh verification round rather than a waiver, and rounds 4–5 closed everything [Fact — review mailbox; adjudicated PR #10 comment] — see D23 in `Decisions.md`
+- **Headline:** the extension is sized by a real power calculation this time — combined N=80 per gated cell per surface makes every reachable outcome map to exactly one of five pre-committed direction-only templates, with the D21 caveats inline and the sizing table pinned by `test_m1c_sizing.py` [Fact — `docs/M1C-BRIEF.md` D2/D4]
+- **Tradeoff:** combined-N primary analysis maximizes precision at the cost of conditioning on stage-1 data; bounded by the one-look guard and by always reporting the extension-only rows beside it [Fact — `docs/M1C-BRIEF.md`, "The argument, ruled"]
+
 ---
 
 ## Mining coverage
