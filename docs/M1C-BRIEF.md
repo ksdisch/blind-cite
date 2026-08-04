@@ -413,6 +413,19 @@ power artifact.
   never a null hypothesis about our cell. No p-value is attached to any
   comparison with the paper, and the templates above are the only permitted
   verbs.
+- **D7's "`m0.py`/`m1.py` are untouched frozen records" is false as written,
+  and is superseded by D26.** This milestone had to modify both. Growing the
+  shared corpus re-scoped the `corpus.N_PAIRS` those scripts read, so leaving
+  their bytes alone is what changed their behaviour: `m1.py dryrun` began
+  reporting FAILED, `m1.py wave` would have run 480 trials instead of M1's 120
+  under M1's caps, and `m0.py`/`m1.py verdict` would have rewritten their
+  published verdict files with fidelity counts from a corpus those milestones
+  never ran on. Both are now pinned to their own `N_PAIRS_M0` / `N_PAIRS_M1` —
+  restoring the behaviour each had when it ran — and every verdict writer, plus
+  `m0.py gen-docs`, refuses to run once the shared pool has moved. The D7
+  section stands as written because it is frozen; this is where it is
+  corrected. Frozen means the recorded behaviour is preserved, not that the
+  bytes are inviolable while the behaviour drifts.
 - **Repeat draws are not stable at `temperature = 0.0` (D27), and D5's premise
   above is wrong because of it.** Smoke and wave both ran `absent × completing`
   on p21–p25, so this milestone committed 10 duplicate trials of byte-identical

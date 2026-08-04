@@ -79,6 +79,21 @@ def cmd_ping(_args) -> int:
 
 def cmd_gen_docs(args) -> int:
     from client import GENERATOR, GENERATOR_TEMPERATURE, BudgetExceeded, CostMeter, chat
+    # This command writes the SHARED evidence bank, and it writes a dict it
+    # builds from scratch. Once the corpus grew past M0's 12 that became a
+    # truncating write: it would replace an 80-pair data/docs.json with 12
+    # freshly sampled pairs, deleting the evidence every later milestone's
+    # committed logs re-verify against — and it would do so even on the
+    # BudgetExceeded path, since the writes sit outside the try. The verdict
+    # writers got this guard in the same commit; this one is the write that
+    # deletes evidence rather than merely restating it (PR #12 review F6).
+    if _corpus.N_PAIRS != N_PAIRS_M0:
+        raise SystemExit(
+            f"HALT: corpus.N_PAIRS is {_corpus.N_PAIRS}, not M0's "
+            f"{N_PAIRS_M0}. `m0.py gen-docs` rebuilds data/docs.json from "
+            f"scratch and would truncate the shared {_corpus.N_PAIRS}-pair "
+            f"bank to {N_PAIRS_M0}. Later milestones generate incrementally "
+            f"(`m1.py gen-docs`, `m1c.py gen-docs`); use those.")
     corpus = load_corpus()
     meter = CostMeter(CAP_GEN_DOCS)
     docs: dict = {}
