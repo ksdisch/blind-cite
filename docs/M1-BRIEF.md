@@ -319,8 +319,16 @@ fidelity gate at 100%) → M1b smoke → M1b wave → `verdict`.
 >    clean-trial-yield funnel, not from a power calculation against a target effect size.
 > 3. **The "66.3 per cent" comparison below is withdrawn (D12/D16).** That is the model's
 >    *peak* cell (`absent × synthetic_Y`), not ours.
+> 4. **Every "no DG here" reading below is withdrawn as an inference (D24)** — this
+>    covers the literal "NULL stands", *and* every "only at the camouflage surface"
+>    or "not evidence of a surface effect" reading, whatever words it uses. M1C ran the
+>    pre-registered extension at combined N=80 on `qwen-2.5-7b`: the stark surface reads
+>    **3/80 [1.3%, 10.5%]** and the camouflaged **7/80 [4.3%, 17.0%]**, and the camouflaged
+>    paired gate excludes 0 (+0.087 [+0.024, +0.170]). DG occurs at **both** surfaces. Every
+>    measurement below stands exactly as recorded — it is the "no effect" reading drawn from
+>    them that does not.
 >
-> Full reasoning and correction history: `Wiki/Paper-Mapping.md`; ledger D12–D22.
+> Full reasoning and correction history: `Wiki/Paper-Mapping.md`; ledger D12–D22, D24.
 
 
 Both arms ran. Total M1 spend **$0.0177** against the $0.45 cap (gen-docs
