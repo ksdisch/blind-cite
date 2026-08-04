@@ -57,11 +57,13 @@ bound). No template below attaches a p-value to any comparison with the paper.
 ## D2 — Sizing (the power calculation D18 said never happened)
 
 Computed with the repo's own `stats.wilson`, and pinned: `test_m1c_sizing.py`
-(committed alongside this brief) asserts every row of the table below, the
-template-band boundaries, and the power identities, so the table cannot drift
-from the function that defines it. (PR #11 review round 1 caught one
+(committed alongside this brief) asserts every cell of the table below — the
+`0/N` uppers, both endpoints of each T2 band, each "T3 starts at" k, and every
+parenthesized point estimate — plus the power identities, so the table cannot
+drift from the function that defines it. (PR #11 review round 1 caught one
 hand-built row wrong — its F1 — which is exactly why the pin exists; the
-parenthesized point estimates are asserted too, per its F13.)
+parenthesized point estimates are asserted per its F13, and the T2 bands' lower
+endpoints per its F13 residual.)
 
 **Sizing question:** what combined N makes the *directional* statement
 decisive — meaning every reachable outcome k maps to exactly one
@@ -144,9 +146,8 @@ and each carries its caveats inline so no downstream rendering can drop them
 
 - **T0 — k=0 with CI reaching 14%:** "Zero DG observed on this surface (0/N,
   Wilson [0%, hi]) — an interval that reaches the floor's magnitude, so this
-  row alone is uninformative against it (the D18 gap; reachable only at the
-  original N=20 rows). Direction: at or below, hedged. This is not a
-  replication claim and not a contradiction claim."
+  row alone is uninformative against it (the D18 gap). Direction: at or below,
+  hedged. This is not a replication claim and not a contradiction claim."
 - **T1 — k=0 with CI upper below 14%:** "Our measured DG rate on this surface
   is 0% (0/N, Wilson [0%, hi]), below the nearest published floor for this
   model (≥14%, Qwen2.5-7B at `absent × prior_completing`, RAG-4 — a
@@ -171,11 +172,17 @@ and each carries its caveats inline so no downstream rendering can drop them
   a replication claim and not a contradiction claim."
 
 The five bands partition every reachable outcome: k=0 with the interval
-reaching 14% → T0 (only the original N=20 rows can produce it); k=0 with
-upper < 14% → T1; k≥1 with upper < 14% → T2; k≥1 with the interval
-containing 14% → T3; lower bound > 14% → T4. All numbers in a rendered
-template are filled from the row it fires on. Asserted in
-`test_m1c_sizing.py`.
+reaching 14% → T0; k=0 with upper < 14% → T1; k≥1 with upper < 14% → T2;
+k≥1 with the interval containing 14% → T3; lower bound > 14% → T4. All numbers
+in a rendered template are filled from the row it fires on. Asserted in
+`test_m1c_sizing.py`, which evaluates the five conditions independently of the
+band function and requires exactly one to hold.
+
+Which rows can produce T0 is a fact about the data, not part of any template's
+text (PR #11 review F15): at the planned Ns only the original N=20 rows can,
+since `wilson(0, 24)` upper is already 13.8% — but the D3 budget-truncation
+path can produce a row at N ≤ 23, and `wilson(0, 23)` upper is 14.3%, so such a
+row fires T0 too. The template therefore states only what its own numbers show.
 
 Forbidden everywhere, restating D21: p-values against any paper cell;
 "consistent with" / "contradicts" / "replicates" verbs; any point comparison.
