@@ -11,8 +11,9 @@ import json
 import pytest
 
 from assemble import cell_id
-from corpus import load_corpus
+from corpus import N_PAIRS_M1, load_corpus
 from detectors import verify_doc
+import m1
 from m1 import (ARM_CELL, BASE_CELL, CAP_GEN_DOCS, CAP_M1_TOTAL, CAP_SMOKE,
                 CAP_WAVE, M1_CELLS, N_CLEAN_REQUIRED, _load, arm_verdict,
                 dryrun_scenarios, model_verdict, surface_contrast,
@@ -25,10 +26,23 @@ from m1 import (ARM_CELL, BASE_CELL, CAP_GEN_DOCS, CAP_M1_TOTAL, CAP_SMOKE,
     "scenario", dryrun_scenarios(),
     ids=[s[0].split(" —")[0] for s in dryrun_scenarios()])
 def test_dryrun_scenario_renders_its_pre_committed_verdict(scenario):
+    """M1's scenarios are asserted at M1's OWN size, N_PAIRS_M1 = 20.
+
+    `synthetic_rows` used to default `n` to the live `corpus.N_PAIRS`, which
+    the M1C extension moved to 80. Left that way the "underpowered" scenario —
+    1 vague + 1 errored trial per model — leaves 78 clean trials per gated
+    cell and renders REPRODUCED, i.e. the pre-committed gate gets checked
+    against a wave size M1 never ran. This pin was originally the WHOLE fix,
+    on the reading that M1C-BRIEF D7 made `m1.py`'s bytes inviolable; PR #12
+    review F1 showed that left the `m1.py dryrun` CLI reporting FAILED at
+    HEAD. `m1.py` is now pinned to `N_PAIRS_M1` itself (D26), so this argument
+    is redundant with the default — kept explicit because the scenarios mean
+    M1's size, not whatever the default happens to be.
+    """
     _, arm, dg, vague, errors, misattr, expected = scenario
     rows = [r for m, k in dg.items()
             for r in synthetic_rows(m, k, arm=arm, vague=vague, errors=errors,
-                                    misattributed=misattr)]
+                                    misattributed=misattr, n=N_PAIRS_M1)]
     assert arm_verdict(wave_funnel(rows))["overall"] == expected
 
 
@@ -317,3 +331,37 @@ def test_surface_contrast_only_covers_models_present_in_both_arms():
     va = arm_verdict(_funnel({"m1": (20, 0, 20, 0), "m2": (20, 0, 20, 0)}))
     vb = arm_verdict(_funnel({"m1": (20, 0, 20, 5), "m3": (20, 0, 20, 5)}))
     assert set(surface_contrast(va, vb)["per_model"]) == {"m1"}
+
+
+# --- frozen-record protection (PR #12 review F1/F2) --------------------------
+
+def test_m1_is_pinned_to_its_own_n_not_the_live_pool():
+    """The coupling F1/F2 were about: `m1.py` must describe M1's 20 pairs
+    however large the shared corpus has since grown."""
+    import inspect
+
+    import corpus
+    import m1
+    assert N_PAIRS_M1 == 20
+    assert corpus.N_PAIRS == 80, "this test is only meaningful once the pool grew"
+    assert inspect.signature(m1.synthetic_rows).parameters["n"].default == N_PAIRS_M1
+
+
+def test_m1_verdict_refuses_to_rewrite_the_published_record(monkeypatch):
+    """`run_fidelity` counts render traps over every pair that has docs, so at
+    80 pairs it returns 1068 where M1 recorded 288. Writing that beside M1's
+    20-pair cell counts would produce a self-contradicting published record."""
+    import corpus
+    import m1
+    with pytest.raises(SystemExit):
+        m1._refuse_if_corpus_moved()
+    monkeypatch.setattr(corpus, "N_PAIRS", N_PAIRS_M1)
+    m1._refuse_if_corpus_moved()  # at M1's own size it must not raise
+
+
+def test_the_published_m1_verdicts_still_say_what_m1_measured():
+    """The artifact the guard protects, asserted directly."""
+    for arm in ("a", "b"):
+        v = json.loads((m1.DATA / f"m1{arm}_verdict.json").read_text())
+        assert v["n_pairs"] == N_PAIRS_M1 == 20
+        assert v["fidelity"] == [288, 288]

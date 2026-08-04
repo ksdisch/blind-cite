@@ -57,11 +57,13 @@ bound). No template below attaches a p-value to any comparison with the paper.
 ## D2 — Sizing (the power calculation D18 said never happened)
 
 Computed with the repo's own `stats.wilson`, and pinned: `test_m1c_sizing.py`
-(committed alongside this brief) asserts every row of the table below, the
-template-band boundaries, and the power identities, so the table cannot drift
-from the function that defines it. (PR #11 review round 1 caught one
+(committed alongside this brief) asserts every cell of the table below — the
+`0/N` uppers, both endpoints of each T2 band, each "T3 starts at" k, and every
+parenthesized point estimate — plus the power identities, so the table cannot
+drift from the function that defines it. (PR #11 review round 1 caught one
 hand-built row wrong — its F1 — which is exactly why the pin exists; the
-parenthesized point estimates are asserted too, per its F13.)
+parenthesized point estimates are asserted per its F13, and the T2 bands' lower
+endpoints per its F13 residual.)
 
 **Sizing question:** what combined N makes the *directional* statement
 decisive — meaning every reachable outcome k maps to exactly one
@@ -144,9 +146,8 @@ and each carries its caveats inline so no downstream rendering can drop them
 
 - **T0 — k=0 with CI reaching 14%:** "Zero DG observed on this surface (0/N,
   Wilson [0%, hi]) — an interval that reaches the floor's magnitude, so this
-  row alone is uninformative against it (the D18 gap; reachable only at the
-  original N=20 rows). Direction: at or below, hedged. This is not a
-  replication claim and not a contradiction claim."
+  row alone is uninformative against it (the D18 gap). Direction: at or below,
+  hedged. This is not a replication claim and not a contradiction claim."
 - **T1 — k=0 with CI upper below 14%:** "Our measured DG rate on this surface
   is 0% (0/N, Wilson [0%, hi]), below the nearest published floor for this
   model (≥14%, Qwen2.5-7B at `absent × prior_completing`, RAG-4 — a
@@ -171,11 +172,17 @@ and each carries its caveats inline so no downstream rendering can drop them
   a replication claim and not a contradiction claim."
 
 The five bands partition every reachable outcome: k=0 with the interval
-reaching 14% → T0 (only the original N=20 rows can produce it); k=0 with
-upper < 14% → T1; k≥1 with upper < 14% → T2; k≥1 with the interval
-containing 14% → T3; lower bound > 14% → T4. All numbers in a rendered
-template are filled from the row it fires on. Asserted in
-`test_m1c_sizing.py`.
+reaching 14% → T0; k=0 with upper < 14% → T1; k≥1 with upper < 14% → T2;
+k≥1 with the interval containing 14% → T3; lower bound > 14% → T4. All numbers
+in a rendered template are filled from the row it fires on. Asserted in
+`test_m1c_sizing.py`, which evaluates the five conditions independently of the
+band function and requires exactly one to hold.
+
+Which rows can produce T0 is a fact about the data, not part of any template's
+text (PR #11 review F15): at the planned Ns only the original N=20 rows can,
+since `wilson(0, 24)` upper is already 13.8% — but the D3 budget-truncation
+path can produce a row at N ≤ 23, and `wilson(0, 23)` upper is 14.3%, so such a
+row fires T0 too. The template therefore states only what its own numbers show.
 
 Forbidden everywhere, restating D21: p-values against any paper cell;
 "consistent with" / "contradicts" / "replicates" verbs; any point comparison.
@@ -284,3 +291,172 @@ With those ruled, D1–D7 are the pre-registration. Build follows in D7's
 order — dry-run, smoke, wave, verdict — and the brief is frozen from the
 moment the first paid call runs. Nothing is built or spent until Kyle
 green-lights the build on this committed brief.
+
+---
+
+## M1C outcome (2026-08-04) — the wave ran; the brief above is frozen
+
+Rendered mechanically by `m1c.py verdict`, run **once**, per D3. The addendum
+is appended; nothing above this line was edited after the first paid call.
+
+### What ran
+
+240 new trials (60 extension pairs × 2 gated cells × 2 surfaces) on
+`qwen/qwen-2.5-7b-instruct`, pooled with M1's 20 per gated cell per surface.
+**240/240 calls ok on the first pass** — no top-up needed, zero errored, zero
+vague, zero confabulation. Fidelity gate **1068/1068 PASS** over the 80-pair
+corpus. Doc generation: 180 attempts, **0 rejections**. Both surfaces hold
+**80/80 clean per gated cell**, so `N_CLEAN_REQUIRED_M1C = 80` is met exactly
+and neither surface reports UNDERPOWERED. Measured spend **$0.0446 / $0.10**
+(estimate was $0.052; the 30% retry margin went unused).
+
+The original rows re-derive M1's published verdicts exactly — stark
+{refusal 13, discriminated 7}, DG 0/20; camouflaged {refusal 13,
+discriminated 5, DG 2}, DG 2/20, blindness 2/2 and 2/2 — which is the
+ingestion check the combined estimand depends on.
+
+### The result, in the pre-committed rows
+
+| surface | scope | DG-Y at `absent × completing` | Wilson 95% | template |
+|---|---|---|---|---|
+| stark | original (N=20) | 0/20 | [0.0%, 16.1%] | T0 |
+| stark | extension-only (N=60) | 3/60 | [1.7%, 13.7%] | **T2** |
+| **stark** | **combined (N=80)** | **3/80** | **[1.3%, 10.5%]** | **T2** |
+| camouflaged | original (N=20) | 2/20 | [2.8%, 30.1%] | T3 |
+| camouflaged | extension-only (N=60) | 5/60 | [3.6%, 18.1%] | **T3** |
+| **camouflaged** | **combined (N=80)** | **7/80** | **[4.3%, 17.0%]** | **T3** |
+
+Extension-only and combined selected the **same** template on each surface, so
+D1's side-by-side clause did not fire and the combined statement is carried
+alone. All three rows are recorded either way; the extension-only row is the
+unconditioned check and is never hidden.
+
+**The pre-committed statements, verbatim as rendered:**
+
+- **Stark (T2):** "DG occurs on this surface (3/80, Wilson [1.3%, 10.5%],
+  lower bound > 0) at a rate below the nearest published floor for this model
+  (≥14% — different condition by definition, stated lower bound, schema we did
+  not run). Direction: occurs, low. This is not a replication claim and not a
+  contradiction claim."
+- **Camouflaged (T3):** "DG occurs on this surface (7/80, Wilson [4.3%,
+  17.0%]) at a rate whose interval reaches the magnitude of the nearest
+  published floor (≥14% — different condition by definition, stated lower
+  bound, schema we did not run). Direction: comparable magnitude, hedged. This
+  is not a replication claim and not a contradiction claim."
+
+### The secondary gate, and why it disagrees with the primary on the stark arm
+
+| surface | Newcombe delta (completing − null_control), combined N | gate |
+|---|---|---|
+| stark | +0.037 [−0.015, +0.105] — straddles 0 | **NULL** |
+| camouflaged | +0.087 [+0.024, +0.170] — excludes 0 | **DG-EFFECT** |
+
+On the stark arm the primary estimand's interval excludes 0 (3/80 → lower
+bound 1.3%) while the secondary paired interval does not. These are two
+different questions and the rendering does not conflate them — the dry-run
+carried a scenario for exactly this case before any spend. The structural
+reason is the one M1 already stated against itself: at `absent ×
+null_control` the Y-null doc contains **zero** token-shaped strings, so DG-Y
+is impossible there by construction. The Newcombe interval nevertheless
+carries the control cell's own Wilson width (0/80 → upper 4.6%) into the
+difference, which is wider than the arm cell's distance from zero at k=3. The
+paired test is therefore strictly more conservative than the one-sample
+interval here, and its NULL is not evidence against occurrence.
+
+### The flagship artifact, at ten answers instead of two
+
+**Ten** DG answers across the two surfaces (3 stark, 7 camouflaged). On every
+single one the mechanical **faithfulness proxy PASSES and the citation proxy
+PASSES**: 3/3 and 3/3 on stark, 7/7 and 7/7 on camouflaged. Y's evidence
+attributed to X, Y never named, a genuinely retrieved doc cited, every
+standard check blind. M1 rendered this contrast on 2 answers and could only
+call it an existence proof; at N=80 per surface it is rendered on ten, at both
+surfaces, with a rate interval attached.
+
+**DG-any is 0/160** — across all 160 camouflaged trials not one third-party
+filler token entered an answer. The contamination guard reads clean.
+
+### What M1C changes about M1
+
+M1's headline was a NULL at both surfaces at N=20. The stark surface — where
+M1 measured **0/20** — reads **3/80** at the pre-registered N, with a lower
+bound above zero. D18 recorded that M1's N came from clean-trial yield rather
+than a power calculation and could not resolve the floor; M1C is that
+prediction bearing out on the project's own data. The M1 result is not
+withdrawn — 0/20 was correctly measured and correctly reported, and its row
+stands unchanged above — but the inference "DG ≈ 0 on this surface" was a
+power artifact.
+
+### Limitations, stated
+
+- **Stage heterogeneity, and it is large.** Engagement (non-refusal) at the
+  adversarial cell differs materially between the two stages: stark 35% on
+  p01–p20 vs 65% on p21–p80; camouflaged 35% vs 55%. The two stages are not
+  behaviourally exchangeable, and the combined row pools them. Both scopes
+  fired the same template on each surface, and the extension-only rows are
+  reported beside the combined ones precisely so this is visible rather than
+  averaged away — but the DG rates themselves rest on pairs that elicit more
+  engagement than M1's did. No mechanism for the difference is established
+  here; the pairs differ in their hand-authored themes and generated prose —
+  and, per D27 below, repeat draws of the same prompt are not stable either, so
+  "only" would be wrong.
+- **The filler population changed**, as D5 stated in advance: extension trials
+  draw fillers from 80 pairs, the original M1b trials drew from 20. The
+  original trials were never re-assembled.
+- **The camouflage levers stay bundled** (JSON rendering, constant titles,
+  k=4 fillers), so the stark-vs-camouflaged difference — 3/80 [1.3%, 10.5%] vs
+  7/80 [4.3%, 17.0%], overlapping intervals — is not attributable to any one
+  of them. M1C pre-registered no cross-surface test and none is performed.
+- **One model.** Nothing here transfers to `llama-3.1-8b-instruct` or
+  `gemma-3-12b-it`, which have no published anchor of any kind (D1).
+- **14% remains a reference magnitude for sizing and wording only** (D21),
+  never a null hypothesis about our cell. No p-value is attached to any
+  comparison with the paper, and the templates above are the only permitted
+  verbs.
+- **D7's "`m0.py`/`m1.py` are untouched frozen records" is false as written,
+  and is superseded by D26.** This milestone had to modify both. Growing the
+  shared corpus re-scoped the `corpus.N_PAIRS` those scripts read, so leaving
+  their bytes alone is what changed their behaviour: `m1.py dryrun` began
+  reporting FAILED, `m1.py wave` would have run 480 trials instead of M1's 120
+  under M1's caps, and `m0.py`/`m1.py verdict` would have rewritten their
+  published verdict files with fidelity counts from a corpus those milestones
+  never ran on. Both are now pinned to their own `N_PAIRS_M0` / `N_PAIRS_M1` —
+  restoring the behaviour each had when it ran — and every verdict writer, plus
+  `m0.py gen-docs`, refuses to run once the shared pool has moved. The D7
+  section stands as written because it is frozen; this is where it is
+  corrected. Frozen means the recorded behaviour is preserved, not that the
+  bytes are inviolable while the behaviour drifts.
+- **Repeat draws are not stable at `temperature = 0.0` (D27), and D5's premise
+  above is wrong because of it.** Smoke and wave both ran `absent × completing`
+  on p21–p25, so this milestone committed 10 duplicate trials of byte-identical
+  prompts. **3 differ in answer text, 2 change label** (`m1ca` p25 and `m1cb`
+  p22, both `correct-refusal` → `discriminated`), and **2 report different
+  `prompt_tokens` for the same prompt** — which prompt construction cannot
+  produce, so those calls reached different backends. `client.py` sends no
+  `provider` preference and no seed. Three consequences, stated rather than
+  smoothed over:
+  1. **D5's frozen rationale is false as written.** It says *"Temperature is 0.0
+     by pre-commitment … so new trials require new pairs. There is no
+     re-sampling alternative that isn't a design change to the frozen subject
+     contract."* Re-sampling the same 20 pairs would in fact have produced new
+     information — and would have avoided the stage heterogeneity that is now
+     this study's principal limitation. The frozen section stands as written
+     because it is frozen; this addendum is where it is corrected.
+  2. **The "only" in the heterogeneity note above is corrected.** Repeat-draw
+     instability is a second live source of variation between stages, alongside
+     theme and prose composition.
+  3. **No committed rate in this repo is exactly reproducible by re-running its
+     wave.** That is a fair property for a study to have; it is not a fair
+     property to leave unstated in a repo whose contract is per-trial
+     mechanical verification.
+
+  The condition is **pre-existing, not introduced here** — M1's own logs show it
+  (30 duplicates: 8 text differences, 2 label flips). Pinning provider routing
+  is the durable fix, is a design change, and belongs in a future brief rather
+  than a retrofit into this one.
+
+### The stopping rule holds
+
+D3's "no further extension, regardless of outcome" is binding. Whatever these
+numbers invite, any subsequent wave is a new pre-registered study with its own
+brief — never an M1C top-up.

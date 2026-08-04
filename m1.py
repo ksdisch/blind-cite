@@ -56,7 +56,9 @@ from pathlib import Path
 
 from assemble import (CONSTANT_TITLE, K_FILLER, assemble, assemble_camouflaged,
                       cell_id, filler_pair_ids)
-from corpus import CORPUS_M0_PATH, N_PAIRS, N_PAIRS_M0, load_corpus, owner_map
+import corpus as _corpus
+from corpus import (CORPUS_M0_PATH, N_PAIRS_M0, N_PAIRS_M1, load_corpus,
+                    owner_map)
 from detectors import classify, verify_doc
 from prompts import (camouflaged_trial_prompt, evidence_doc_prompt,
                      null_doc_prompt, trial_prompt)
@@ -469,7 +471,7 @@ def synthetic_doc_bank(corpus: dict) -> dict:
 
 def synthetic_rows(model: str, dg_at_completing: int, arm: str = "a",
                    vague: int = 0, errors: int = 0, misattributed: int = 0,
-                   n: int = N_PAIRS) -> list[dict]:
+                   n: int = N_PAIRS_M1) -> list[dict]:
     """Synthetic wave rows built by running crafted answers through the REAL
     classifier on the REAL assembled + rendered surfaces. Nothing in the
     scoring path is stubbed out — that is the whole point of the dry-run."""
@@ -756,7 +758,7 @@ def cmd_smoke(args) -> int:
     # The measured-rate rule: the wave launches only if the smoke's own measured
     # per-trial cost projects it under cap.
     mean = sum(r["cost"] for r in ok_rows) / len(ok_rows)
-    n_wave = len(_models(args)) * N_PAIRS * len(M1_CELLS)
+    n_wave = len(_models(args)) * N_PAIRS_M1 * len(M1_CELLS)
     projected = mean * n_wave
     cap = CAP_WAVE[arm]
     go = projected < cap
@@ -772,9 +774,11 @@ def cmd_wave(args) -> int:
     docs_all = _usable_docs()
     owners = owner_map(corpus)
     pairs = [p for p in corpus["pairs"] if p["pair_id"] in docs_all]
-    if len(pairs) < N_PAIRS:
-        print(f"HALT: only {len(pairs)}/{N_PAIRS} pairs have a COMPLETE doc set "
-              f"— run `m1.py gen-docs` first, or every gated cell auto-UNDERPOWERS")
+    pairs = pairs[:N_PAIRS_M1]
+    if len(pairs) < N_PAIRS_M1:
+        print(f"HALT: only {len(pairs)}/{N_PAIRS_M1} pairs have a COMPLETE doc "
+              f"set — run `m1.py gen-docs` first, or every gated cell "
+              f"auto-UNDERPOWERS")
         return 1
     path = WAVE_PATH[arm]
     meter = open_meter(CAP_WAVE[arm])
@@ -835,7 +839,24 @@ def cmd_wave(args) -> int:
     return 0
 
 
+def _refuse_if_corpus_moved() -> None:
+    """M1's verdict file is a published record; it must not be silently rewritten
+    against a corpus M1 never ran on. `run_fidelity` counts render traps over
+    every pair that has docs, so once the shared pool grows past M1's 20 the
+    number it returns describes a different corpus (1068 at 80 pairs vs M1's
+    288) while the cell counts below still come from M1's 20-pair wave. Writing
+    that file would produce a self-contradicting record (PR #12 review F2)."""
+    if _corpus.N_PAIRS != N_PAIRS_M1:
+        raise SystemExit(
+            f"HALT: corpus.N_PAIRS is {_corpus.N_PAIRS}, not M1's {N_PAIRS_M1}. "
+            f"M1's verdict cannot be re-rendered against a grown corpus — the "
+            f"fidelity count would describe {_corpus.N_PAIRS} pairs beside "
+            f"20-pair cell counts. data/m1{{a,b}}_verdict.json stands as the "
+            f"record; read it, do not regenerate it.")
+
+
 def cmd_verdict(args) -> int:
+    _refuse_if_corpus_moved()
     arm = args.arm
     rows = _load(WAVE_PATH[arm])
     if not rows:
@@ -844,7 +865,7 @@ def cmd_verdict(args) -> int:
     v = arm_verdict(wave_funnel(rows))
     fid_ok, fid_n, _ = run_fidelity()
     v["fidelity"] = [fid_ok, fid_n]
-    v["arm"], v["surface"], v["n_pairs"] = arm, ARMS[arm], N_PAIRS
+    v["arm"], v["surface"], v["n_pairs"] = arm, ARMS[arm], N_PAIRS_M1
     print(f"fidelity gate: {fid_ok}/{fid_n} "
           f"{'PASS' if fid_ok == fid_n else 'FAIL'}\n")
     print_verdict(arm, v)

@@ -20,7 +20,8 @@ from collections import Counter
 from pathlib import Path
 
 from assemble import CELLS, assemble, cell_id
-from corpus import load_corpus
+import corpus as _corpus
+from corpus import N_PAIRS_M0, load_corpus
 from detectors import classify, verify_doc
 from prompts import evidence_doc_prompt, null_doc_prompt, trial_prompt
 from stats import wilson
@@ -78,13 +79,28 @@ def cmd_ping(_args) -> int:
 
 def cmd_gen_docs(args) -> int:
     from client import GENERATOR, GENERATOR_TEMPERATURE, BudgetExceeded, CostMeter, chat
+    # This command writes the SHARED evidence bank, and it writes a dict it
+    # builds from scratch. Once the corpus grew past M0's 12 that became a
+    # truncating write: it would replace an 80-pair data/docs.json with 12
+    # freshly sampled pairs, deleting the evidence every later milestone's
+    # committed logs re-verify against — and it would do so even on the
+    # BudgetExceeded path, since the writes sit outside the try. The verdict
+    # writers got this guard in the same commit; this one is the write that
+    # deletes evidence rather than merely restating it (PR #12 review F6).
+    if _corpus.N_PAIRS != N_PAIRS_M0:
+        raise SystemExit(
+            f"HALT: corpus.N_PAIRS is {_corpus.N_PAIRS}, not M0's "
+            f"{N_PAIRS_M0}. `m0.py gen-docs` rebuilds data/docs.json from "
+            f"scratch and would truncate the shared {_corpus.N_PAIRS}-pair "
+            f"bank to {N_PAIRS_M0}. Later milestones generate incrementally "
+            f"(`m1.py gen-docs`, `m1c.py gen-docs`); use those.")
     corpus = load_corpus()
     meter = CostMeter(CAP_GEN_DOCS)
     docs: dict = {}
     log: list[dict] = []
     incomplete = []
     try:
-        for pair in corpus["pairs"]:
+        for pair in corpus["pairs"][:N_PAIRS_M0]:
             jobs = [
                 ("x", evidence_doc_prompt(pair["x"], pair["theme"])),
                 ("y_completing", evidence_doc_prompt(pair["y"], pair["theme"])),
@@ -176,7 +192,7 @@ def cmd_smoke(args) -> int:
               f"${cost:.5f}/trial")
     if ok_rows:
         mean_cost = sum(r["cost"] for r in ok_rows) / len(ok_rows)
-        n_pilot = len(load_corpus()["pairs"]) * len(CELLS) * 3
+        n_pilot = N_PAIRS_M0 * len(CELLS) * 3
         projected = mean_cost * n_pilot
         print(f"projected pilot ({n_pilot} trials, worst-cell rate): "
               f"${projected:.3f} vs cap ${CAP_PILOT} — "
@@ -200,7 +216,7 @@ def cmd_pilot(args) -> int:
     with PILOT_PATH.open("a") as fh:
         try:
             for model in _models(args):
-                for pair in corpus["pairs"]:
+                for pair in corpus["pairs"][:N_PAIRS_M0]:
                     for cx, cy in CELLS:
                         if (pair["pair_id"], cell_id(cx, cy), model) in done:
                             continue
@@ -289,6 +305,15 @@ def m1_sizing(model_funnel: dict, survivors: list[str]) -> dict:
 
 
 def cmd_verdict(_args) -> int:
+    # Same guard as m1.py's, same reason (PR #12 review F2): run_fidelity's
+    # inputs scale with the shared pool, so once the corpus grows past M0's 12
+    # this file would be rewritten with counts M0 never measured.
+    if _corpus.N_PAIRS != N_PAIRS_M0:
+        raise SystemExit(
+            f"HALT: corpus.N_PAIRS is {_corpus.N_PAIRS}, not M0's {N_PAIRS_M0}. "
+            f"M0's verdict cannot be re-rendered against a grown corpus. "
+            f"data/m0_verdict.json stands as the record; read it, do not "
+            f"regenerate it.")
     rows = [json.loads(line) for line in PILOT_PATH.read_text().splitlines()]
     fid_ok, fid_n, _ = run_fidelity()
     gen = json.loads(GEN_LOG_PATH.read_text())["summary"]
