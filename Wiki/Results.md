@@ -22,7 +22,7 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 | DG-any (fillers) | n/a (no fillers) | 0/120 | 0/120 |
 | fidelity gate | 16/16 | 288/288 | 288/288 |
 | gate verdict | **FIT** | **NULL** | **NULL** |
-| vs. cell-matched 14% anchor (qwen only) | n/a | 0/20 — CI contains it | 2/20 — CI contains it, p=0.455 |
+| vs. nearest published floor, 14% (qwen only; **not our cell**) | n/a | 0/20 — CI [0.0%, 16.1%] spans it | 2/20 — CI [2.8%, 30.1%] spans it |
 | spend | ≈$0.009 | — | — (M1 total $0.0177) |
 
 **Fact** (`data/m1a_verdict.json`, `data/m1b_verdict.json`): per-model Wilson 95% intervals on DG at the adversarial cell are [0.0%, 16.1%] for every model/arm except `qwen-2.5-7b` camouflaged, which is [2.8%, 30.1%] on 2/20. Pooled M1a 0/60 → [0.0%, 6.0%] (descriptive only; models are not exchangeable).
@@ -35,9 +35,11 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 
 **Inference** (from D3 and the M1b result): Option C's stated payoff was that *every* outcome would be a clean headline. The realized branch is DG≈0 at both surfaces.
 
-**Contradiction — corrected twice; see [Paper-Mapping](Paper-Mapping.md) for the full history.** An earlier version of this page compared our 0/20 against "66.3% DG for Qwen2.5-7B" as though the two were the same condition; they are not (that is the model's **peak** cell, `absent × synthetic_Y`, Table 2). A second version then claimed no cell-matched anchor existed at all; that was **also wrong** — the paper's Appendix C, Figure 6 publishes per-cell matrices for all 13 models, and gives **Qwen2.5-7B at `absent × prior_completing` = 14%**, our exact model at our exact cell.
+**Contradiction — three framings withdrawn; [Paper-Mapping](Paper-Mapping.md) carries the full history.** (1) Comparing our 0/20 to "66.3% for Qwen2.5-7B" — that is the model's *peak* cell. (2) Claiming no per-cell breakdown exists — Appendix C publishes one for all 13 models. (3) Claiming 14% is "our exact cell" and our result "consistent with the paper" — it is **not our cell**.
 
-**Fact.** Measured against that anchor, both our kin-model intervals *contain* it: stark 0/20 → [0.0%, 16.1%]; camouflaged 2/20 → [2.8%, 30.1%], exact binomial P(X≤2 | p=0.14, n=20) = 0.455. **The camouflaged result is consistent with the paper, not a refutation** (D17). The claim "paper-contradicting for cheap models" is withdrawn, and so is the "prior-dependence, well-powered" headline that replaced it. Note also that `llama-3.1-8b-instruct` and `gemma-3-12b-it` are **not** the paper's Llama-3.1-70B / Gemma4 models, so their 0/20 results have no published anchor at all.
+**Fact.** The paper has **no cell for the condition we ran**: §4 and Appendix A define `prior_completing` as evidence elicited to match a model's parametric prior for X, and ours is fabricated tokens matching no prior. The nearest published cell — `Qwen2.5-7B, absent × prior_completing` = 14% (Fig. 6, **RAG-4** schema) — is additionally labelled a **lower bound for non-L1 models** (Table 2 caption, Appendix C Table 8, Appendix F), and this project ran neither of the paper's schemas.
+
+**What is reportable:** direction only. Our rates (0/20 stark, 2/20 camouflaged for `qwen-2.5-7b`) sit at or below the nearest published floor, while the paper's completing-Cy regime for that model spans 14% → 61%. No point comparison, no p-value on one, no verb claiming agreement or disagreement (D21). `llama-3.1-8b-instruct` and `gemma-3-12b-it` are not the paper's Llama/Gemma models and have no anchor at all.
 
 ### The flagship artifact
 
@@ -72,6 +74,6 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 - [History](History.md) — the chronology these results sit in
 
 ## Relevance to current work
-This is the evidence base for the open call in `PROJECT.md` (D19): close v1 on an honestly-underpowered result, or run a pre-registered power-sized extension on `qwen-2.5-7b` — the one model with a published cell-matched anchor — to resolve 14% vs ~0. It is also the table a write-up (`/research-paper`) is built from: every number here is traceable to a committed file, the comparison is to **14%**, and the supported verb is *"consistent with"*, never *"disappears"*.
+This is the evidence base for D19 (approved): run the approved pre-registered power-sized extension on `qwen-2.5-7b` — the one model with any published anchor — to make the directional statement decisive. It is also the table a write-up (`/research-paper`) is built from: every number here is traceable to a committed file, the comparison is **directional against a 14% floor at a non-matching cell and a schema we did not run** — no point estimate, no verb claiming agreement or disagreement (D21).
 
 _Last reviewed: 2026-08-04_

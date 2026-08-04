@@ -370,8 +370,12 @@ The paragraph below compares the kin model to "the paper's Qwen2.5-7B @ 66.3%". 
 **peak** cell (`absent × synthetic_Y`, Table 2), not our gated cell. The cell-matched anchor —
 **Qwen2.5-7B at `absent × prior_completing` = 14%**, paper Appendix C / Figure 6 — makes our camouflaged
 2/20 *consistent with* the paper (exact binomial p = 0.455), not contrary to it. See
-`Wiki/Paper-Mapping.md` and Decisions D16–D18. The text below is left as written (it is the record of
-what was concluded at the time); this note is the correction.
+`Wiki/Paper-Mapping.md` and Decisions D16–D22. Two further corrections to this addendum, which is
+left as written because it records what was concluded at the time: (a) every "well-powered" in it is
+withdrawn — the pre-committed N came from clean-trial yield, not a power calculation (D18); (b) no
+point comparison to the paper is legitimate at all, because §4/Appendix A define `prior_completing`
+by evidence matching a model's prior for X and ours is fabricated — the paper has no cell for what
+we ran (D21). Report direction only.
 
 ### The surface factor (Option C's payoff)
 
