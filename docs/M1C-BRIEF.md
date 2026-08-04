@@ -291,3 +291,130 @@ With those ruled, D1–D7 are the pre-registration. Build follows in D7's
 order — dry-run, smoke, wave, verdict — and the brief is frozen from the
 moment the first paid call runs. Nothing is built or spent until Kyle
 green-lights the build on this committed brief.
+
+---
+
+## M1C outcome (2026-08-04) — the wave ran; the brief above is frozen
+
+Rendered mechanically by `m1c.py verdict`, run **once**, per D3. The addendum
+is appended; nothing above this line was edited after the first paid call.
+
+### What ran
+
+240 new trials (60 extension pairs × 2 gated cells × 2 surfaces) on
+`qwen/qwen-2.5-7b-instruct`, pooled with M1's 20 per gated cell per surface.
+**240/240 calls ok on the first pass** — no top-up needed, zero errored, zero
+vague, zero confabulation. Fidelity gate **1068/1068 PASS** over the 80-pair
+corpus. Doc generation: 180 attempts, **0 rejections**. Both surfaces hold
+**80/80 clean per gated cell**, so `N_CLEAN_REQUIRED_M1C = 80` is met exactly
+and neither surface reports UNDERPOWERED. Measured spend **$0.0446 / $0.10**
+(estimate was $0.052; the 30% retry margin went unused).
+
+The original rows re-derive M1's published verdicts exactly — stark
+{refusal 13, discriminated 7}, DG 0/20; camouflaged {refusal 13,
+discriminated 5, DG 2}, DG 2/20, blindness 2/2 and 2/2 — which is the
+ingestion check the combined estimand depends on.
+
+### The result, in the pre-committed rows
+
+| surface | scope | DG-Y at `absent × completing` | Wilson 95% | template |
+|---|---|---|---|---|
+| stark | original (N=20) | 0/20 | [0.0%, 16.1%] | T0 |
+| stark | extension-only (N=60) | 3/60 | [1.7%, 13.7%] | **T2** |
+| **stark** | **combined (N=80)** | **3/80** | **[1.3%, 10.5%]** | **T2** |
+| camouflaged | original (N=20) | 2/20 | [2.8%, 30.1%] | T3 |
+| camouflaged | extension-only (N=60) | 5/60 | [3.6%, 18.1%] | **T3** |
+| **camouflaged** | **combined (N=80)** | **7/80** | **[4.3%, 17.0%]** | **T3** |
+
+Extension-only and combined selected the **same** template on each surface, so
+D1's side-by-side clause did not fire and the combined statement is carried
+alone. All three rows are recorded either way; the extension-only row is the
+unconditioned check and is never hidden.
+
+**The pre-committed statements, verbatim as rendered:**
+
+- **Stark (T2):** "DG occurs on this surface (3/80, Wilson [1.3%, 10.5%],
+  lower bound > 0) at a rate below the nearest published floor for this model
+  (≥14% — different condition by definition, stated lower bound, schema we did
+  not run). Direction: occurs, low. This is not a replication claim and not a
+  contradiction claim."
+- **Camouflaged (T3):** "DG occurs on this surface (7/80, Wilson [4.3%,
+  17.0%]) at a rate whose interval reaches the magnitude of the nearest
+  published floor (≥14% — different condition by definition, stated lower
+  bound, schema we did not run). Direction: comparable magnitude, hedged. This
+  is not a replication claim and not a contradiction claim."
+
+### The secondary gate, and why it disagrees with the primary on the stark arm
+
+| surface | Newcombe delta (completing − null_control), combined N | gate |
+|---|---|---|
+| stark | +0.037 [−0.015, +0.105] — straddles 0 | **NULL** |
+| camouflaged | +0.087 [+0.024, +0.170] — excludes 0 | **DG-EFFECT** |
+
+On the stark arm the primary estimand's interval excludes 0 (3/80 → lower
+bound 1.3%) while the secondary paired interval does not. These are two
+different questions and the rendering does not conflate them — the dry-run
+carried a scenario for exactly this case before any spend. The structural
+reason is the one M1 already stated against itself: at `absent ×
+null_control` the Y-null doc contains **zero** token-shaped strings, so DG-Y
+is impossible there by construction. The Newcombe interval nevertheless
+carries the control cell's own Wilson width (0/80 → upper 4.6%) into the
+difference, which is wider than the arm cell's distance from zero at k=3. The
+paired test is therefore strictly more conservative than the one-sample
+interval here, and its NULL is not evidence against occurrence.
+
+### The flagship artifact, at ten answers instead of two
+
+**Ten** DG answers across the two surfaces (3 stark, 7 camouflaged). On every
+single one the mechanical **faithfulness proxy PASSES and the citation proxy
+PASSES**: 3/3 and 3/3 on stark, 7/7 and 7/7 on camouflaged. Y's evidence
+attributed to X, Y never named, a genuinely retrieved doc cited, every
+standard check blind. M1 rendered this contrast on 2 answers and could only
+call it an existence proof; at N=80 per surface it is rendered on ten, at both
+surfaces, with a rate interval attached.
+
+**DG-any is 0/160** — across all 160 camouflaged trials not one third-party
+filler token entered an answer. The contamination guard reads clean.
+
+### What M1C changes about M1
+
+M1's headline was a NULL at both surfaces at N=20. The stark surface — where
+M1 measured **0/20** — reads **3/80** at the pre-registered N, with a lower
+bound above zero. D18 recorded that M1's N came from clean-trial yield rather
+than a power calculation and could not resolve the floor; M1C is that
+prediction bearing out on the project's own data. The M1 result is not
+withdrawn — 0/20 was correctly measured and correctly reported, and its row
+stands unchanged above — but the inference "DG ≈ 0 on this surface" was a
+power artifact.
+
+### Limitations, stated
+
+- **Stage heterogeneity, and it is large.** Engagement (non-refusal) at the
+  adversarial cell differs materially between the two stages: stark 35% on
+  p01–p20 vs 65% on p21–p80; camouflaged 35% vs 55%. The two stages are not
+  behaviourally exchangeable, and the combined row pools them. Both scopes
+  fired the same template on each surface, and the extension-only rows are
+  reported beside the combined ones precisely so this is visible rather than
+  averaged away — but the DG rates themselves rest on pairs that elicit more
+  engagement than M1's did. No mechanism for the difference is established
+  here; the pairs differ only in their hand-authored themes and generated
+  prose.
+- **The filler population changed**, as D5 stated in advance: extension trials
+  draw fillers from 80 pairs, the original M1b trials drew from 20. The
+  original trials were never re-assembled.
+- **The camouflage levers stay bundled** (JSON rendering, constant titles,
+  k=4 fillers), so the stark-vs-camouflaged difference — 3/80 [1.3%, 10.5%] vs
+  7/80 [4.3%, 17.0%], overlapping intervals — is not attributable to any one
+  of them. M1C pre-registered no cross-surface test and none is performed.
+- **One model.** Nothing here transfers to `llama-3.1-8b-instruct` or
+  `gemma-3-12b-it`, which have no published anchor of any kind (D1).
+- **14% remains a reference magnitude for sizing and wording only** (D21),
+  never a null hypothesis about our cell. No p-value is attached to any
+  comparison with the paper, and the templates above are the only permitted
+  verbs.
+
+### The stopping rule holds
+
+D3's "no further extension, regardless of outcome" is binding. Whatever these
+numbers invite, any subsequent wave is a new pre-registered study with its own
+brief — never an M1C top-up.

@@ -27,24 +27,30 @@ How this project's factorial relates to arXiv 2607.09349's — and why **no cell
 
 ### What our data can and cannot say
 
-**Fact** (`data/m1a_verdict.json`, `data/m1b_verdict.json`):
+**Fact** (`data/m1a_verdict.json`, `data/m1b_verdict.json`, `data/m1c_verdict.json`):
 
 | `qwen-2.5-7b` at `absent × completing` | measured | Wilson 95% | vs. the 14% floor |
 |---|---|---|---|
 | M1a stark | 0/20 = 0.0% | [0.0%, 16.1%] | contains it |
 | M1b camouflaged | 2/20 = 10.0% | [2.8%, 30.1%] | contains it |
+| **M1C stark (N=80)** | **3/80 = 3.8%** | **[1.3%, 10.5%]** | **excludes it (below)** → template **T2** |
+| **M1C camouflaged (N=80)** | **7/80 = 8.8%** | **[4.3%, 17.0%]** | **contains it** → template **T3** |
 
-**Can say (direction, hedged):** our measured rates sit at or below the nearest published floor for this model, while the paper's completing-Cy regime for it spans 14% → 61% depending on entity recognizability. **Cannot say:** that we reproduced it, that we contradicted it, or that the phenomenon "disappears". No point comparison is legitimate — the conditions differ definitionally, the anchor is a bound not a value, and the schemas differ. This is precisely the case the honesty contract already covers: *"direction + structure, never point estimates."*
+**Can say (direction, hedged) — and after M1C this is now said only through the pre-committed templates** (`docs/M1C-BRIEF.md` D4, the only permitted verbs): stark fires **T2**, "DG occurs on this surface at a rate below the nearest published floor … Direction: occurs, low"; camouflaged fires **T3**, "… at a rate whose interval reaches the magnitude of the nearest published floor … Direction: comparable magnitude, hedged". Each template carries its own caveats inline — different condition by definition, stated lower bound, schema we did not run — so no downstream rendering can drop them. **Cannot say:** that we reproduced it, that we contradicted it, or that the phenomenon "disappears". No point comparison is legitimate — the conditions differ definitionally, the anchor is a bound not a value, and the schemas differ. This is precisely the case the honesty contract already covers: *"direction + structure, never point estimates."*
 
-**Fact (D18) — the finding about ourselves.** At N=20/cell we cannot resolve even the floor: 0/20 has a Wilson upper of 16.1%, above 14%, and **0/24 is the smallest run that would clear it** (upper 13.80%). The pre-committed N≥20 came from M0's clean-**trial-yield** funnel (the `m1_sizing()` function in `m0.py`, called by `cmd_verdict` — not a subcommand), never from a power calculation against a target effect size. It sized the wave for usable trials, not for detectable difference. That is the project's main methodological finding about itself, and it is the reason the extension under D19 is worth running.
+**Note what M1C did *not* change.** Every reason this comparison is illegitimate is structural, not statistical: the paper defines `prior_completing` by evidence matching a parametric prior, 14% is a stated lower bound, and neither of the paper's schemas is ours. More N does not move any of those. What N bought is a *tighter interval on our own rate* and therefore a sharper directional template — nothing more.
+
+**Fact (D18) — the finding about ourselves.** At N=20/cell we cannot resolve even the floor: 0/20 has a Wilson upper of 16.1%, above 14%, and **0/24 is the smallest run that would clear it** (upper 13.80%). The pre-committed N≥20 came from M0's clean-**trial-yield** funnel (the `m1_sizing()` function in `m0.py`, called by `cmd_verdict` — not a subcommand), never from a power calculation against a target effect size. It sized the wave for usable trials, not for detectable difference. That is the project's main methodological finding about itself, and it is the reason the extension under D19 was worth running.
+
+**Fact (D24) — and the extension bore it out.** At the pre-registered N=80 the stark surface reads 3/80, not 0/20: DG was present all along at a rate M1's N could not resolve from zero. The M1 measurement stands; the "DG ≈ 0" inference drawn from it does not. D18 was a warning the project issued about itself and then confirmed against its own data.
 
 ### What survives about prior-dependence
 
 **Fact** (paper §4, Appendix A): `synthetic_Y` fabricates Y's **name** while holding the completing information constant. **Fact** (paper §5.3, "Label-substitution experiment"): *"This is corroborated at scale: absent × synthetic_Y DG exceeds absent × prior_completing in 13/13 models (Wilcoxon signed-rank, W=91, p<0.001; median delta: 37.8 pp, range: 6.5–54.9 pp)."* (That range is a 10-tool statement; on the RAG-4 panels tabulated above, GPT-OSS-20B's delta is 5% − 2% = 3 pp, below its stated floor — the same schema mismatch as reason 3.) — for Qwen2.5-7B specifically, 14% → 61%. Removing entity-label recognition **quadruples** DG for our kin model.
 
-**Inference (low-to-moderate confidence, cross-study and confounded, and NOT a headline).** Our corpus fabricates Y's name — matching `synthetic_Y` on the recognition axis — *and* fabricates all the evidence, which neither paper cell does. If the name axis alone drove the effect we would expect something near 61%; we observe 0–10%, close to `prior_completing`'s 14% and far below `synthetic_Y`'s 61%. That pattern is **consistent with** completing information (the parametric prior) being the load-bearing factor, which is what the paper itself says: *"The model attributes evidence based on information content, not Y's entity-label recognition."*
+**Inference (low-to-moderate confidence, cross-study and confounded, and NOT a headline).** Our corpus fabricates Y's name — matching `synthetic_Y` on the recognition axis — *and* fabricates all the evidence, which neither paper cell does. If the name axis alone drove the effect we would expect something near 61%; at M1C's N=80 we observe 3.8–8.8% (intervals [1.3%, 10.5%] and [4.3%, 17.0%]), nearer `prior_completing`'s 14% than `synthetic_Y`'s 61% — the same shape M1's 0–10% showed, now on four times the data. That pattern is **consistent with** completing information (the parametric prior) being the load-bearing factor, which is what the paper itself says: *"The model attributes evidence based on information content, not Y's entity-label recognition."*
 
-**This is an explanation, not a measurement.** It is a cross-study comparison across different domains (clinical vs API docs), different corpora, different detectors (LLM judge vs token ownership) and different schemas, at N far too small to separate 14% from 0. It is offered as the most parsimonious reading, explicitly labelled **Inference**, and it is **not** the project's headline claim.
+**This is an explanation, not a measurement.** It is a cross-study comparison across different domains (clinical vs API docs), different corpora, different detectors (LLM judge vs token ownership) and different schemas, and — even at N=80, where our own rate is tightly bounded — across measurements that no amount of N makes commensurable. It is offered as the most parsimonious reading, explicitly labelled **Inference**, and it is **not** the project's headline claim.
 
 ### The axis map, corrected
 
@@ -53,7 +59,7 @@ How this project's factorial relates to arXiv 2607.09349's — and why **no cell
 | alternate entity recognizable? | yes (real drug) | **no** (fabricated name) | **no** (fabricated) — *level with* synthetic_Y |
 | evidence matches a prior about X? | **yes** (elicited from L1) | **yes** (identical content) | **no** (fabricated tokens) — **this is what puts our condition off the paper's grid entirely** |
 | queried entity X real? | yes | yes | **no** (fabricated) — the paper never varies X |
-| Qwen2.5-7B rate (paper) | 14% | 61% | 0/20 stark, 2/20 camouflaged |
+| Qwen2.5-7B rate (paper) | 14% | 61% | M1C, N=80: 3/80 = 3.8% stark, 7/80 = 8.8% camouflaged (M1, N=20: 0/20, 2/20) |
 
 **Fact:** the paper *does* test fabricated entities — `synthetic_Y` by definition, plus the anonymous-label substitution (§5.3 / Table 11, *"XC-9941"*) and Appendix F's `ENTITY_XYZZY_42`. What it never varies is the **queried** entity X, which is always a real drug.
 
@@ -85,6 +91,6 @@ How this project's factorial relates to arXiv 2607.09349's — and why **no cell
 - [Detector-Design](Detector-Design.md) — why judge-free scoring requires fabricated entities
 
 ## Relevance to current work
-This page exists to stop a fourth iteration of one specific mistake: **comparing this project's rate against a paper cell that is not the one it ran.** Three published framings have already failed that way ("paper-contradicting", "prior-dependence / well-powered", "consistent with the paper at our exact cell"). A `/research-paper` session must state the relationship as **directional and hedged**, name the schema, carry the lower-bound caveat, and never attach a p-value to a point comparison. It is also the evidence base for D19, the approved power-sized extension.
+This page exists to stop a fourth iteration of one specific mistake: **comparing this project's rate against a paper cell that is not the one it ran.** Three published framings have already failed that way ("paper-contradicting", "prior-dependence / well-powered", "consistent with the paper at our exact cell"). A `/research-paper` session must state the relationship **exclusively through the `docs/M1C-BRIEF.md` D4 templates** (T0-T4) — which are directional and hedged, name the schema, and carry the lower-bound caveat inline by construction — and never attach a p-value to a point comparison. M1C fired **T2** on the stark surface and **T3** on the camouflaged one (D24); those two strings are the whole of what may be said about the paper relationship.
 
 _Last reviewed: 2026-08-04_

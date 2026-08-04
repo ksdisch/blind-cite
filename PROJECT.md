@@ -9,7 +9,19 @@ Reproduce and measure **deceptive grounding** (arXiv 2607.09349) on cheap models
 **Out / deferred / never:** LLM judges in grading (never); frontier/70B/medical models; real learned retriever; tool-calling apparatus (docs inline instead — documented deviation); the paper's production 7.8%/740-pair measurement; specialization arm and cure arm (gated stretch/post-v1); importing lineage or paper code (patterns only). Full scope contract: `docs/KICKOFF.md` (source of truth).
 
 ## Current status
-**Active — M0 and M1 complete; v1 does NOT close at M1** (D19 supersedes D15). The extension's pre-registration is committed (`docs/M1C-BRIEF.md`, D23); build and spend await Kyle's explicit go.
+**Active — M0, M1 and M1C complete (2026-08-04).** The pre-registered power-sized extension ran; the one look is rendered (`data/m1c_verdict.json`, D24).
+
+**M1C headline — DG occurs at both surfaces once N is adequate.** Combined N=80 per gated cell per surface on `qwen-2.5-7b`, the one model with any published anchor. **Stark 3/80, Wilson [1.3%, 10.5%] → template T2** ("DG occurs on this surface … at a rate below the nearest published floor … Direction: occurs, low"). **Camouflaged 7/80, Wilson [4.3%, 17.0%] → template T3** ("… at a rate whose interval reaches the magnitude of the nearest published floor … Direction: comparable magnitude, hedged"). Extension-only and combined fired the same template on each surface, so D1's side-by-side clause did not fire; all three rows (N=20 / N=60 / N=80) are recorded per surface either way.
+
+**The stark surface is where this bites.** M1 measured 0/20 there and reported a null; at the pre-registered N it reads 3/80 with a lower bound above zero. D18 predicted exactly this against the project's own data — the N came from clean-trial yield, not a power calculation. **M1's measurement is not withdrawn; the inference "DG ≈ 0" drawn from it is** (D24).
+
+**The flagship blindness contrast now rests on ten answers**, not two: 3 stark + 7 camouflaged, **faithfulness PASS 10/10 and citation PASS 10/10**. Y's evidence attributed to X, Y never named, a genuinely retrieved doc cited — every standard check blind, token ownership catching all ten.
+
+Secondary gate, reported beside the primary and not conflated with it: Newcombe delta stark +0.037 [−0.015, +0.105] (straddles 0 → gate NULL), camouflaged +0.087 [+0.024, +0.170] (excludes 0 → gate DG-EFFECT). At `absent × null_control` DG-Y is impossible by construction, so the paired interval carries the control's own Wilson width and is strictly the more conservative of the two — its stark NULL is not evidence against occurrence.
+
+Run quality: 240/240 calls ok on the first pass, zero errored, zero vague, zero confabulation; doc generation 180 attempts / 0 rejections; fidelity gate 1068/1068; DG-any 0/160. M1C spend **$0.0446 / $0.10**; project total ≈**$0.072** of the <$5 budget. **Principal limitation (D25): stage heterogeneity** — engagement at the adversarial cell runs 35% on M1's pairs vs 55–65% on the extension's; the stages are not behaviourally exchangeable and the combined row pools them. Reported, not adjusted for.
+
+**M1's own record, unchanged below.** D19 superseded D15 (v1 does not close at M1); D3's stopping rule now binds — no further extension, whatever this invites.
 
 M0 fit-pilot: verdict FIT — all three subjects survive, grounding at ceiling, detector fidelity 16/16, generator rejection 0/36, DG = 0/36 at the adversarial cell (all K4 "robust-low-DG for the right reason"), spend ≈$0.009.
 
@@ -20,9 +32,9 @@ M0 fit-pilot: verdict FIT — all three subjects survive, grounding at ceiling, 
 M1 ran as Option C (Decisions.md D6) — both surfaces, sequenced, at 20 pairs. **Gate verdict: NULL at both** (D10) — but see the headline above: "well-powered" was claimed and is withdrawn (D17/D18); the wave met its pre-committed N, which was sized for clean-trial yield, not for power against a 14% effect. Every model held 20/20 clean in both gated cells on both arms; 240/240 trials ok on first pass; zero vague, zero confabulation, zero errors; fidelity gate 288/288. DG-Y was 0/20 everywhere except `qwen-2.5-7b` at the *camouflaged* adversarial cell (2/20; Newcombe +0.100 [−0.077, +0.301] — straddles 0, so the null stands). **The flagship blindness contrast rendered** on those 2 answers: faithfulness PASS 2/2, citation PASS 2/2 — Y's evidence attributed to X by name, Y never mentioned, a real doc cited, every standard check blind. DG-any 0/120 under k=4 fillers. M1 spend $0.0177 / $0.45; project total ≈$0.027 of the <$5 budget. Paper re-checked 2026-08-03 (still v1, no code).
 
 ## Next actions
-1. **Build M1C per the committed pre-registration (`docs/M1C-BRIEF.md`, D23) — on Kyle's go.** Corpus extension p21–p80 (seed-preserving, append-only pools, fixtures pinned) → `m1c.py` gates as code → dry-run on synthetic answers → `ping` (price re-pin) → smoke N≈5 per arm → both waves → one-look verdict. Combined N=80 per gated cell per surface; est. **≈$0.052** under the $0.10 cap.
-2. Then `/research-paper` — stating the paper relationship via the brief's pre-committed direction-only templates.
-3. Then `/seed-hunt` for repro #6.
+1. **`/research-paper`** — the write-up, now off a substantive result rather than a null. It must state the paper relationship **exclusively** through the M1C-BRIEF D4 templates (direction only, caveats inline, no p-value against any paper cell, no point comparison), report all three rows per surface, and carry D25's stage heterogeneity as a stated limitation rather than a footnote.
+2. Then `/seed-hunt` for repro #6.
+3. **Not next: another wave.** D3's stopping rule is binding — any further measurement is a new pre-registered study with its own brief, never an M1C top-up.
 
 ## Boundaries
 Hobby budget <$5 total (M0 spent ≈$0.009); N≥20 clean trials per gated cell or the gate auto-reports UNDERPOWERED; macOS, no GPU, no Docker; OpenRouter for all model calls (`OPENROUTER_API_KEY` in `.env`, never committed); honesty contract is non-negotiable — reproduce-and-measure, judge-free deterministic scoring, per-trial mechanical verification, pre-committed gates as code, nulls are headlines, direction + structure never point estimates.
