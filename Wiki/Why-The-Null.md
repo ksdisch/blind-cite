@@ -28,7 +28,7 @@ The K4 flag fires when: K1 passes (grounding ≥6/12 at complete×null_control �
 
 ### What M1 answered — 2026-08-03
 
-**Fact** (`data/m1a_verdict.json`, `Decisions.md` D10): The pre-committed design at 20 pairs rendered a **NULL gate outcome** — DG 0/20 per model per cell, Wilson 95% upper 16.1% per model, engagement present (`discriminated` 30/60 at the adversarial cell). *"Well-powered" was claimed here and is withdrawn* (D17/D18): 16.1% does not exclude the cell-matched 14% anchor, so the M0 null reproduced at the same N, not at power.
+**Fact** (`data/m1a_verdict.json`, `Decisions.md` D10): The pre-committed design at 20 pairs rendered a **NULL gate outcome** — DG 0/20 per model per cell, Wilson 95% upper 16.1% per model, engagement present (`discriminated` 30/60 at the adversarial cell). *"Well-powered" was claimed here and is withdrawn* (D17/D18): 16.1% does not exclude the nearest published 14% floor, so the M0 null reproduced at the same N, not at power.
 
 **Fact** (`data/m1b_verdict.json`): The camouflage surface — JSON tool-result rendering, one constant title per doc, k=4 off-theme filler docs, the levers built precisely to defeat the name-salience described in the section above — also rendered a **NULL gate outcome**. DG was 0/20 for two models and **2/20** for `qwen-2.5-7b` (Newcombe +0.100 [−0.077, +0.301], straddles 0) — a rate at the nearest published floor for that model — though that cell is **not ours** and 14% is a lower bound at a schema we did not run, so only direction is reportable (D21).
 
@@ -51,7 +51,7 @@ The K4 flag fires when: K1 passes (grounding ≥6/12 at complete×null_control �
 ## Sources
 - [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) — D1 (paper DG definition), D3 (corpus design), D4 (retrieval design), D6 (detector taxonomy), D7 (K4 flag definition), Pilot outcome addendum
 - [`docs/M1-BRIEF.md`](../docs/M1-BRIEF.md) — D1–D4 (the two designs and their pre-stated limitations), "M1 outcome" addendum
-- [`Decisions.md`](../Decisions.md) — D3 (FIT verdict), D5→D6 (Option C), D10 (M1 verdict), D16–D19 (the cell-matched 14% anchor, the withdrawn headlines, the pre-registration gap, the reopened closure call)
+- [`Decisions.md`](../Decisions.md) — D3 (FIT verdict), D5→D6 (Option C), D10 (M1 verdict), D16–D22 (the nearest-cell 14% floor, the three withdrawn headlines, the pre-registration gap, and D19's approved extension)
 - [`PROJECT.md`](../PROJECT.md) — Current status, Next actions
 - [`detectors.py`](../detectors.py) — `classify()` label precedence
 

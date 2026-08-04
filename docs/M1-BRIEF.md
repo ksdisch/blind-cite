@@ -303,6 +303,26 @@ fidelity gate at 100%) → M1b smoke → M1b wave → `verdict`.
 
 ## M1 outcome (addendum, 2026-08-03 — written after both waves ran)
 
+> ### ⚠ Correction to this addendum (2026-08-04) — read before anything below
+>
+> Everything in this addendum is left **as written**, because it records what was concluded at
+> the time. Three things in it are now withdrawn:
+>
+> 1. **No point comparison to the paper is legitimate at all (D21).** Paper §4 and Appendix A
+>    *define* `prior_completing` as evidence elicited to match a model's parametric prior for X;
+>    ours is fabricated tokens matching no prior. **The paper has no cell for the condition we
+>    ran.** The nearest published cell (`Qwen2.5-7B, absent × prior_completing` = 14 per cent,
+>    Fig. 6, RAG-4 schema) is additionally a **lower bound** for non-L1 models (paper §5.2 body, repeated verbatim in Appendix C Table 8),
+>    and this project ran neither of the paper's schemas. Report **direction only** — and never
+>    attach a p-value to a point comparison.
+> 2. **Every "well-powered" below is withdrawn (D18).** The pre-committed N came from M0's
+>    clean-trial-yield funnel, not from a power calculation against a target effect size.
+> 3. **The "66.3 per cent" comparison below is withdrawn (D12/D16).** That is the model's
+>    *peak* cell (`absent × synthetic_Y`), not ours.
+>
+> Full reasoning and correction history: `Wiki/Paper-Mapping.md`; ledger D12–D22.
+
+
 Both arms ran. Total M1 spend **$0.0177** against the $0.45 cap (gen-docs
 $0.0032 + smoke $0.0016 + waves $0.0129). Every pre-committed gate held; no
 top-up pass was needed (240/240 trials ok on first pass, zero errors, zero
@@ -363,19 +383,6 @@ flags them. (p14 Sevaxen←Sevulfa, p18 Caeombra←Caeolyn; texts in
 `data/m1b_wave.jsonl`.)
 
 n=2 is an existence proof, not a rate. That is precisely what it is reported as.
-
-### Correction to this addendum (2026-08-04)
-
-The paragraph below compares the kin model to "the paper's Qwen2.5-7B @ 66.3%". That is the model's
-**peak** cell (`absent × synthetic_Y`, Table 2), not our gated cell. The cell-matched anchor —
-**Qwen2.5-7B at `absent × prior_completing` = 14%**, paper Appendix C / Figure 6 — makes our camouflaged
-2/20 *consistent with* the paper (exact binomial p = 0.455), not contrary to it. See
-`Wiki/Paper-Mapping.md` and Decisions D16–D22. Two further corrections to this addendum, which is
-left as written because it records what was concluded at the time: (a) every "well-powered" in it is
-withdrawn — the pre-committed N came from clean-trial yield, not a power calculation (D18); (b) no
-point comparison to the paper is legitimate at all, because §4/Appendix A define `prior_completing`
-by evidence matching a model's prior for X and ours is fabricated — the paper has no cell for what
-we ran (D21). Report direction only.
 
 ### The surface factor (Option C's payoff)
 

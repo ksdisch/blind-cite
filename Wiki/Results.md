@@ -29,7 +29,7 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 
 ### Prediction vs. outcome
 
-**Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, written 2026-07-15 — *before* M1 ran): "as designed, M1 would very likely render a well-powered NULL." **Observed:** a NULL gate outcome on all three subjects at both surfaces. **But the "well-powered" half did not hold** (D18): the N was derived from clean-trial yield, not from power against a target effect size, and against the cell-matched 14% anchor it is underpowered. The prediction was right about the verdict and wrong about what the verdict would license.
+**Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, written 2026-07-15 — *before* M1 ran): "as designed, M1 would very likely render a well-powered NULL." **Observed:** a NULL gate outcome on all three subjects at both surfaces. **But the "well-powered" half did not hold** (D18): the N was derived from clean-trial yield, not from power against a target effect size, and against the nearest published 14% floor it is underpowered. The prediction was right about the verdict and wrong about what the verdict would license.
 
 **Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced — but that bound was chosen when the assumed target was 66.3%, and it does not exclude the real 14% anchor (D18).
 
@@ -37,7 +37,7 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 
 **Contradiction — three framings withdrawn; [Paper-Mapping](Paper-Mapping.md) carries the full history.** (1) Comparing our 0/20 to "66.3% for Qwen2.5-7B" — that is the model's *peak* cell. (2) Claiming no per-cell breakdown exists — Appendix C publishes one for all 13 models. (3) Claiming 14% is "our exact cell" and our result "consistent with the paper" — it is **not our cell**.
 
-**Fact.** The paper has **no cell for the condition we ran**: §4 and Appendix A define `prior_completing` as evidence elicited to match a model's parametric prior for X, and ours is fabricated tokens matching no prior. The nearest published cell — `Qwen2.5-7B, absent × prior_completing` = 14% (Fig. 6, **RAG-4** schema) — is additionally labelled a **lower bound for non-L1 models** (Table 2 caption, Appendix C Table 8, Appendix F), and this project ran neither of the paper's schemas.
+**Fact.** The paper has **no cell for the condition we ran**: §4 and Appendix A define `prior_completing` as evidence elicited to match a model's parametric prior for X, and ours is fabricated tokens matching no prior. The nearest published cell — `Qwen2.5-7B, absent × prior_completing` = 14% (Fig. 6, **RAG-4** schema) — is additionally labelled a **lower bound for non-L1 models** (paper §5.2 body; Appendix C Table 8), and this project ran neither of the paper's schemas.
 
 **What is reportable:** direction only. Our rates (0/20 stark, 2/20 camouflaged for `qwen-2.5-7b`) sit at or below the nearest published floor, while the paper's completing-Cy regime for that model spans 14% → 61%. No point comparison, no p-value on one, no verb claiming agreement or disagreement (D21). `llama-3.1-8b-instruct` and `gemma-3-12b-it` are not the paper's Llama/Gemma models and have no anchor at all.
 
