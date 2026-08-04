@@ -1,12 +1,17 @@
 """Uniqueness/determinism invariants for the fabricated corpus (M0-BRIEF D3)
-plus the M1 seed-preservation guards (M1-BRIEF D4)."""
+plus the M1 (M1-BRIEF D4) and M1C (M1C-BRIEF D5) seed-preservation guards."""
 import json
 
 import pytest
 
-from corpus import (CORPUS_M0_PATH, CORPUS_PATH, N_PAIRS, N_PAIRS_M0,
-                    all_owned_tokens, build_corpus, owner_map)
+from corpus import (CORPUS_M0_PATH, CORPUS_M1_PATH, CORPUS_PATH, N_PAIRS,
+                    N_PAIRS_M0, N_PAIRS_M1, all_owned_tokens, build_corpus,
+                    owner_map)
 from detectors import TOKEN_RES, extract_tokens
+
+DATA = CORPUS_PATH.parent
+DOCS_PATH = DATA / "docs.json"
+DOCS_M1_PATH = DATA / "docs_m1.json"
 
 
 @pytest.fixture(scope="module")
@@ -96,6 +101,56 @@ def test_rebuilding_at_m0_size_reproduces_the_fixture(corpus_m0):
     """The strongest form of the guard: build_corpus(n_pairs=12) at HEAD still
     emits exactly M0's corpus, so nothing below the append point moved."""
     assert build_corpus(n_pairs=N_PAIRS_M0) == corpus_m0
+
+
+# --- M1C seed preservation (M1C-BRIEF D5) -----------------------------------
+#
+# The same guard one milestone on. M1C's primary estimand POOLS M1's 20 trials
+# per cell with 60 new ones, so it depends on p01-p20 and their doc texts being
+# the same artifacts those trials saw — a pool edit anywhere in p13-p20, or a
+# gen-docs run that rewrites an existing doc, would silently invalidate the
+# pooling. PR #11 review F5 caught the brief claiming this guard already
+# existed; data/corpus_m1.json and data/docs_m1.json are it, pinned before the
+# pools grew to 80.
+
+@pytest.fixture(scope="module")
+def corpus_m1():
+    return json.loads(CORPUS_M1_PATH.read_text())
+
+
+@pytest.fixture(scope="module")
+def docs_m1():
+    return json.loads(DOCS_M1_PATH.read_text())
+
+
+def test_m1_fixture_is_the_20_pair_corpus(corpus_m1):
+    assert corpus_m1["n_pairs"] == N_PAIRS_M1 == 20
+    assert len(corpus_m1["pairs"]) == 20
+
+
+def test_extension_preserves_m1_pairs_verbatim(corpus, corpus_m1):
+    """p01-p20 must be byte-identical to the M1 fixture after the pool appends."""
+    assert corpus["seed"] == corpus_m1["seed"]
+    assert corpus["pairs"][:N_PAIRS_M1] == corpus_m1["pairs"]
+
+
+def test_extension_preserves_m1_pairs_in_the_frozen_file(corpus_m1):
+    frozen = json.loads(CORPUS_PATH.read_text())
+    assert frozen["pairs"][:N_PAIRS_M1] == corpus_m1["pairs"]
+
+
+def test_rebuilding_at_m1_size_reproduces_the_fixture(corpus_m1):
+    assert build_corpus(n_pairs=N_PAIRS_M1) == corpus_m1
+
+
+def test_m1_doc_texts_are_unchanged(docs_m1):
+    """M1's wave rows were scored against these exact strings; gen-docs for
+    p21-p80 must not touch them (m1c.py gen-docs asserts the same thing before
+    it writes)."""
+    live = json.loads(DOCS_PATH.read_text())
+    assert len(docs_m1) == N_PAIRS_M1
+    for pid, entry in docs_m1.items():
+        assert live.get(pid) == entry, pid
 
 
 def test_extended_to_twenty_pairs(corpus):

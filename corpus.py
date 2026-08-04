@@ -20,7 +20,9 @@ SEED = 20260715
 N_PAIRS = 20  # M1 sizing from M0's measured funnel (M0-BRIEF addendum); was 12 at M0
 CORPUS_PATH = Path(__file__).parent / "data" / "corpus.json"
 CORPUS_M0_PATH = Path(__file__).parent / "data" / "corpus_m0.json"  # frozen M0 fixture
+CORPUS_M1_PATH = Path(__file__).parent / "data" / "corpus_m1.json"  # frozen M1 fixture
 N_PAIRS_M0 = 12
+N_PAIRS_M1 = 20
 
 # (task — 3rd-person verb phrase completing "which method …",
 #  failure — clause completing "raised when …")
