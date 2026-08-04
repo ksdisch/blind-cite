@@ -312,7 +312,7 @@ fidelity gate at 100%) → M1b smoke → M1b wave → `verdict`.
 >    *define* `prior_completing` as evidence elicited to match a model's parametric prior for X;
 >    ours is fabricated tokens matching no prior. **The paper has no cell for the condition we
 >    ran.** The nearest published cell (`Qwen2.5-7B, absent × prior_completing` = 14 per cent,
->    Fig. 6, RAG-4 schema) is additionally a **lower bound** for non-L1 models (paper §5.2 body, repeated verbatim in Appendix C Table 8),
+>    Fig. 6, RAG-4 schema) is additionally a **lower bound** for non-L1 models (paper §5.2 body, restated in Appendix C Table 8),
 >    and this project ran neither of the paper's schemas. Report **direction only** — and never
 >    attach a p-value to a point comparison.
 > 2. **Every "well-powered" below is withdrawn (D18).** The pre-committed N came from M0's

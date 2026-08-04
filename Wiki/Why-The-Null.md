@@ -1,7 +1,7 @@
 # Why-The-Null
 
 ## Purpose
-Explains what this project's null results actually mean: what was measured, why the nulls are informative rather than failures, and what they do not rule out. Written at M0 (DG = 0/36), extended after M1 tested the same question at a second, deliberately harder surface, and corrected 2026-08-04 once review established the cell-matched anchor.
+Explains what this project's null results actually mean: what was measured, why the nulls are informative rather than failures, and what they do not rule out. Written at M0 (DG = 0/36), extended after M1 tested the same question at a second, deliberately harder surface, and corrected 2026-08-04 once review established the nearest published floor and withdrew every point comparison (D21).
 
 ## Key understanding
 

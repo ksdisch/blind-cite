@@ -31,7 +31,7 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 
 **Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, written 2026-07-15 — *before* M1 ran): "as designed, M1 would very likely render a well-powered NULL." **Observed:** a NULL gate outcome on all three subjects at both surfaces. **But the "well-powered" half did not hold** (D18): the N was derived from clean-trial yield, not from power against a target effect size, and against the nearest published 14% floor it is underpowered. The prediction was right about the verdict and wrong about what the verdict would license.
 
-**Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced — but that bound was chosen when the assumed target was 66.3%, and it does not exclude the real 14% anchor (D18).
+**Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced — but that bound was chosen when the assumed target was 66.3%, and it does not exclude the nearest published 14% floor (D18).
 
 **Inference** (from D3 and the M1b result): Option C's stated payoff was that *every* outcome would be a clean headline. The realized branch is DG≈0 at both surfaces.
 
@@ -60,7 +60,7 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 - [`data/m1b_wave.jsonl`](../data/m1b_wave.jsonl) — the two DG answer texts behind the flagship contrast
 - [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) — D7/D8 pre-commitments, Pilot outcome addendum (the M1 prediction)
 - [`docs/M1-BRIEF.md`](../docs/M1-BRIEF.md) — D1–D4 pre-commitments, "The pick", "M1 outcome" addendum
-- [`Decisions.md`](../Decisions.md) — D3 (FIT), D6 (Option C), D7–D11 (M1 run and verdict), D12–D19 (paper-mapping corrections, the withdrawn headlines, the pre-registration gap, and the reopened v1-closure call)
+- [`Decisions.md`](../Decisions.md) — D3 (FIT), D6 (Option C), D7–D11 (M1 run and verdict), D12–D22 (paper-mapping corrections, the withdrawn headlines, the pre-registration gap, and D19's approved extension)
 
 ## Uncertainties & contradictions
 - **Unresolved:** whether the 2 DG answers reflect a real camouflage effect or sampling noise. n=2 cannot distinguish them, and the pre-committed gate declines to try.

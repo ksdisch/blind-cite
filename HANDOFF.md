@@ -23,7 +23,7 @@ Only after that: `/research-paper`, which must state the relationship **directio
 
 ## Open questions / blockers
 - **D19 is approved; the pre-registration is the blocker.** Nothing is built or spent until that session lands.
-- **The live scientific question:** does our kin-model rate actually differ from the paper's 14%? At N=20 we cannot tell. This is now the strongest remaining reason to spend anything.
+- **The live scientific question:** what our kin-model rate actually is. At N=20 the interval spans the nearest published floor either way. This is now the strongest remaining reason to spend anything.
 - No cell-matched anchor exists for `llama-3.1-8b-instruct` or `gemma-3-12b-it` — the paper's Llama and Gemma entries are **different models** (Llama-3.1-70B, Gemma4-27B/31B). Their 0/20 results have nothing published to compare against.
 - **Schema contradiction, flagged not resolved:** Figure 6 is RAG-4, Tables 1–2 are 10-tool. The paper claims <2pp difference at completing-Cy conditions, yet its calibration model reads 34% (Fig. 6) vs 67.0% (Table 1) at the same cell.
 - Watch for an arXiv v2 (reference-only either way; re-read 2026-08-03/04, still v1, no code).
