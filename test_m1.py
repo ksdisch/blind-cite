@@ -11,7 +11,7 @@ import json
 import pytest
 
 from assemble import cell_id
-from corpus import load_corpus
+from corpus import N_PAIRS_M1, load_corpus
 from detectors import verify_doc
 from m1 import (ARM_CELL, BASE_CELL, CAP_GEN_DOCS, CAP_M1_TOTAL, CAP_SMOKE,
                 CAP_WAVE, M1_CELLS, N_CLEAN_REQUIRED, _load, arm_verdict,
@@ -25,10 +25,23 @@ from m1 import (ARM_CELL, BASE_CELL, CAP_GEN_DOCS, CAP_M1_TOTAL, CAP_SMOKE,
     "scenario", dryrun_scenarios(),
     ids=[s[0].split(" —")[0] for s in dryrun_scenarios()])
 def test_dryrun_scenario_renders_its_pre_committed_verdict(scenario):
+    """M1's scenarios are asserted at M1's OWN size, N_PAIRS_M1 = 20.
+
+    `synthetic_rows` defaults `n` to the live `corpus.N_PAIRS`, which the M1C
+    extension moved to 80 (M1C-BRIEF D5). Left implicit, the "underpowered"
+    scenario — 1 vague + 1 errored trial per model — would leave 78 clean
+    trials per gated cell and render REPRODUCED, i.e. the pre-committed gate
+    would be checked against a wave size M1 never ran. `m1.py` itself is a
+    frozen record and stays byte-identical (M1C-BRIEF D7), so the size is
+    pinned here instead. Consequence, stated: re-running the `m1.py dryrun`
+    CLI against an 80-pair corpus now fails this scenario loudly rather than
+    silently mis-rendering it; M1's recorded results are unaffected — they
+    live in data/m1{a,b}_wave.jsonl and were scored at 20 pairs.
+    """
     _, arm, dg, vague, errors, misattr, expected = scenario
     rows = [r for m, k in dg.items()
             for r in synthetic_rows(m, k, arm=arm, vague=vague, errors=errors,
-                                    misattributed=misattr)]
+                                    misattributed=misattr, n=N_PAIRS_M1)]
     assert arm_verdict(wave_funnel(rows))["overall"] == expected
 
 

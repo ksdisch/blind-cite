@@ -153,8 +153,8 @@ def test_m1_doc_texts_are_unchanged(docs_m1):
         assert live.get(pid) == entry, pid
 
 
-def test_extended_to_twenty_pairs(corpus):
-    assert corpus["n_pairs"] == N_PAIRS == 20
+def test_extended_to_eighty_pairs(corpus):
+    assert corpus["n_pairs"] == N_PAIRS == 80
 
 
 def test_themes_are_unique_per_pair(corpus):

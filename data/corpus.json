@@ -1,6 +1,6 @@
 {
   "seed": 20260715,
-  "n_pairs": 20,
+  "n_pairs": 80,
   "pairs": [
     {
       "pair_id": "p01",
@@ -559,6 +559,1686 @@
           "flag": "lgr.woven_mast",
           "error": "LGR-E339",
           "version": "2.0.20"
+        }
+      }
+    },
+    {
+      "pair_id": "p21",
+      "theme": {
+        "task": "batches outbound email into digest deliveries",
+        "failure": "a digest window closes with no recipients resolved"
+      },
+      "question": "In the Pyrandal library, which method batches outbound email into digest deliveries, which configuration flag must be enabled for it, which error code is raised when a digest window closes with no recipients resolved, and which version of Pyrandal introduced this feature?",
+      "x": {
+        "name": "Pyrandal",
+        "stem": "vmt",
+        "tokens": {
+          "method": "vmt_stage_archive",
+          "flag": "vmt.durable_cadence",
+          "error": "VMT-E456",
+          "version": "8.17.10"
+        }
+      },
+      "y": {
+        "name": "Pyrimar",
+        "stem": "xft",
+        "tokens": {
+          "method": "xft_split_beacon",
+          "flag": "xft.rolling_prow",
+          "error": "XFT-E662",
+          "version": "8.16.12"
+        }
+      }
+    },
+    {
+      "pair_id": "p22",
+      "theme": {
+        "task": "signs outbound requests with a rotating shared secret",
+        "failure": "a signature timestamp falls outside the accepted skew"
+      },
+      "question": "In the Salivex library, which method signs outbound requests with a rotating shared secret, which configuration flag must be enabled for it, which error code is raised when a signature timestamp falls outside the accepted skew, and which version of Salivex introduced this feature?",
+      "x": {
+        "name": "Salivex",
+        "stem": "bxq",
+        "tokens": {
+          "method": "bxq_fetch_segment",
+          "flag": "bxq.atomic_budget",
+          "error": "BXQ-E710",
+          "version": "6.7.4"
+        }
+      },
+      "y": {
+        "name": "Salustro",
+        "stem": "xgh",
+        "tokens": {
+          "method": "xgh_spool_schema",
+          "flag": "xgh.tiered_guard",
+          "error": "XGH-E999",
+          "version": "2.13.18"
+        }
+      }
+    },
+    {
+      "pair_id": "p23",
+      "theme": {
+        "task": "replays a captured HTTP session against a staging host",
+        "failure": "a replayed request references an expired session cookie"
+      },
+      "question": "In the Tegolyn library, which method replays a captured HTTP session against a staging host, which configuration flag must be enabled for it, which error code is raised when a replayed request references an expired session cookie, and which version of Tegolyn introduced this feature?",
+      "x": {
+        "name": "Tegolyn",
+        "stem": "ssl",
+        "tokens": {
+          "method": "ssl_chunk_tally",
+          "flag": "ssl.verbose_window",
+          "error": "SSL-E483",
+          "version": "3.1.10"
+        }
+      },
+      "y": {
+        "name": "Tegaris",
+        "stem": "sbv",
+        "tokens": {
+          "method": "sbv_index_buffer",
+          "flag": "sbv.durable_prow",
+          "error": "SBV-E715",
+          "version": "3.13.11"
+        }
+      }
+    },
+    {
+      "pair_id": "p24",
+      "theme": {
+        "task": "transcodes uploaded audio into a streaming format",
+        "failure": "an uploaded track carries an unsupported sample rate"
+      },
+      "question": "In the Vunimar library, which method transcodes uploaded audio into a streaming format, which configuration flag must be enabled for it, which error code is raised when an uploaded track carries an unsupported sample rate, and which version of Vunimar introduced this feature?",
+      "x": {
+        "name": "Vunimar",
+        "stem": "lsx",
+        "tokens": {
+          "method": "lsx_scan_archive",
+          "flag": "lsx.frozen_gasket",
+          "error": "LSX-E549",
+          "version": "4.4.0"
+        }
+      },
+      "y": {
+        "name": "Vunyric",
+        "stem": "fhh",
+        "tokens": {
+          "method": "fhh_pivot_ledger",
+          "flag": "fhh.paced_policy",
+          "error": "FHH-E245",
+          "version": "4.9.2"
+        }
+      }
+    },
+    {
+      "pair_id": "p25",
+      "theme": {
+        "task": "partitions time-series points into retention buckets",
+        "failure": "a point arrives older than the oldest retained bucket"
+      },
+      "question": "In the Wexaxen library, which method partitions time-series points into retention buckets, which configuration flag must be enabled for it, which error code is raised when a point arrives older than the oldest retained bucket, and which version of Wexaxen introduced this feature?",
+      "x": {
+        "name": "Wexaxen",
+        "stem": "hfg",
+        "tokens": {
+          "method": "hfg_probe_quorum",
+          "flag": "hfg.pinned_girdle",
+          "error": "HFG-E678",
+          "version": "4.2.12"
+        }
+      },
+      "y": {
+        "name": "Wexobul",
+        "stem": "wjp",
+        "tokens": {
+          "method": "wjp_route_transfer",
+          "flag": "wjp.sticky_cadence",
+          "error": "WJP-E324",
+          "version": "6.3.6"
+        }
+      }
+    },
+    {
+      "pair_id": "p26",
+      "theme": {
+        "task": "fans a single publish out to per-subscriber queues",
+        "failure": "a subscriber queue exceeds its depth limit"
+      },
+      "question": "In the Xanombra library, which method fans a single publish out to per-subscriber queues, which configuration flag must be enabled for it, which error code is raised when a subscriber queue exceeds its depth limit, and which version of Xanombra introduced this feature?",
+      "x": {
+        "name": "Xanombra",
+        "stem": "nxq",
+        "tokens": {
+          "method": "nxq_shard_cursor",
+          "flag": "nxq.gated_window",
+          "error": "NXQ-E445",
+          "version": "5.3.15"
+        }
+      },
+      "y": {
+        "name": "Xanilon",
+        "stem": "mpv",
+        "tokens": {
+          "method": "mpv_seal_segment",
+          "flag": "mpv.atomic_margin",
+          "error": "MPV-E942",
+          "version": "2.8.10"
+        }
+      }
+    },
+    {
+      "pair_id": "p27",
+      "theme": {
+        "task": "collapses duplicate alerts into a single incident",
+        "failure": "an alert arrives after its incident has been resolved"
+      },
+      "question": "In the Yolyric library, which method collapses duplicate alerts into a single incident, which configuration flag must be enabled for it, which error code is raised when an alert arrives after its incident has been resolved, and which version of Yolyric introduced this feature?",
+      "x": {
+        "name": "Yolyric",
+        "stem": "lkd",
+        "tokens": {
+          "method": "lkd_index_queue",
+          "flag": "lkd.paced_backoff",
+          "error": "LKD-E796",
+          "version": "9.4.9"
+        }
+      },
+      "y": {
+        "name": "Yolythar",
+        "stem": "plv",
+        "tokens": {
+          "method": "plv_index_channel",
+          "flag": "plv.atomic_margin",
+          "error": "PLV-E333",
+          "version": "7.20.13"
+        }
+      }
+    },
+    {
+      "pair_id": "p28",
+      "theme": {
+        "task": "snapshots a running container's writable layer",
+        "failure": "the writable layer changes during the snapshot"
+      },
+      "question": "In the Zebovek library, which method snapshots a running container's writable layer, which configuration flag must be enabled for it, which error code is raised when the writable layer changes during the snapshot, and which version of Zebovek introduced this feature?",
+      "x": {
+        "name": "Zebovek",
+        "stem": "mqw",
+        "tokens": {
+          "method": "mqw_shard_bundle",
+          "flag": "mqw.guarded_budget",
+          "error": "MQW-E190",
+          "version": "7.9.3"
+        }
+      },
+      "y": {
+        "name": "Zebaris",
+        "stem": "tzd",
+        "tokens": {
+          "method": "tzd_split_channel",
+          "flag": "tzd.keyed_tether",
+          "error": "TZD-E116",
+          "version": "7.13.2"
+        }
+      }
+    },
+    {
+      "pair_id": "p29",
+      "theme": {
+        "task": "verifies package signatures before installation",
+        "failure": "a package signature is made by an untrusted key"
+      },
+      "question": "In the Ardeffa library, which method verifies package signatures before installation, which configuration flag must be enabled for it, which error code is raised when a package signature is made by an untrusted key, and which version of Ardeffa introduced this feature?",
+      "x": {
+        "name": "Ardeffa",
+        "stem": "jzf",
+        "tokens": {
+          "method": "jzf_index_transfer",
+          "flag": "jzf.keyed_gasket",
+          "error": "JZF-E688",
+          "version": "5.10.10"
+        }
+      },
+      "y": {
+        "name": "Ardythar",
+        "stem": "jws",
+        "tokens": {
+          "method": "jws_stage_payload",
+          "flag": "jws.adaptive_mode",
+          "error": "JWS-E632",
+          "version": "7.2.5"
+        }
+      }
+    },
+    {
+      "pair_id": "p30",
+      "theme": {
+        "task": "grants short-lived credentials from a role assumption",
+        "failure": "a role assumption chain exceeds its maximum depth"
+      },
+      "question": "In the Briivex library, which method grants short-lived credentials from a role assumption, which configuration flag must be enabled for it, which error code is raised when a role assumption chain exceeds its maximum depth, and which version of Briivex introduced this feature?",
+      "x": {
+        "name": "Briivex",
+        "stem": "txf",
+        "tokens": {
+          "method": "txf_rotate_beacon",
+          "flag": "txf.rolling_damper",
+          "error": "TXF-E181",
+          "version": "7.1.6"
+        }
+      },
+      "y": {
+        "name": "Briurak",
+        "stem": "vtl",
+        "tokens": {
+          "method": "vtl_prune_replica",
+          "flag": "vtl.zoned_keel",
+          "error": "VTL-E162",
+          "version": "1.15.12"
+        }
+      }
+    },
+    {
+      "pair_id": "p31",
+      "theme": {
+        "task": "streams query results without buffering the full set",
+        "failure": "the client stops reading before the result set ends"
+      },
+      "question": "In the Clyurak library, which method streams query results without buffering the full set, which configuration flag must be enabled for it, which error code is raised when the client stops reading before the result set ends, and which version of Clyurak introduced this feature?",
+      "x": {
+        "name": "Clyurak",
+        "stem": "qft",
+        "tokens": {
+          "method": "qft_chunk_manifest",
+          "flag": "qft.rolling_cadence",
+          "error": "QFT-E246",
+          "version": "8.7.6"
+        }
+      },
+      "y": {
+        "name": "Clyovek",
+        "stem": "fkp",
+        "tokens": {
+          "method": "fkp_split_tally",
+          "flag": "fkp.pinned_cadence",
+          "error": "FKP-E496",
+          "version": "1.10.1"
+        }
+      }
+    },
+    {
+      "pair_id": "p32",
+      "theme": {
+        "task": "diffs two configuration trees into an apply plan",
+        "failure": "a plan would delete a resource marked protected"
+      },
+      "question": "In the Donyric library, which method diffs two configuration trees into an apply plan, which configuration flag must be enabled for it, which error code is raised when a plan would delete a resource marked protected, and which version of Donyric introduced this feature?",
+      "x": {
+        "name": "Donyric",
+        "stem": "snt",
+        "tokens": {
+          "method": "snt_shard_mesh",
+          "flag": "snt.scoped_mode",
+          "error": "SNT-E858",
+          "version": "4.4.4"
+        }
+      },
+      "y": {
+        "name": "Donimar",
+        "stem": "chc",
+        "tokens": {
+          "method": "chc_purge_tally",
+          "flag": "chc.tiered_girdle",
+          "error": "CHC-E843",
+          "version": "1.7.2"
+        }
+      }
+    },
+    {
+      "pair_id": "p33",
+      "theme": {
+        "task": "schedules background jobs onto a bounded worker pool",
+        "failure": "a job outlives the worker pool's shutdown grace period"
+      },
+      "question": "In the Eluaris library, which method schedules background jobs onto a bounded worker pool, which configuration flag must be enabled for it, which error code is raised when a job outlives the worker pool's shutdown grace period, and which version of Eluaris introduced this feature?",
+      "x": {
+        "name": "Eluaris",
+        "stem": "drz",
+        "tokens": {
+          "method": "drz_weave_archive",
+          "flag": "drz.guarded_leash",
+          "error": "DRZ-E560",
+          "version": "6.0.13"
+        }
+      },
+      "y": {
+        "name": "Eluovek",
+        "stem": "htp",
+        "tokens": {
+          "method": "htp_purge_backlog",
+          "flag": "htp.pinned_damper",
+          "error": "HTP-E260",
+          "version": "6.6.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p34",
+      "theme": {
+        "task": "mirrors a remote object store bucket incrementally",
+        "failure": "a mirrored object changes mid-copy"
+      },
+      "question": "In the Fryaroq library, which method mirrors a remote object store bucket incrementally, which configuration flag must be enabled for it, which error code is raised when a mirrored object changes mid-copy, and which version of Fryaroq introduced this feature?",
+      "x": {
+        "name": "Fryaroq",
+        "stem": "svs",
+        "tokens": {
+          "method": "svs_resume_tally",
+          "flag": "svs.bounded_margin",
+          "error": "SVS-E351",
+          "version": "5.0.8"
+        }
+      },
+      "y": {
+        "name": "Fryobul",
+        "stem": "lng",
+        "tokens": {
+          "method": "lng_restart_payload",
+          "flag": "lng.pinned_policy",
+          "error": "LNG-E637",
+          "version": "8.18.7"
+        }
+      }
+    },
+    {
+      "pair_id": "p35",
+      "theme": {
+        "task": "detects clock drift between cluster members",
+        "failure": "a member's clock drifts beyond the tolerated offset"
+      },
+      "question": "In the Ganivex library, which method detects clock drift between cluster members, which configuration flag must be enabled for it, which error code is raised when a member's clock drifts beyond the tolerated offset, and which version of Ganivex introduced this feature?",
+      "x": {
+        "name": "Ganivex",
+        "stem": "qgx",
+        "tokens": {
+          "method": "qgx_route_bundle",
+          "flag": "qgx.primed_policy",
+          "error": "QGX-E517",
+          "version": "9.6.15"
+        }
+      },
+      "y": {
+        "name": "Ganaris",
+        "stem": "dvl",
+        "tokens": {
+          "method": "dvl_index_stream",
+          "flag": "dvl.verbose_horizon",
+          "error": "DVL-E493",
+          "version": "6.16.9"
+        }
+      }
+    },
+    {
+      "pair_id": "p36",
+      "theme": {
+        "task": "rewrites image URLs to a nearest edge region",
+        "failure": "no edge region is healthy in the requested continent"
+      },
+      "question": "In the Hesobul library, which method rewrites image URLs to a nearest edge region, which configuration flag must be enabled for it, which error code is raised when no edge region is healthy in the requested continent, and which version of Hesobul introduced this feature?",
+      "x": {
+        "name": "Hesobul",
+        "stem": "fpl",
+        "tokens": {
+          "method": "fpl_purge_vault",
+          "flag": "fpl.gated_hull",
+          "error": "FPL-E919",
+          "version": "6.11.18"
+        }
+      },
+      "y": {
+        "name": "Hesaris",
+        "stem": "pcr",
+        "tokens": {
+          "method": "pcr_resume_cursor",
+          "flag": "pcr.eager_tether",
+          "error": "PCR-E652",
+          "version": "3.11.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p37",
+      "theme": {
+        "task": "samples distributed traces at a target rate",
+        "failure": "a trace is sampled without its parent span"
+      },
+      "question": "In the Inoyric library, which method samples distributed traces at a target rate, which configuration flag must be enabled for it, which error code is raised when a trace is sampled without its parent span, and which version of Inoyric introduced this feature?",
+      "x": {
+        "name": "Inoyric",
+        "stem": "vrh",
+        "tokens": {
+          "method": "vrh_probe_snapshot",
+          "flag": "vrh.strict_prow",
+          "error": "VRH-E203",
+          "version": "3.20.5"
+        }
+      },
+      "y": {
+        "name": "Inoobul",
+        "stem": "lgd",
+        "tokens": {
+          "method": "lgd_stage_channel",
+          "flag": "lgd.verbose_fence",
+          "error": "LGD-E372",
+          "version": "9.20.4"
+        }
+      }
+    },
+    {
+      "pair_id": "p38",
+      "theme": {
+        "task": "expires idle sessions from an in-memory store",
+        "failure": "an expiry sweep runs while a session is being renewed"
+      },
+      "question": "In the Junumet library, which method expires idle sessions from an in-memory store, which configuration flag must be enabled for it, which error code is raised when an expiry sweep runs while a session is being renewed, and which version of Junumet introduced this feature?",
+      "x": {
+        "name": "Junumet",
+        "stem": "bjv",
+        "tokens": {
+          "method": "bjv_trace_queue",
+          "flag": "bjv.strict_tether",
+          "error": "BJV-E630",
+          "version": "6.14.17"
+        }
+      },
+      "y": {
+        "name": "Junustro",
+        "stem": "szt",
+        "tokens": {
+          "method": "szt_rotate_archive",
+          "flag": "szt.zoned_quota",
+          "error": "SZT-E587",
+          "version": "6.17.16"
+        }
+      }
+    },
+    {
+      "pair_id": "p39",
+      "theme": {
+        "task": "resolves service endpoints through a discovery registry",
+        "failure": "the registry returns no healthy endpoint for a service"
+      },
+      "question": "In the Kelaris library, which method resolves service endpoints through a discovery registry, which configuration flag must be enabled for it, which error code is raised when the registry returns no healthy endpoint for a service, and which version of Kelaris introduced this feature?",
+      "x": {
+        "name": "Kelaris",
+        "stem": "wkl",
+        "tokens": {
+          "method": "wkl_rotate_replica",
+          "flag": "wkl.gated_fence",
+          "error": "WKL-E790",
+          "version": "4.13.20"
+        }
+      },
+      "y": {
+        "name": "Kelythar",
+        "stem": "lff",
+        "tokens": {
+          "method": "lff_split_socket",
+          "flag": "lff.frozen_runway",
+          "error": "LFF-E318",
+          "version": "8.7.5"
+        }
+      }
+    },
+    {
+      "pair_id": "p40",
+      "theme": {
+        "task": "folds streaming aggregates into windowed summaries",
+        "failure": "an event arrives after its window has been emitted"
+      },
+      "question": "In the Loxurak library, which method folds streaming aggregates into windowed summaries, which configuration flag must be enabled for it, which error code is raised when an event arrives after its window has been emitted, and which version of Loxurak introduced this feature?",
+      "x": {
+        "name": "Loxurak",
+        "stem": "mgh",
+        "tokens": {
+          "method": "mgh_clamp_ledger",
+          "flag": "mgh.adaptive_ceiling",
+          "error": "MGH-E282",
+          "version": "3.2.14"
+        }
+      },
+      "y": {
+        "name": "Loxilon",
+        "stem": "ttn",
+        "tokens": {
+          "method": "ttn_audit_cursor",
+          "flag": "ttn.adaptive_ceiling",
+          "error": "TTN-E341",
+          "version": "6.12.7"
+        }
+      }
+    },
+    {
+      "pair_id": "p41",
+      "theme": {
+        "task": "enforces per-key quotas across a request fleet",
+        "failure": "a key's quota counter cannot be reconciled across nodes"
+      },
+      "question": "In the Munivex library, which method enforces per-key quotas across a request fleet, which configuration flag must be enabled for it, which error code is raised when a key's quota counter cannot be reconciled across nodes, and which version of Munivex introduced this feature?",
+      "x": {
+        "name": "Munivex",
+        "stem": "kcp",
+        "tokens": {
+          "method": "kcp_purge_replica",
+          "flag": "kcp.chained_quota",
+          "error": "KCP-E312",
+          "version": "6.20.19"
+        }
+      },
+      "y": {
+        "name": "Muneshin",
+        "stem": "xff",
+        "tokens": {
+          "method": "xff_rotate_transfer",
+          "flag": "xff.pinned_collar",
+          "error": "XFF-E494",
+          "version": "4.8.19"
+        }
+      }
+    },
+    {
+      "pair_id": "p42",
+      "theme": {
+        "task": "renders PDF invoices from a template bundle",
+        "failure": "a template bundle references a missing font"
+      },
+      "question": "In the Nexeshin library, which method renders PDF invoices from a template bundle, which configuration flag must be enabled for it, which error code is raised when a template bundle references a missing font, and which version of Nexeshin introduced this feature?",
+      "x": {
+        "name": "Nexeshin",
+        "stem": "cfj",
+        "tokens": {
+          "method": "cfj_route_cache",
+          "flag": "cfj.sticky_fence",
+          "error": "CFJ-E991",
+          "version": "8.0.7"
+        }
+      },
+      "y": {
+        "name": "Nexovek",
+        "stem": "ftl",
+        "tokens": {
+          "method": "ftl_route_channel",
+          "flag": "ftl.bounded_quota",
+          "error": "FTL-E319",
+          "version": "2.9.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p43",
+      "theme": {
+        "task": "restores a table from an incremental backup chain",
+        "failure": "a link in the backup chain is missing"
+      },
+      "question": "In the Oxaythar library, which method restores a table from an incremental backup chain, which configuration flag must be enabled for it, which error code is raised when a link in the backup chain is missing, and which version of Oxaythar introduced this feature?",
+      "x": {
+        "name": "Oxaythar",
+        "stem": "lmc",
+        "tokens": {
+          "method": "lmc_clamp_cache",
+          "flag": "lmc.durable_horizon",
+          "error": "LMC-E420",
+          "version": "4.3.13"
+        }
+      },
+      "y": {
+        "name": "Oxaurak",
+        "stem": "vdn",
+        "tokens": {
+          "method": "vdn_clamp_transfer",
+          "flag": "vdn.atomic_gasket",
+          "error": "VDN-E452",
+          "version": "8.8.20"
+        }
+      }
+    },
+    {
+      "pair_id": "p44",
+      "theme": {
+        "task": "negotiates a cipher suite during a handshake",
+        "failure": "the peers share no mutually supported suite"
+      },
+      "question": "In the Pelettiq library, which method negotiates a cipher suite during a handshake, which configuration flag must be enabled for it, which error code is raised when the peers share no mutually supported suite, and which version of Pelettiq introduced this feature?",
+      "x": {
+        "name": "Pelettiq",
+        "stem": "qnp",
+        "tokens": {
+          "method": "qnp_flush_buffer",
+          "flag": "qnp.guarded_girdle",
+          "error": "QNP-E374",
+          "version": "6.3.12"
+        }
+      },
+      "y": {
+        "name": "Peleshin",
+        "stem": "fpt",
+        "tokens": {
+          "method": "fpt_stage_backlog",
+          "flag": "fpt.bounded_runway",
+          "error": "FPT-E480",
+          "version": "7.19.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p45",
+      "theme": {
+        "task": "pins dependency resolutions into a reproducible lockfile",
+        "failure": "two dependencies demand mutually exclusive resolutions"
+      },
+      "question": "In the Quoeshin library, which method pins dependency resolutions into a reproducible lockfile, which configuration flag must be enabled for it, which error code is raised when two dependencies demand mutually exclusive resolutions, and which version of Quoeshin introduced this feature?",
+      "x": {
+        "name": "Quoeshin",
+        "stem": "pws",
+        "tokens": {
+          "method": "pws_pivot_socket",
+          "flag": "pws.verbose_horizon",
+          "error": "PWS-E110",
+          "version": "4.7.17"
+        }
+      },
+      "y": {
+        "name": "Quoaroq",
+        "stem": "jfl",
+        "tokens": {
+          "method": "jfl_split_payload",
+          "flag": "jfl.zoned_ceiling",
+          "error": "JFL-E146",
+          "version": "6.17.19"
+        }
+      }
+    },
+    {
+      "pair_id": "p46",
+      "theme": {
+        "task": "streams container logs with backpressure",
+        "failure": "a log consumer falls behind the ring buffer"
+      },
+      "question": "In the Rinyric library, which method streams container logs with backpressure, which configuration flag must be enabled for it, which error code is raised when a log consumer falls behind the ring buffer, and which version of Rinyric introduced this feature?",
+      "x": {
+        "name": "Rinyric",
+        "stem": "slp",
+        "tokens": {
+          "method": "slp_audit_archive",
+          "flag": "slp.durable_budget",
+          "error": "SLP-E344",
+          "version": "9.16.8"
+        }
+      },
+      "y": {
+        "name": "Rinandal",
+        "stem": "zvn",
+        "tokens": {
+          "method": "zvn_split_queue",
+          "flag": "zvn.primed_runway",
+          "error": "ZVN-E736",
+          "version": "7.3.5"
+        }
+      }
+    },
+    {
+      "pair_id": "p47",
+      "theme": {
+        "task": "validates uploaded spreadsheets against a column schema",
+        "failure": "a required column is absent from an upload"
+      },
+      "question": "In the Stoandal library, which method validates uploaded spreadsheets against a column schema, which configuration flag must be enabled for it, which error code is raised when a required column is absent from an upload, and which version of Stoandal introduced this feature?",
+      "x": {
+        "name": "Stoandal",
+        "stem": "thd",
+        "tokens": {
+          "method": "thd_shard_schema",
+          "flag": "thd.primed_gasket",
+          "error": "THD-E903",
+          "version": "9.8.9"
+        }
+      },
+      "y": {
+        "name": "Stoulfa",
+        "stem": "mzk",
+        "tokens": {
+          "method": "mzk_trace_digest",
+          "flag": "mzk.gated_mast",
+          "error": "MZK-E651",
+          "version": "8.19.17"
+        }
+      }
+    },
+    {
+      "pair_id": "p48",
+      "theme": {
+        "task": "shards a search index by document locale",
+        "failure": "a document declares a locale the index does not carry"
+      },
+      "question": "In the Taveffa library, which method shards a search index by document locale, which configuration flag must be enabled for it, which error code is raised when a document declares a locale the index does not carry, and which version of Taveffa introduced this feature?",
+      "x": {
+        "name": "Taveffa",
+        "stem": "trh",
+        "tokens": {
+          "method": "trh_prune_cursor",
+          "flag": "trh.masked_girdle",
+          "error": "TRH-E694",
+          "version": "9.11.0"
+        }
+      },
+      "y": {
+        "name": "Tavalith",
+        "stem": "ctr",
+        "tokens": {
+          "method": "ctr_trace_schema",
+          "flag": "ctr.tiered_margin",
+          "error": "CTR-E917",
+          "version": "3.7.5"
+        }
+      }
+    },
+    {
+      "pair_id": "p49",
+      "theme": {
+        "task": "propagates cancellation across nested service calls",
+        "failure": "a downstream call ignores its cancellation signal"
+      },
+      "question": "In the Urneshin library, which method propagates cancellation across nested service calls, which configuration flag must be enabled for it, which error code is raised when a downstream call ignores its cancellation signal, and which version of Urneshin introduced this feature?",
+      "x": {
+        "name": "Urneshin",
+        "stem": "rbf",
+        "tokens": {
+          "method": "rbf_trace_archive",
+          "flag": "rbf.atomic_anchor",
+          "error": "RBF-E774",
+          "version": "5.15.8"
+        }
+      },
+      "y": {
+        "name": "Urneffa",
+        "stem": "bfb",
+        "tokens": {
+          "method": "bfb_weave_digest",
+          "flag": "bfb.primed_hull",
+          "error": "BFB-E229",
+          "version": "9.9.6"
+        }
+      }
+    },
+    {
+      "pair_id": "p50",
+      "theme": {
+        "task": "rate-limits login attempts per source address",
+        "failure": "a source address rotates faster than the limiter's window"
+      },
+      "question": "In the Vegovek library, which method rate-limits login attempts per source address, which configuration flag must be enabled for it, which error code is raised when a source address rotates faster than the limiter's window, and which version of Vegovek introduced this feature?",
+      "x": {
+        "name": "Vegovek",
+        "stem": "vpp",
+        "tokens": {
+          "method": "vpp_weave_digest",
+          "flag": "vpp.adaptive_gasket",
+          "error": "VPP-E490",
+          "version": "8.18.13"
+        }
+      },
+      "y": {
+        "name": "Vegurak",
+        "stem": "pgk",
+        "tokens": {
+          "method": "pgk_route_buffer",
+          "flag": "pgk.rolling_prow",
+          "error": "PGK-E329",
+          "version": "6.20.0"
+        }
+      }
+    },
+    {
+      "pair_id": "p51",
+      "theme": {
+        "task": "converts geographic coordinates between projections",
+        "failure": "a coordinate falls outside a projection's valid domain"
+      },
+      "question": "In the Wynombra library, which method converts geographic coordinates between projections, which configuration flag must be enabled for it, which error code is raised when a coordinate falls outside a projection's valid domain, and which version of Wynombra introduced this feature?",
+      "x": {
+        "name": "Wynombra",
+        "stem": "tzv",
+        "tokens": {
+          "method": "tzv_latch_cache",
+          "flag": "tzv.frozen_hull",
+          "error": "TZV-E634",
+          "version": "2.3.20"
+        }
+      },
+      "y": {
+        "name": "Wynulfa",
+        "stem": "jld",
+        "tokens": {
+          "method": "jld_audit_digest",
+          "flag": "jld.guarded_cadence",
+          "error": "JLD-E632",
+          "version": "5.8.12"
+        }
+      }
+    },
+    {
+      "pair_id": "p52",
+      "theme": {
+        "task": "buffers metrics locally during a collector outage",
+        "failure": "the local buffer fills before the collector returns"
+      },
+      "question": "In the Xerenzi library, which method buffers metrics locally during a collector outage, which configuration flag must be enabled for it, which error code is raised when the local buffer fills before the collector returns, and which version of Xerenzi introduced this feature?",
+      "x": {
+        "name": "Xerenzi",
+        "stem": "tqt",
+        "tokens": {
+          "method": "tqt_purge_tally",
+          "flag": "tqt.paced_backoff",
+          "error": "TQT-E984",
+          "version": "5.1.11"
+        }
+      },
+      "y": {
+        "name": "Xererra",
+        "stem": "jxz",
+        "tokens": {
+          "method": "jxz_shard_stream",
+          "flag": "jxz.gated_runway",
+          "error": "JXZ-E647",
+          "version": "9.1.15"
+        }
+      }
+    },
+    {
+      "pair_id": "p53",
+      "theme": {
+        "task": "seals secrets with an envelope encryption key",
+        "failure": "an envelope key has been revoked"
+      },
+      "question": "In the Yarulfa library, which method seals secrets with an envelope encryption key, which configuration flag must be enabled for it, which error code is raised when an envelope key has been revoked, and which version of Yarulfa introduced this feature?",
+      "x": {
+        "name": "Yarulfa",
+        "stem": "ljh",
+        "tokens": {
+          "method": "ljh_index_segment",
+          "flag": "ljh.strict_budget",
+          "error": "LJH-E774",
+          "version": "6.9.14"
+        }
+      },
+      "y": {
+        "name": "Yarerra",
+        "stem": "phc",
+        "tokens": {
+          "method": "phc_resume_replica",
+          "flag": "phc.rolling_window",
+          "error": "PHC-E827",
+          "version": "6.13.6"
+        }
+      }
+    },
+    {
+      "pair_id": "p54",
+      "theme": {
+        "task": "orders events by a hybrid logical clock",
+        "failure": "two events carry identical logical timestamps"
+      },
+      "question": "In the Zulivex library, which method orders events by a hybrid logical clock, which configuration flag must be enabled for it, which error code is raised when two events carry identical logical timestamps, and which version of Zulivex introduced this feature?",
+      "x": {
+        "name": "Zulivex",
+        "stem": "gdg",
+        "tokens": {
+          "method": "gdg_prune_cache",
+          "flag": "gdg.adaptive_ceiling",
+          "error": "GDG-E387",
+          "version": "3.12.6"
+        }
+      },
+      "y": {
+        "name": "Zulaxen",
+        "stem": "cgl",
+        "tokens": {
+          "method": "cgl_split_cursor",
+          "flag": "cgl.durable_policy",
+          "error": "CGL-E429",
+          "version": "7.19.17"
+        }
+      }
+    },
+    {
+      "pair_id": "p55",
+      "theme": {
+        "task": "pre-renders static pages at build time",
+        "failure": "a page's data source is unavailable at build time"
+      },
+      "question": "In the Alkumet library, which method pre-renders static pages at build time, which configuration flag must be enabled for it, which error code is raised when a page's data source is unavailable at build time, and which version of Alkumet introduced this feature?",
+      "x": {
+        "name": "Alkumet",
+        "stem": "bjd",
+        "tokens": {
+          "method": "bjd_latch_cursor",
+          "flag": "bjd.zoned_prow",
+          "error": "BJD-E600",
+          "version": "4.11.15"
+        }
+      },
+      "y": {
+        "name": "Alkyric",
+        "stem": "dnr",
+        "tokens": {
+          "method": "dnr_seal_queue",
+          "flag": "dnr.bounded_girdle",
+          "error": "DNR-E226",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "pair_id": "p56",
+      "theme": {
+        "task": "auto-scales a worker fleet on queue depth",
+        "failure": "a scaling action is requested during a cooldown period"
+      },
+      "question": "In the Bodovek library, which method auto-scales a worker fleet on queue depth, which configuration flag must be enabled for it, which error code is raised when a scaling action is requested during a cooldown period, and which version of Bodovek introduced this feature?",
+      "x": {
+        "name": "Bodovek",
+        "stem": "bkz",
+        "tokens": {
+          "method": "bkz_resume_beacon",
+          "flag": "bkz.rolling_backoff",
+          "error": "BKZ-E511",
+          "version": "4.17.0"
+        }
+      },
+      "y": {
+        "name": "Bodulfa",
+        "stem": "wzf",
+        "tokens": {
+          "method": "wzf_chunk_snapshot",
+          "flag": "wzf.tiered_backoff",
+          "error": "WZF-E652",
+          "version": "6.12.11"
+        }
+      }
+    },
+    {
+      "pair_id": "p57",
+      "theme": {
+        "task": "chunks large uploads into resumable parts",
+        "failure": "a part's checksum does not match on reassembly"
+      },
+      "question": "In the Curettiq library, which method chunks large uploads into resumable parts, which configuration flag must be enabled for it, which error code is raised when a part's checksum does not match on reassembly, and which version of Curettiq introduced this feature?",
+      "x": {
+        "name": "Curettiq",
+        "stem": "qlv",
+        "tokens": {
+          "method": "qlv_stage_vault",
+          "flag": "qlv.eager_runway",
+          "error": "QLV-E651",
+          "version": "2.13.19"
+        }
+      },
+      "y": {
+        "name": "Curovek",
+        "stem": "zsk",
+        "tokens": {
+          "method": "zsk_index_tally",
+          "flag": "zsk.gated_window",
+          "error": "ZSK-E682",
+          "version": "7.14.6"
+        }
+      }
+    },
+    {
+      "pair_id": "p58",
+      "theme": {
+        "task": "masks personal fields in exported datasets",
+        "failure": "a masking rule matches no column in the export"
+      },
+      "question": "In the Dexerra library, which method masks personal fields in exported datasets, which configuration flag must be enabled for it, which error code is raised when a masking rule matches no column in the export, and which version of Dexerra introduced this feature?",
+      "x": {
+        "name": "Dexerra",
+        "stem": "lmq",
+        "tokens": {
+          "method": "lmq_trace_mesh",
+          "flag": "lmq.woven_ceiling",
+          "error": "LMQ-E406",
+          "version": "8.7.0"
+        }
+      },
+      "y": {
+        "name": "Dexonor",
+        "stem": "hdz",
+        "tokens": {
+          "method": "hdz_forge_stream",
+          "flag": "hdz.bounded_backoff",
+          "error": "HDZ-E891",
+          "version": "9.4.17"
+        }
+      }
+    },
+    {
+      "pair_id": "p59",
+      "theme": {
+        "task": "arbitrates leadership among replicas",
+        "failure": "two replicas claim leadership in the same term"
+      },
+      "question": "In the Eskimar library, which method arbitrates leadership among replicas, which configuration flag must be enabled for it, which error code is raised when two replicas claim leadership in the same term, and which version of Eskimar introduced this feature?",
+      "x": {
+        "name": "Eskimar",
+        "stem": "cpn",
+        "tokens": {
+          "method": "cpn_shard_snapshot",
+          "flag": "cpn.primed_leash",
+          "error": "CPN-E816",
+          "version": "2.2.14"
+        }
+      },
+      "y": {
+        "name": "Eskobul",
+        "stem": "shh",
+        "tokens": {
+          "method": "shh_rotate_schema",
+          "flag": "shh.sticky_keel",
+          "error": "SHH-E954",
+          "version": "7.1.20"
+        }
+      }
+    },
+    {
+      "pair_id": "p60",
+      "theme": {
+        "task": "prunes unreachable objects from a content store",
+        "failure": "a prune pass encounters a still-referenced object"
+      },
+      "question": "In the Foleshin library, which method prunes unreachable objects from a content store, which configuration flag must be enabled for it, which error code is raised when a prune pass encounters a still-referenced object, and which version of Foleshin introduced this feature?",
+      "x": {
+        "name": "Foleshin",
+        "stem": "whw",
+        "tokens": {
+          "method": "whw_probe_cache",
+          "flag": "whw.rolling_mode",
+          "error": "WHW-E607",
+          "version": "5.11.9"
+        }
+      },
+      "y": {
+        "name": "Folustro",
+        "stem": "cqp",
+        "tokens": {
+          "method": "cqp_seal_cache",
+          "flag": "cqp.keyed_runway",
+          "error": "CQP-E102",
+          "version": "2.0.14"
+        }
+      }
+    },
+    {
+      "pair_id": "p61",
+      "theme": {
+        "task": "translates GraphQL selections into database joins",
+        "failure": "a selection nests deeper than the join budget allows"
+      },
+      "question": "In the Gumaroq library, which method translates GraphQL selections into database joins, which configuration flag must be enabled for it, which error code is raised when a selection nests deeper than the join budget allows, and which version of Gumaroq introduced this feature?",
+      "x": {
+        "name": "Gumaroq",
+        "stem": "rcw",
+        "tokens": {
+          "method": "rcw_index_socket",
+          "flag": "rcw.staged_cadence",
+          "error": "RCW-E968",
+          "version": "6.13.7"
+        }
+      },
+      "y": {
+        "name": "Gumaris",
+        "stem": "ztj",
+        "tokens": {
+          "method": "ztj_stage_payload",
+          "flag": "ztj.woven_ceiling",
+          "error": "ZTJ-E353",
+          "version": "3.17.15"
+        }
+      }
+    },
+    {
+      "pair_id": "p62",
+      "theme": {
+        "task": "retries idempotent writes after a partition heals",
+        "failure": "a retried write finds a conflicting revision"
+      },
+      "question": "In the Hyrerra library, which method retries idempotent writes after a partition heals, which configuration flag must be enabled for it, which error code is raised when a retried write finds a conflicting revision, and which version of Hyrerra introduced this feature?",
+      "x": {
+        "name": "Hyrerra",
+        "stem": "bpq",
+        "tokens": {
+          "method": "bpq_rotate_ledger",
+          "flag": "bpq.eager_budget",
+          "error": "BPQ-E121",
+          "version": "6.11.17"
+        }
+      },
+      "y": {
+        "name": "Hyrimar",
+        "stem": "gkm",
+        "tokens": {
+          "method": "gkm_route_bundle",
+          "flag": "gkm.durable_window",
+          "error": "GKM-E216",
+          "version": "4.7.15"
+        }
+      }
+    },
+    {
+      "pair_id": "p63",
+      "theme": {
+        "task": "packs variable-length records into fixed blocks",
+        "failure": "a record is larger than a single block"
+      },
+      "question": "In the Ilkeffa library, which method packs variable-length records into fixed blocks, which configuration flag must be enabled for it, which error code is raised when a record is larger than a single block, and which version of Ilkeffa introduced this feature?",
+      "x": {
+        "name": "Ilkeffa",
+        "stem": "zrm",
+        "tokens": {
+          "method": "zrm_weave_buffer",
+          "flag": "zrm.frozen_hull",
+          "error": "ZRM-E912",
+          "version": "1.2.2"
+        }
+      },
+      "y": {
+        "name": "Ilkonor",
+        "stem": "wsp",
+        "tokens": {
+          "method": "wsp_rotate_manifest",
+          "flag": "wsp.atomic_backoff",
+          "error": "WSP-E815",
+          "version": "6.13.14"
+        }
+      }
+    },
+    {
+      "pair_id": "p64",
+      "theme": {
+        "task": "revalidates cached responses with conditional requests",
+        "failure": "an origin returns a weak validator where a strong one is required"
+      },
+      "question": "In the Jovaris library, which method revalidates cached responses with conditional requests, which configuration flag must be enabled for it, which error code is raised when an origin returns a weak validator where a strong one is required, and which version of Jovaris introduced this feature?",
+      "x": {
+        "name": "Jovaris",
+        "stem": "cdw",
+        "tokens": {
+          "method": "cdw_drain_mesh",
+          "flag": "cdw.staged_cadence",
+          "error": "CDW-E808",
+          "version": "8.7.12"
+        }
+      },
+      "y": {
+        "name": "Jovulfa",
+        "stem": "www",
+        "tokens": {
+          "method": "www_relay_cursor",
+          "flag": "www.woven_backoff",
+          "error": "WWW-E374",
+          "version": "1.18.13"
+        }
+      }
+    },
+    {
+      "pair_id": "p65",
+      "theme": {
+        "task": "stitches multipart uploads into a single object",
+        "failure": "a stitch is attempted before every part has landed"
+      },
+      "question": "In the Kirustro library, which method stitches multipart uploads into a single object, which configuration flag must be enabled for it, which error code is raised when a stitch is attempted before every part has landed, and which version of Kirustro introduced this feature?",
+      "x": {
+        "name": "Kirustro",
+        "stem": "jfj",
+        "tokens": {
+          "method": "jfj_flush_transfer",
+          "flag": "jfj.atomic_keel",
+          "error": "JFJ-E196",
+          "version": "9.5.8"
+        }
+      },
+      "y": {
+        "name": "Kirovek",
+        "stem": "gkh",
+        "tokens": {
+          "method": "gkh_trace_cursor",
+          "flag": "gkh.gated_mode",
+          "error": "GKH-E995",
+          "version": "5.4.8"
+        }
+      }
+    },
+    {
+      "pair_id": "p66",
+      "theme": {
+        "task": "evaluates feature flags against a user segment",
+        "failure": "a segment definition references an unknown attribute"
+      },
+      "question": "In the Lymovek library, which method evaluates feature flags against a user segment, which configuration flag must be enabled for it, which error code is raised when a segment definition references an unknown attribute, and which version of Lymovek introduced this feature?",
+      "x": {
+        "name": "Lymovek",
+        "stem": "rcz",
+        "tokens": {
+          "method": "rcz_resume_segment",
+          "flag": "rcz.sticky_window",
+          "error": "RCZ-E981",
+          "version": "9.18.0"
+        }
+      },
+      "y": {
+        "name": "Lymandal",
+        "stem": "thn",
+        "tokens": {
+          "method": "thn_index_channel",
+          "flag": "thn.zoned_runway",
+          "error": "THN-E982",
+          "version": "5.6.0"
+        }
+      }
+    },
+    {
+      "pair_id": "p67",
+      "theme": {
+        "task": "compresses cold rows into a columnar archive",
+        "failure": "an archive segment fails its integrity check on read"
+      },
+      "question": "In the Morovek library, which method compresses cold rows into a columnar archive, which configuration flag must be enabled for it, which error code is raised when an archive segment fails its integrity check on read, and which version of Morovek introduced this feature?",
+      "x": {
+        "name": "Morovek",
+        "stem": "ctz",
+        "tokens": {
+          "method": "ctz_pivot_buffer",
+          "flag": "ctz.bounded_ceiling",
+          "error": "CTZ-E235",
+          "version": "1.7.12"
+        }
+      },
+      "y": {
+        "name": "Morolyn",
+        "stem": "fqx",
+        "tokens": {
+          "method": "fqx_audit_payload",
+          "flag": "fqx.sticky_tether",
+          "error": "FQX-E146",
+          "version": "4.19.10"
+        }
+      }
+    },
+    {
+      "pair_id": "p68",
+      "theme": {
+        "task": "forwards syslog records to a remote collector",
+        "failure": "a record exceeds the collector's maximum frame size"
+      },
+      "question": "In the Nylurak library, which method forwards syslog records to a remote collector, which configuration flag must be enabled for it, which error code is raised when a record exceeds the collector's maximum frame size, and which version of Nylurak introduced this feature?",
+      "x": {
+        "name": "Nylurak",
+        "stem": "tpg",
+        "tokens": {
+          "method": "tpg_route_digest",
+          "flag": "tpg.gated_guard",
+          "error": "TPG-E363",
+          "version": "3.11.19"
+        }
+      },
+      "y": {
+        "name": "Nyleffa",
+        "stem": "hrs",
+        "tokens": {
+          "method": "hrs_seal_transfer",
+          "flag": "hrs.tiered_ceiling",
+          "error": "HRS-E866",
+          "version": "7.9.2"
+        }
+      }
+    },
+    {
+      "pair_id": "p69",
+      "theme": {
+        "task": "rehydrates an aggregate from its event history",
+        "failure": "an event in the history fails its schema upgrade"
+      },
+      "question": "In the Orbeshin library, which method rehydrates an aggregate from its event history, which configuration flag must be enabled for it, which error code is raised when an event in the history fails its schema upgrade, and which version of Orbeshin introduced this feature?",
+      "x": {
+        "name": "Orbeshin",
+        "stem": "vhf",
+        "tokens": {
+          "method": "vhf_audit_socket",
+          "flag": "vhf.tiered_guard",
+          "error": "VHF-E834",
+          "version": "1.16.14"
+        }
+      },
+      "y": {
+        "name": "Orbilon",
+        "stem": "tzl",
+        "tokens": {
+          "method": "tzl_index_transfer",
+          "flag": "tzl.staged_window",
+          "error": "TZL-E812",
+          "version": "9.12.15"
+        }
+      }
+    },
+    {
+      "pair_id": "p70",
+      "theme": {
+        "task": "balances read traffic across replica lag tiers",
+        "failure": "every replica exceeds the acceptable lag threshold"
+      },
+      "question": "In the Pumandal library, which method balances read traffic across replica lag tiers, which configuration flag must be enabled for it, which error code is raised when every replica exceeds the acceptable lag threshold, and which version of Pumandal introduced this feature?",
+      "x": {
+        "name": "Pumandal",
+        "stem": "dnc",
+        "tokens": {
+          "method": "dnc_weave_quorum",
+          "flag": "dnc.paced_mode",
+          "error": "DNC-E470",
+          "version": "5.14.11"
+        }
+      },
+      "y": {
+        "name": "Pumaroq",
+        "stem": "kzs",
+        "tokens": {
+          "method": "kzs_scan_digest",
+          "flag": "kzs.eager_leash",
+          "error": "KZS-E307",
+          "version": "2.3.0"
+        }
+      }
+    },
+    {
+      "pair_id": "p71",
+      "theme": {
+        "task": "quarantines files that fail a malware scan",
+        "failure": "a quarantined file is requested for download"
+      },
+      "question": "In the Rivonor library, which method quarantines files that fail a malware scan, which configuration flag must be enabled for it, which error code is raised when a quarantined file is requested for download, and which version of Rivonor introduced this feature?",
+      "x": {
+        "name": "Rivonor",
+        "stem": "gzs",
+        "tokens": {
+          "method": "gzs_route_socket",
+          "flag": "gzs.zoned_guard",
+          "error": "GZS-E221",
+          "version": "2.14.1"
+        }
+      },
+      "y": {
+        "name": "Rivovek",
+        "stem": "pvj",
+        "tokens": {
+          "method": "pvj_latch_replica",
+          "flag": "pvj.chained_gasket",
+          "error": "PVJ-E359",
+          "version": "8.12.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p72",
+      "theme": {
+        "task": "assembles a manifest of build artifacts",
+        "failure": "an artifact is listed twice with differing digests"
+      },
+      "question": "In the Sugumet library, which method assembles a manifest of build artifacts, which configuration flag must be enabled for it, which error code is raised when an artifact is listed twice with differing digests, and which version of Sugumet introduced this feature?",
+      "x": {
+        "name": "Sugumet",
+        "stem": "hmc",
+        "tokens": {
+          "method": "hmc_relay_queue",
+          "flag": "hmc.primed_girdle",
+          "error": "HMC-E441",
+          "version": "2.9.0"
+        }
+      },
+      "y": {
+        "name": "Sugyric",
+        "stem": "rwx",
+        "tokens": {
+          "method": "rwx_purge_replica",
+          "flag": "rwx.eager_collar",
+          "error": "RWX-E184",
+          "version": "6.10.16"
+        }
+      }
+    },
+    {
+      "pair_id": "p73",
+      "theme": {
+        "task": "debounces rapid filesystem change notifications",
+        "failure": "a debounce window closes while a write is still in flight"
+      },
+      "question": "In the Tulythar library, which method debounces rapid filesystem change notifications, which configuration flag must be enabled for it, which error code is raised when a debounce window closes while a write is still in flight, and which version of Tulythar introduced this feature?",
+      "x": {
+        "name": "Tulythar",
+        "stem": "qsk",
+        "tokens": {
+          "method": "qsk_clamp_queue",
+          "flag": "qsk.guarded_mode",
+          "error": "QSK-E687",
+          "version": "2.9.8"
+        }
+      },
+      "y": {
+        "name": "Tulenzi",
+        "stem": "wqv",
+        "tokens": {
+          "method": "wqv_latch_ledger",
+          "flag": "wqv.paced_mast",
+          "error": "WQV-E245",
+          "version": "9.9.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p74",
+      "theme": {
+        "task": "syncs offline edits back to a server copy",
+        "failure": "two offline edits touch the same field"
+      },
+      "question": "In the Uvaerra library, which method syncs offline edits back to a server copy, which configuration flag must be enabled for it, which error code is raised when two offline edits touch the same field, and which version of Uvaerra introduced this feature?",
+      "x": {
+        "name": "Uvaerra",
+        "stem": "jgv",
+        "tokens": {
+          "method": "jgv_restart_quorum",
+          "flag": "jgv.bounded_margin",
+          "error": "JGV-E891",
+          "version": "4.7.11"
+        }
+      },
+      "y": {
+        "name": "Uvaolyn",
+        "stem": "sqv",
+        "tokens": {
+          "method": "sqv_probe_queue",
+          "flag": "sqv.keyed_keel",
+          "error": "SQV-E764",
+          "version": "7.13.16"
+        }
+      }
+    },
+    {
+      "pair_id": "p75",
+      "theme": {
+        "task": "renders a dependency graph into a topological order",
+        "failure": "the dependency graph contains a cycle"
+      },
+      "question": "In the Vililon library, which method renders a dependency graph into a topological order, which configuration flag must be enabled for it, which error code is raised when the dependency graph contains a cycle, and which version of Vililon introduced this feature?",
+      "x": {
+        "name": "Vililon",
+        "stem": "kjz",
+        "tokens": {
+          "method": "kjz_batch_cursor",
+          "flag": "kjz.staged_damper",
+          "error": "KJZ-E745",
+          "version": "7.0.3"
+        }
+      },
+      "y": {
+        "name": "Vilonor",
+        "stem": "pxx",
+        "tokens": {
+          "method": "pxx_bloom_bundle",
+          "flag": "pxx.guarded_runway",
+          "error": "PXX-E956",
+          "version": "9.7.14"
+        }
+      }
+    },
+    {
+      "pair_id": "p76",
+      "theme": {
+        "task": "issues device certificates during provisioning",
+        "failure": "a device presents an attestation the issuer cannot verify"
+      },
+      "question": "In the Worobul library, which method issues device certificates during provisioning, which configuration flag must be enabled for it, which error code is raised when a device presents an attestation the issuer cannot verify, and which version of Worobul introduced this feature?",
+      "x": {
+        "name": "Worobul",
+        "stem": "zgn",
+        "tokens": {
+          "method": "zgn_index_segment",
+          "flag": "zgn.atomic_cadence",
+          "error": "ZGN-E426",
+          "version": "3.16.2"
+        }
+      },
+      "y": {
+        "name": "Woraris",
+        "stem": "dpl",
+        "tokens": {
+          "method": "dpl_split_cursor",
+          "flag": "dpl.rolling_anchor",
+          "error": "DPL-E993",
+          "version": "3.8.12"
+        }
+      }
+    },
+    {
+      "pair_id": "p77",
+      "theme": {
+        "task": "collects garbage from an interned string table",
+        "failure": "an interned string is freed while still referenced"
+      },
+      "question": "In the Xioandal library, which method collects garbage from an interned string table, which configuration flag must be enabled for it, which error code is raised when an interned string is freed while still referenced, and which version of Xioandal introduced this feature?",
+      "x": {
+        "name": "Xioandal",
+        "stem": "bcp",
+        "tokens": {
+          "method": "bcp_split_vault",
+          "flag": "bcp.tiered_leash",
+          "error": "BCP-E180",
+          "version": "3.11.6"
+        }
+      },
+      "y": {
+        "name": "Xioimar",
+        "stem": "rtc",
+        "tokens": {
+          "method": "rtc_split_payload",
+          "flag": "rtc.pinned_prow",
+          "error": "RTC-E400",
+          "version": "1.12.3"
+        }
+      }
+    },
+    {
+      "pair_id": "p78",
+      "theme": {
+        "task": "splits a monolithic export into paged downloads",
+        "failure": "a page boundary falls inside an indivisible record"
+      },
+      "question": "In the Yunaroq library, which method splits a monolithic export into paged downloads, which configuration flag must be enabled for it, which error code is raised when a page boundary falls inside an indivisible record, and which version of Yunaroq introduced this feature?",
+      "x": {
+        "name": "Yunaroq",
+        "stem": "xvk",
+        "tokens": {
+          "method": "xvk_clamp_snapshot",
+          "flag": "xvk.tiered_backoff",
+          "error": "XVK-E466",
+          "version": "6.3.18"
+        }
+      },
+      "y": {
+        "name": "Yunurak",
+        "stem": "hhb",
+        "tokens": {
+          "method": "hhb_split_ledger",
+          "flag": "hhb.paced_gasket",
+          "error": "HHB-E763",
+          "version": "7.13.5"
+        }
+      }
+    },
+    {
+      "pair_id": "p79",
+      "theme": {
+        "task": "tags releases from conventional commit messages",
+        "failure": "a commit message declares an unparseable change type"
+      },
+      "question": "In the Zimimar library, which method tags releases from conventional commit messages, which configuration flag must be enabled for it, which error code is raised when a commit message declares an unparseable change type, and which version of Zimimar introduced this feature?",
+      "x": {
+        "name": "Zimimar",
+        "stem": "lpk",
+        "tokens": {
+          "method": "lpk_merge_segment",
+          "flag": "lpk.sticky_mast",
+          "error": "LPK-E644",
+          "version": "1.3.20"
+        }
+      },
+      "y": {
+        "name": "Zimurak",
+        "stem": "dfr",
+        "tokens": {
+          "method": "dfr_bloom_buffer",
+          "flag": "dfr.adaptive_horizon",
+          "error": "DFR-E361",
+          "version": "6.0.20"
+        }
+      }
+    },
+    {
+      "pair_id": "p80",
+      "theme": {
+        "task": "replicates writes to a geographically distant region",
+        "failure": "a cross-region replication lag budget is exhausted"
+      },
+      "question": "In the Galolyn library, which method replicates writes to a geographically distant region, which configuration flag must be enabled for it, which error code is raised when a cross-region replication lag budget is exhausted, and which version of Galolyn introduced this feature?",
+      "x": {
+        "name": "Galolyn",
+        "stem": "ljg",
+        "tokens": {
+          "method": "ljg_probe_bundle",
+          "flag": "ljg.staged_mode",
+          "error": "LJG-E269",
+          "version": "6.15.0"
+        }
+      },
+      "y": {
+        "name": "Galombra",
+        "stem": "fgx",
+        "tokens": {
+          "method": "fgx_purge_bundle",
+          "flag": "fgx.salted_leash",
+          "error": "FGX-E660",
+          "version": "1.5.10"
         }
       }
     }
