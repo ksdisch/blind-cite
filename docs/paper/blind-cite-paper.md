@@ -1,4 +1,4 @@
-# Deceptive grounding is measurable without a judge — and a null at N=20 that did not survive a pre-registered extension to N=80
+# Deceptive grounding is measurable without a judge — and a null at N=20 did not survive a pre-registered extension to N=80
 
 **A judge-free reproduction of entity-attribution failure in retrieval-augmented generation, on cheap models, under pre-committed gates**
 
