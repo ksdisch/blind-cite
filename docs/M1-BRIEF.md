@@ -303,6 +303,26 @@ fidelity gate at 100%) → M1b smoke → M1b wave → `verdict`.
 
 ## M1 outcome (addendum, 2026-08-03 — written after both waves ran)
 
+> ### ⚠ Correction to this addendum (2026-08-04) — read before anything below
+>
+> Everything in this addendum is left **as written**, because it records what was concluded at
+> the time. Three things in it are now withdrawn:
+>
+> 1. **No point comparison to the paper is legitimate at all (D21).** Paper §4 and Appendix A
+>    *define* `prior_completing` as evidence elicited to match a model's parametric prior for X;
+>    ours is fabricated tokens matching no prior. **The paper has no cell for the condition we
+>    ran.** The nearest published cell (`Qwen2.5-7B, absent × prior_completing` = 14 per cent,
+>    Fig. 6, RAG-4 schema) is additionally a **lower bound** for non-L1 models (paper §5.2 body, restated in Appendix C Table 8),
+>    and this project ran neither of the paper's schemas. Report **direction only** — and never
+>    attach a p-value to a point comparison.
+> 2. **Every "well-powered" below is withdrawn (D18).** The pre-committed N came from M0's
+>    clean-trial-yield funnel, not from a power calculation against a target effect size.
+> 3. **The "66.3 per cent" comparison below is withdrawn (D12/D16).** That is the model's
+>    *peak* cell (`absent × synthetic_Y`), not ours.
+>
+> Full reasoning and correction history: `Wiki/Paper-Mapping.md`; ledger D12–D22.
+
+
 Both arms ran. Total M1 spend **$0.0177** against the $0.45 cap (gen-docs
 $0.0032 + smoke $0.0016 + waves $0.0129). Every pre-committed gate held; no
 top-up pass was needed (240/240 trials ok on first pass, zero errors, zero

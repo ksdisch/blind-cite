@@ -1,7 +1,7 @@
 # Why-The-Null
 
 ## Purpose
-Explains what this project's null results actually mean: what was measured, why the nulls are informative rather than failures, and what they do not rule out. Written at M0 (DG = 0/36) and extended 2026-08-03 after M1 tested the same question at power and at a second, deliberately harder surface.
+Explains what this project's null results actually mean: what was measured, why the nulls are informative rather than failures, and what they do not rule out. Written at M0 (DG = 0/36), extended after M1 tested the same question at a second, deliberately harder surface, and corrected 2026-08-04 once review established the nearest published floor and withdrew every point comparison (D21).
 
 ## Key understanding
 
@@ -28,9 +28,9 @@ The K4 flag fires when: K1 passes (grounding ≥6/12 at complete×null_control �
 
 ### What M1 answered — 2026-08-03
 
-**Fact** (`data/m1a_verdict.json`, `Decisions.md` D10): The pre-committed design at 20 pairs rendered **NULL, well-powered** — DG 0/20 per model per cell, Wilson 95% upper 16.1% per model, engagement present (`discriminated` 30/60 at the adversarial cell). The M0 null was not an artifact of small N; it reproduced at power.
+**Fact** (`data/m1a_verdict.json`, `Decisions.md` D10): The pre-committed design at 20 pairs rendered a **NULL gate outcome** — DG 0/20 per model per cell, Wilson 95% upper 16.1% per model, engagement present (`discriminated` 30/60 at the adversarial cell). *"Well-powered" was claimed here and is withdrawn* (D17/D18): 16.1% does not exclude the nearest published 14% floor, so the M0 null reproduced at the same N, not at power.
 
-**Fact** (`data/m1b_verdict.json`): The camouflage surface — JSON tool-result rendering, one constant title per doc, k=4 off-theme filler docs, the levers built precisely to defeat the name-salience described in the section above — also rendered **NULL, well-powered**. DG was 0/20 for two models and **2/20** for `qwen-2.5-7b` (Newcombe +0.100 [−0.077, +0.301], straddles 0).
+**Fact** (`data/m1b_verdict.json`): The camouflage surface — JSON tool-result rendering, one constant title per doc, k=4 off-theme filler docs, the levers built precisely to defeat the name-salience described in the section above — also rendered a **NULL gate outcome**. DG was 0/20 for two models and **2/20** for `qwen-2.5-7b` (Newcombe +0.100 [−0.077, +0.301], straddles 0) — a rate at the nearest published floor for that model — though that cell is **not ours** and 14% is a lower bound at a schema we did not run, so only direction is reportable (D21).
 
 **Inference:** the "what the null does NOT rule out" argument below was the right argument to make, and it was tested rather than left standing. Reducing name-salience did not unlock the phenomenon at this scale. That is a stronger result than M0's, because the obvious alternative explanation was built and run rather than merely conceded.
 
@@ -41,7 +41,9 @@ The K4 flag fires when: K1 passes (grounding ≥6/12 at complete×null_control �
 ### What the null still does not rule out
 **Unresolved:** the camouflage levers were bundled, so no single lever is exonerated. Two documented escalations remain unrun and each needs its own argued addendum first (`docs/M1-BRIEF.md` D2): a frozen title pool assigned by post-shuffle doc *position*, and same-theme filler generation. Neither was slipped in after seeing the data.
 
-**Inference** (from the paper's design space, `docs/M0-BRIEF.md` D1): the paper's DG effect peaks at `absent × synthetic_Y` (73.1%) — a Y-doc written to look as if it answers an X-question. This project measures `absent × completing` (Y's doc is honestly about Y) at both surfaces. The `synthetic_Y` condition was never in scope (KICKOFF) and remains untested here.
+**Fact — corrected 2026-08-03** (paper §4 + Appendix A, read directly; see [Paper-Mapping](Paper-Mapping.md)): `synthetic_Y` is **not** "a Y-doc written to look as if it answers an X-question", as this page previously stated. It is *"a pharmacologically plausible but non-existent drug name with identical completing information"* — the manipulation replaces Y's **name** with a fabricated one while holding the evidence constant. The paper's own explanation for why it scores highest: *"The model attributes evidence based on information content, not Y's entity-label recognition"* — a real drug name lets the model disambiguate; a fabricated one removes that.
+
+**Inference (moderate confidence, confounded).** Our corpus fabricates **both** entities by construction (KICKOFF: "zero training-prior contamination"). On the entity-recognition axis we sit *level with* the paper's `synthetic_Y`, and our *evidence* is fabricated too, which no paper cell does. For our kin model the paper reads 14% at `prior_completing` and **61%** at `synthetic_Y`; we read 0–10%, near the former and far below the latter. That is *suggestive* that completing information is load-bearing — the paper's own claim — but it is a cross-study comparison at N far too small to establish anything, and it is labelled Inference, never a headline. See [Paper-Mapping](Paper-Mapping.md).
 
 ### The grounding precondition (why K1 matters)
 **Fact** (`docs/M0-BRIEF.md` D7, Pilot outcome): K1 (capability cliff kill trigger) requires grounding ≥6/12 at `complete × null_control`. All three models grounded at 12/12. This is the load-bearing precondition: without K1 passing, a low-DG result is uninterpretable — the model might just be incapable of RAG. K1 passing at ceiling means the DG null is interpretable as "capable models chose not to deceive" rather than "models cannot do RAG."
@@ -49,7 +51,7 @@ The K4 flag fires when: K1 passes (grounding ≥6/12 at complete×null_control �
 ## Sources
 - [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) — D1 (paper DG definition), D3 (corpus design), D4 (retrieval design), D6 (detector taxonomy), D7 (K4 flag definition), Pilot outcome addendum
 - [`docs/M1-BRIEF.md`](../docs/M1-BRIEF.md) — D1–D4 (the two designs and their pre-stated limitations), "M1 outcome" addendum
-- [`Decisions.md`](../Decisions.md) — D3 (FIT verdict), D5→D6 (Option C), D10 (M1 verdict), D11 (close v1, Proposed)
+- [`Decisions.md`](../Decisions.md) — D3 (FIT verdict), D5→D6 (Option C), D10 (M1 verdict), D16–D22 (the nearest-cell 14% floor, the three withdrawn headlines, the pre-registration gap, and D19's approved extension)
 - [`PROJECT.md`](../PROJECT.md) — Current status, Next actions
 - [`detectors.py`](../detectors.py) — `classify()` label precedence
 
@@ -64,6 +66,6 @@ The K4 flag fires when: K1 passes (grounding ≥6/12 at complete×null_control �
 - [Detector-Design](Detector-Design.md)
 
 ## Relevance to current work
-M0 and M1 are both closed. This page explains why two nulls are the project's headline rather than its failure, and why the M1b arm makes the M0 null stronger rather than merely repeating it. It is the argument a write-up (`/research-paper`) has to carry, and the reference for the open D11 call on whether v1 closes here.
+**Read [Paper-Mapping](Paper-Mapping.md) before trusting this page's conclusions.** The nulls here are gate outcomes. The paper has no cell for the condition we ran, its nearest cell (14%) is a lower bound at a schema we did not run, and at N=20/cell we cannot resolve even that floor (D18, D21) — so nothing here supports a point comparison in either direction. What this page still gets right is the *texture*: engagement was present, the models discriminated or refused rather than mis-attributing, and camouflage pushed them toward refusal. What it must not be read as is evidence of absence.
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-04_

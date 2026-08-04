@@ -21,18 +21,25 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 | vague / confabulation | 0 / 0 | 0 / 0 | 0 / 0 |
 | DG-any (fillers) | n/a (no fillers) | 0/120 | 0/120 |
 | fidelity gate | 16/16 | 288/288 | 288/288 |
-| verdict | **FIT** | **NULL** (well-powered) | **NULL** (well-powered) |
+| gate verdict | **FIT** | **NULL** | **NULL** |
+| vs. nearest published floor, 14% (qwen only; **not our cell**) | n/a | 0/20 — CI [0.0%, 16.1%] spans it | 2/20 — CI [2.8%, 30.1%] spans it |
 | spend | ≈$0.009 | — | — (M1 total $0.0177) |
 
 **Fact** (`data/m1a_verdict.json`, `data/m1b_verdict.json`): per-model Wilson 95% intervals on DG at the adversarial cell are [0.0%, 16.1%] for every model/arm except `qwen-2.5-7b` camouflaged, which is [2.8%, 30.1%] on 2/20. Pooled M1a 0/60 → [0.0%, 6.0%] (descriptive only; models are not exchangeable).
 
 ### Prediction vs. outcome
 
-**Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, written 2026-07-15 — *before* M1 ran): "as designed, M1 would very likely render a well-powered NULL." **Observed:** exactly that, on all three subjects, at both surfaces. The pre-registration held.
+**Fact** (`docs/M0-BRIEF.md` Pilot outcome addendum, written 2026-07-15 — *before* M1 ran): "as designed, M1 would very likely render a well-powered NULL." **Observed:** a NULL gate outcome on all three subjects at both surfaces. **But the "well-powered" half did not hold** (D18): the N was derived from clean-trial yield, not from power against a target effect size, and against the nearest published 14% floor it is underpowered. The prediction was right about the verdict and wrong about what the verdict would license.
 
-**Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced.
+**Fact** (`docs/M1-BRIEF.md` D1): Option A's stated expected outcome was "DG 0/20 (or near) per model → NULL, well-powered", with the headline bound "DG ≤ 16.1% (95% Wilson upper)". **Observed:** 0/20 per model, bound 16.1%. The number written in the brief before the run is the number the run produced — but that bound was chosen when the assumed target was 66.3%, and it does not exclude the nearest published 14% floor (D18).
 
-**Inference** (from D3 and the M1b result): Option C's stated payoff was that *every* outcome would be a clean headline. The realized branch — DG≈0 at both surfaces — is the one D3 described as "the null generalizes across presentation (strong, paper-contradicting for cheap models)". The paper reports 66.3% DG for Qwen2.5-7B; this project's cheap kin of that model reads 0/20 stark and 2/20 camouflaged.
+**Inference** (from D3 and the M1b result): Option C's stated payoff was that *every* outcome would be a clean headline. The realized branch is DG≈0 at both surfaces.
+
+**Contradiction — three framings withdrawn; [Paper-Mapping](Paper-Mapping.md) carries the full history.** (1) Comparing our 0/20 to "66.3% for Qwen2.5-7B" — that is the model's *peak* cell. (2) Claiming no per-cell breakdown exists — Appendix C publishes one for all 13 models. (3) Claiming 14% is "our exact cell" and our result "consistent with the paper" — it is **not our cell**.
+
+**Fact.** The paper has **no cell for the condition we ran**: §4 and Appendix A define `prior_completing` as evidence elicited to match a model's parametric prior for X, and ours is fabricated tokens matching no prior. The nearest published cell — `Qwen2.5-7B, absent × prior_completing` = 14% (Fig. 6, **RAG-4** schema) — is additionally labelled a **lower bound for non-L1 models** (paper §5.2 body; Appendix C Table 8), and this project ran neither of the paper's schemas.
+
+**What is reportable:** direction only. Our rates (0/20 stark, 2/20 camouflaged for `qwen-2.5-7b`) sit at or below the nearest published floor, while the paper's completing-Cy regime for that model spans 14% → 61%. No point comparison, no p-value on one, no verb claiming agreement or disagreement (D21). `llama-3.1-8b-instruct` and `gemma-3-12b-it` are not the paper's Llama/Gemma models and have no anchor at all.
 
 ### The flagship artifact
 
@@ -53,7 +60,7 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 - [`data/m1b_wave.jsonl`](../data/m1b_wave.jsonl) — the two DG answer texts behind the flagship contrast
 - [`docs/M0-BRIEF.md`](../docs/M0-BRIEF.md) — D7/D8 pre-commitments, Pilot outcome addendum (the M1 prediction)
 - [`docs/M1-BRIEF.md`](../docs/M1-BRIEF.md) — D1–D4 pre-commitments, "The pick", "M1 outcome" addendum
-- [`Decisions.md`](../Decisions.md) — D3 (FIT), D6 (Option C), D7–D11 (M1 run and verdict)
+- [`Decisions.md`](../Decisions.md) — D3 (FIT), D6 (Option C), D7–D11 (M1 run and verdict), D12–D22 (paper-mapping corrections, the withdrawn headlines, the pre-registration gap, and D19's approved extension)
 
 ## Uncertainties & contradictions
 - **Unresolved:** whether the 2 DG answers reflect a real camouflage effect or sampling noise. n=2 cannot distinguish them, and the pre-committed gate declines to try.
@@ -67,6 +74,6 @@ Every milestone's headline numbers in one place, with the pre-registered predict
 - [History](History.md) — the chronology these results sit in
 
 ## Relevance to current work
-This is the evidence base for the open call in `PROJECT.md`: whether v1 closes at M1 (D11, **Proposed**) or the null gets pushed on via a documented escalation. It is also the table a write-up (`/research-paper`) would be built from — every number here is traceable to a committed file.
+This is the evidence base for D19 (approved): run the approved pre-registered power-sized extension on `qwen-2.5-7b` — the one model with any published anchor — to make the directional statement decisive. It is also the table a write-up (`/research-paper`) is built from: every number here is traceable to a committed file, the comparison is **directional against a 14% floor at a non-matching cell and a schema we did not run** — no point estimate, no verb claiming agreement or disagreement (D21).
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-04_
