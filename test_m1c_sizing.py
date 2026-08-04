@@ -4,21 +4,12 @@ The pre-registration's power table is asserted here so it cannot drift from the
 function that defines it (PR #11 review F1/F8: one hand-built row was wrong and
 no committed derivation existed to catch it). Pure logic, no network.
 """
+from m1c import FLOOR, band
 from stats import wilson
 
-FLOOR = 0.14
-
-
-def band(k: int, n: int) -> str:
-    """Template band for k events in n trials (docs/M1C-BRIEF.md D4)."""
-    lo, hi = wilson(k, n)
-    if k == 0:
-        return "T1" if hi < FLOOR else "T0"
-    if hi < FLOOR:
-        return "T2"
-    if lo > FLOOR:
-        return "T4"
-    return "T3"
+# `band` is imported from the script that RENDERS the verdict, not re-declared
+# here. A second copy would let the pin stay green while the rendering path
+# drifted, which is the opposite of what D2/D4 claim this file guarantees.
 
 
 def test_zero_k_uppers():
