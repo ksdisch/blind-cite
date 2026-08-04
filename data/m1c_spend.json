@@ -1,11 +1,21 @@
 {
   "cap_total": 0.1,
-  "total": 0.023814,
+  "total": 0.024662,
   "entries": [
     {
       "command": "gen-docs",
       "arm": null,
       "cost": 0.023814
+    },
+    {
+      "command": "smoke",
+      "arm": "a",
+      "cost": 0.000233
+    },
+    {
+      "command": "smoke",
+      "arm": "b",
+      "cost": 0.000615
     }
   ]
 }
