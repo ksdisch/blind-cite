@@ -4,7 +4,7 @@ _Last updated: 2026-08-04_
 
 ## What was just done
 - **PR #10 (the correction campaign) is merged** — squash `2de0f1b`. The adversarial review ran five rounds across two runs: run 1 hit the 3-dispatch cap NOT CLEAR with six fixes unverified; Kyle ruled for a fresh verification round over a waiver; rounds 4–5 verified everything. **All 23 findings fixed and verified, zero waivers** — including the nice-to-haves, which Kyle flipped to fix-now at the round-4 triage gate. Adjudicated comment on the PR.
-- **The M1C pre-registration is written and committed** (`docs/M1C-BRIEF.md`, D23). It was argued before landing: Kyle ruled the three open design points in-session — combined-N primary analysis, full null_control extension, combined **N=80** per gated cell per surface (+60 pairs). Sizing is a real power calculation this time (the repo's own `stats.wilson`, pinned by `test_m1c_sizing.py`; every reachable outcome maps to exactly one of four pre-committed direction-only templates).
+- **The M1C pre-registration is written and committed** (`docs/M1C-BRIEF.md`, D23). It was argued before landing: Kyle ruled the three open design points in-session — combined-N primary analysis, full null_control extension, combined **N=80** per gated cell per surface (+60 pairs). Sizing is a real power calculation this time (the repo's own `stats.wilson`, pinned by `test_m1c_sizing.py`; every reachable outcome maps to exactly one of five pre-committed direction-only templates).
 - The three-headline history (D12→D16, D13→D17, D17→D21) stands recorded in `Wiki/Paper-Mapping.md`; the brief's templates carry the D21 caveats inline so no rendering can drop them.
 
 ## Where things stand

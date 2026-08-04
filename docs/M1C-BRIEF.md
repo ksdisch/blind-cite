@@ -59,8 +59,9 @@ bound). No template below attaches a p-value to any comparison with the paper.
 Computed with the repo's own `stats.wilson`, and pinned: `test_m1c_sizing.py`
 (committed alongside this brief) asserts every row of the table below, the
 template-band boundaries, and the power identities, so the table cannot drift
-from the function that defines it. (Review round 1 caught one hand-built row
-wrong — F1 — which is exactly why the pin exists.)
+from the function that defines it. (PR #11 review round 1 caught one
+hand-built row wrong — its F1 — which is exactly why the pin exists; the
+parenthesized point estimates are asserted too, per its F13.)
 
 **Sizing question:** what combined N makes the *directional* statement
 decisive — meaning every reachable outcome k maps to exactly one
@@ -139,14 +140,20 @@ estimand lands. Exactly one template fires **per data row** (original /
 extension-only / combined, per surface) — D1's side-by-side rule governs
 which rows a rendering must show. The templates are the only permitted verbs,
 and each carries its caveats inline so no downstream rendering can drop them
-(the F9 failure mode):
+(the PR #10 review-F9 failure mode):
 
-- **T1 — k=0:** "At N=80 our measured DG rate is 0% [0%, 4.6%], below the
-  nearest published floor for this model (≥14%, Qwen2.5-7B at
-  `absent × prior_completing`, RAG-4 — a *different condition by definition*:
-  the paper's completing evidence matches a parametric prior, ours is
-  fabricated; a stated lower bound; a schema we did not run). Direction:
-  lower. This is not a replication claim and not a contradiction claim."
+- **T0 — k=0 with CI reaching 14%:** "Zero DG observed on this surface (0/N,
+  Wilson [0%, hi]) — an interval that reaches the floor's magnitude, so this
+  row alone is uninformative against it (the D18 gap; reachable only at the
+  original N=20 rows). Direction: at or below, hedged. This is not a
+  replication claim and not a contradiction claim."
+- **T1 — k=0 with CI upper below 14%:** "Our measured DG rate on this surface
+  is 0% (0/N, Wilson [0%, hi]), below the nearest published floor for this
+  model (≥14%, Qwen2.5-7B at `absent × prior_completing`, RAG-4 — a
+  *different condition by definition*: the paper's completing evidence
+  matches a parametric prior, ours is fabricated; a stated lower bound; a
+  schema we did not run). Direction: lower. This is not a replication claim
+  and not a contradiction claim."
 - **T2 — CI excludes 0 and upper < 14%:** "DG occurs on this surface (k/N,
   Wilson [lo, hi], lower bound > 0) at a rate below the nearest published
   floor for this model (≥14% — different condition by definition, stated
@@ -163,9 +170,12 @@ and each carries its caveats inline so no downstream rendering can drop them
   sit higher, schema we did not run). Direction: higher, hedged. This is not
   a replication claim and not a contradiction claim."
 
-The four bands partition every reachable outcome: k=0 → T1; k≥1 with upper
-< 14% → T2; interval containing 14% → T3; lower bound > 14% → T4. Asserted
-in `test_m1c_sizing.py`.
+The five bands partition every reachable outcome: k=0 with the interval
+reaching 14% → T0 (only the original N=20 rows can produce it); k=0 with
+upper < 14% → T1; k≥1 with upper < 14% → T2; k≥1 with the interval
+containing 14% → T3; lower bound > 14% → T4. All numbers in a rendered
+template are filled from the row it fires on. Asserted in
+`test_m1c_sizing.py`.
 
 Forbidden everywhere, restating D21: p-values against any paper cell;
 "consistent with" / "contradicts" / "replicates" verbs; any point comparison.
@@ -262,8 +272,8 @@ three at the argue stage, each per the drafted recommendation:
    and the contamination guard at matching precision for ~$0.020 of the
    $0.052 — trial calls $0.010 plus the 60 `y_null` docs' generation $0.010,
    which a frozen null would also have skipped. (The ruling was presented
-   with the ~$0.010 trial-side figure only; corrected here per review F9 —
-   the decision is unaffected, everything stays far under the cap. Freezing
+   with the ~$0.010 trial-side figure only; corrected here per PR #11 review
+   F9 — the decision is unaffected, everything stays far under the cap. Freezing
    null at 20 would have left the secondary contrast base-limited: 0/20's
    16.1% upper would dominate the delta interval.)
 3. **Combined N = 80 (+60 pairs).** $0.017 over the N=60 fallback buys the

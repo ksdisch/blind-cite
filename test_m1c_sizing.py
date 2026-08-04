@@ -13,7 +13,7 @@ def band(k: int, n: int) -> str:
     """Template band for k events in n trials (docs/M1C-BRIEF.md D4)."""
     lo, hi = wilson(k, n)
     if k == 0:
-        return "T1"
+        return "T1" if hi < FLOOR else "T0"
     if hi < FLOOR:
         return "T2"
     if lo > FLOOR:
@@ -42,11 +42,26 @@ def test_band_boundaries():
     assert band(1, 24) == "T3"
 
 
+def test_zero_k_bands():
+    # T0 (zero with an interval reaching the floor) fires only at the original
+    # N=20 rows; every candidate combined/extension N gives a real T1
+    assert band(0, 20) == "T0"
+    for n in (24, 60, 80, 120):
+        assert band(0, n) == "T1", n
+
+
+def test_point_estimates():
+    # the parenthesized k/N percentages of the D2 table (the column PR #11
+    # review F1 caught wrong; asserted per its F13)
+    for k, n, pct in [(1, 20, 5.0), (1, 24, 4.2), (4, 60, 6.7), (6, 80, 7.5), (10, 120, 8.3)]:
+        assert abs(100 * k / n - pct) < 0.05, (k, n)
+
+
 def test_bands_partition_every_reachable_k():
     # D4: exactly one template fires per data row
     for n in (20, 24, 60, 80, 120):
         for k in range(0, n + 1):
-            assert band(k, n) in {"T1", "T2", "T3", "T4"}
+            assert band(k, n) in {"T0", "T1", "T2", "T3", "T4"}
 
 
 def test_sensitivity_case_is_t4():
