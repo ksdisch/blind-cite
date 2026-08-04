@@ -23,5 +23,7 @@ jobs:
       - name: Run the offline test suite
         # Deps resolve from pyproject.toml + uv.lock, which stay the single
         # source of truth — a dependency bump belongs in the manifest, not in
-        # a parallel list here that would silently drift from it.
-        run: uv run --python 3.12 pytest -q
+        # a parallel list here that would silently drift from it. --locked
+        # fails the run instead of silently re-locking, so a uv.lock that has
+        # drifted from pyproject.toml is caught here rather than never.
+        run: uv run --locked --python 3.12 pytest -q
