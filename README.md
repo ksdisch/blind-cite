@@ -35,7 +35,7 @@ Core arms rendered by pre-committed verdict scripts (the per-milestone `m0.py`�
 
 **And M1 was underpowered even for that.** At N = 20/cell, 0/20 has a Wilson upper of 16.1% — above the floor; `0/24` is the smallest run that would clear it. The pre-committed N ≥ 20 came from M0's clean-**trial-yield** funnel, never from a power calculation against a target effect size. **That mis-sizing is the project's main methodological finding about itself**, and it is why a pre-registered power-sized extension was designed and committed (Decisions.md D19 → D23) rather than the result being written up as-is.
 
-## M1C — the extension ran, and the null did not survive it
+## M1C — the extension ran, and the "DG ≈ 0" inference did not survive it
 
 **M1C (2026-08-04, D24).** Combined **N=80** clean trials per gated cell per surface on `qwen-2.5-7b`, one look, analysis and report templates frozen in advance ([`docs/M1C-BRIEF.md`](docs/M1C-BRIEF.md)).
 
