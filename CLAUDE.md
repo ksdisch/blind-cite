@@ -50,6 +50,7 @@ Global commands (`.claude/commands/`) and skills (`.claude/skills/`) vendored fr
 - 💻 `notebook-init` — initialize a new NotebookLM notebook end-to-end.
 - 💻 `notebook-merge` — merge 2+ overlapping NotebookLM notebooks into one unified notebook.
 - ✅ `project-guide` — comprehensive point-in-time guide to the project (purpose, architecture, history, interview lens); saves a dated file. (Optional audio is local-only.)
+- ✅ `paper-gloss` — post-process a `/paper-eli5` output into a self-contained interactive HTML page with click-to-reveal jargon glosses, a glossary panel, and an annotation layer. Vendored for its `scripts/` and `assets/`, which `docs/papers/gloss/verify.py` runs; `/paper-eli5` itself is not vendored (it ships no scripts).
 - ✅ `research-paper` — end-of-project research paper + presenter pack from a completed repo's recorded results; opens a PR for review, never merges.
 - ✅ `seed-hunt` — end-of-project seed hunt: verify closure, harvest lessons into the selection bar, sweep arXiv, decision brief. (Optional audio is local-only.)
 - ✅ `ship-and-route` — land outstanding git work behind a review gate, walk the findings, route the next move with a starter prompt.
