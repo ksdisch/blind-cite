@@ -1,8 +1,7 @@
-import pathlib
-_ROOT = pathlib.Path(__file__).resolve().parents[3]
-
 #!/usr/bin/env python3
 """Build the glossed HTML artifact from the paper-eli5 markdown, 1:1."""
+import pathlib
+_ROOT = pathlib.Path(__file__).resolve().parents[3]
 import re, sys, base64, os, json, html as _html
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from terms import TERMS, NEGATIVE_LOOKAHEAD
@@ -270,9 +269,6 @@ HTML_BODY = ("\n".join(body[:HDR_END]) + "\n"
              + '<section id="references">\n' + "\n".join(body[_refs:]) + "\n</section>")
 
 GLOSS = {tid: {"term": disp, "expansion": exp} for tid, disp, exp, _, _ in TERMS}
-open(str(_ROOT/"docs/papers/gloss/.sec_counts.json"), "w").write(json.dumps(sec_counts, indent=1))
-open(str(_ROOT/"docs/papers/gloss/.body.html"), "w").write(HTML_BODY)
-open(str(_ROOT/"docs/papers/gloss/.gloss.json"), "w").write(json.dumps(GLOSS, ensure_ascii=False, indent=2))
 print("figures:", FIGS, "| tier1 math spans:", TIER1, "| terms:", len(GLOSS))
 
 from shell import CSS, JS

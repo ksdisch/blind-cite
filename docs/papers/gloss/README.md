@@ -6,14 +6,22 @@ Committed for the same reason `docs/paper/figures.py` is: a claim about the
 artifact that only the author can check is not a verified claim.
 
 ```bash
-python3 docs/papers/gloss/build.py          # regenerate the HTML
-python3 ~/.claude/skills/paper-gloss/scripts/inject_annotations.py \
+python3 docs/papers/gloss/build.py                                        # regenerate the HTML
+python3 .claude/skills/paper-gloss/scripts/inject_annotations.py \
         docs/papers/deceptive-grounding-measurable-without-judge-eli5-glossed.html \
-        --slug deceptive-grounding-measurable-without-judge
-python3 docs/papers/gloss/verify.py         # 12-section Phase 3 gate
+        --slug deceptive-grounding-measurable-without-judge                # add the annotation layer
+python3 docs/papers/gloss/verify.py                                       # the Phase 3 gate
 ```
 
-Deterministic: `build.py` + the injector reproduce the committed HTML byte-identically.
+**No dependency outside this repo.** The `paper-gloss` skill these three commands
+need is vendored at `.claude/skills/paper-gloss/`, alongside the repo's other
+vendored skills and for the reason `CLAUDE.md` gives — so they work in cloud/web
+sessions and for collaborators. `verify.py` prefers that in-repo copy and falls
+back to a globally-installed skill only if it is missing. Nothing here reads
+`$HOME`, adds a package dependency, calls a model, or touches the network.
+
+Deterministic: `build.py` plus the injector reproduce the committed HTML
+byte-identically.
 
 | file | role |
 |---|---|
@@ -30,3 +38,7 @@ Deterministic: `build.py` + the injector reproduce the committed HTML byte-ident
   across a `</strong>`. HTML tags cannot overlap, so wrapping it would mean
   moving the source's emphasis, which this rewrite may not do. `verify.py`
   asserts the cross-element hit set equals exactly this list.
+
+This generator is single-use: it assumes one paragraph per non-blank line, no
+nested lists, and a `<title>` matching this document's `# ` heading. All three
+hold for this source; none is a general markdown contract.

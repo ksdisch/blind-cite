@@ -1,6 +1,3 @@
-import pathlib
-_ROOT = pathlib.Path(__file__).resolve().parents[3]
-
 #!/usr/bin/env python3
 """Structure fidelity: per-section <p> count vs md prose blocks.
 
@@ -10,6 +7,8 @@ Excluded because they map to something other than <p>: headings, list items
 captions (<figcaption>).  The leading header block maps into <header> together
 with the title section's subtitle and lineage lines, so it is counted there.
 """
+import pathlib
+_ROOT = pathlib.Path(__file__).resolve().parents[3]
 import re, sys
 MD  = str(_ROOT/"docs/papers/deceptive-grounding-measurable-without-judge-eli5.md")
 DOC = str(_ROOT/"docs/papers/deceptive-grounding-measurable-without-judge-eli5-glossed.html")

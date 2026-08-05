@@ -1,8 +1,7 @@
-import pathlib
-_ROOT = pathlib.Path(__file__).resolve().parents[3]
-
 #!/usr/bin/env python3
 """Phase 3 verification for the glossed artifact."""
+import pathlib
+_ROOT = pathlib.Path(__file__).resolve().parents[3]
 import re, sys, os, json, subprocess
 from html.parser import HTMLParser
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -178,8 +177,13 @@ nf_html = raw.count('class="named-form"')
 ck(nf_md==nf_html, f"named forms carried 1:1 (source {nf_md}, output {nf_html})")
 
 print("\n=== 8. Math gate ===")
-r=subprocess.run([sys.executable, os.path.expanduser("~/.claude/skills/paper-gloss/scripts/check_math.py"), DOC],
-                 capture_output=True, text=True)
+# Prefer the copy vendored into this repo so the gate runs for collaborators,
+# in CI, and in cloud/web sessions; fall back to a globally-installed skill.
+_CM = _ROOT/".claude/skills/paper-gloss/scripts/check_math.py"
+if not _CM.exists():
+    _CM = pathlib.Path(os.path.expanduser("~/.claude/skills/paper-gloss/scripts/check_math.py"))
+ck(_CM.exists(), f"check_math.py resolvable ({_CM})")
+r=subprocess.run([sys.executable, str(_CM), DOC], capture_output=True, text=True)
 print("   ", (r.stdout+r.stderr).strip()[:600] or "(no output)")
 ck(r.returncode==0, "check_math.py exits clean")
 ck(raw.count('data-math-verbatim')==0, "zero Tier 3 verbatim fallbacks")
